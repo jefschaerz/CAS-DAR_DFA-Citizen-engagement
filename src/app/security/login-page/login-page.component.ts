@@ -2,8 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AuthRequest } from "src/app/models/auth-request";
 import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
-import { NgForm, NgModel } from "@angular/forms";
-import { FormsModule } from '@angular/forms';
+import { NgForm } from "@angular/forms";
 
 
 @Component({
