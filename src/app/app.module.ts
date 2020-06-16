@@ -1,15 +1,14 @@
 // Importation de modules Javascript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-//TODO Check if correct 
 import { FormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
 import { DummyPageComponent } from './dummy-page/dummy-page.component';
 import { LoginPageComponent } from './security/login-page/login-page.component';
 import { LogoutButtonComponent } from './security/logout-button/logout-button.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { ApiTokenInterceptorService } from "./api/api-token-interceptor.service";
 
 // import dans notre module
 @NgModule({
@@ -27,7 +26,12 @@ import { LogoutButtonComponent } from './security/logout-button/logout-button.co
     HttpClientModule, 
     FormsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: ApiTokenInterceptorService,
+    multi: true,
+  },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
