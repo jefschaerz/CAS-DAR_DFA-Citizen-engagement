@@ -44,3 +44,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Environment files
+# No files from environnement except the sample one
+src/environments/*
+!src/environments/environment.sample.ts
