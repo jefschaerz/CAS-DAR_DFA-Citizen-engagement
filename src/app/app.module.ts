@@ -9,15 +9,18 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DummyPageComponent } from './dummy-page/dummy-page.component';
 import { LoginPageComponent } from './security/login-page/login-page.component';
+import { LogoutButtonComponent } from './security/logout-button/logout-button.component';
 
 // import dans notre module
 @NgModule({
+  // Declar COMPONENTS of modules
   declarations: [
     AppComponent,
     DummyPageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    LogoutButtonComponent
   ],
-  // importe d'autres module Angular
+  // Import other Angular MODULES
   imports: [
     BrowserModule,
     AppRoutingModule,
