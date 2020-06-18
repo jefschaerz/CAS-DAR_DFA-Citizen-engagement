@@ -1,3 +1,4 @@
+// Create model class for issue type
 export class IssueType {
     readonly id: string;
     readonly href: string;
