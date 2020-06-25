@@ -1,0 +1,8 @@
+
+ <p></p>
+<div *ngIf="displayAlert; else elseBlock">
+    <alert type="success">{{messages[1]}}</alert>
+</div>
+<ng-template #elseBlock>
+    <alert type="warning">{{messages[0]}}</alert> 
+</ng-template>

@@ -9,6 +9,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ApiTokenInterceptorService } from "./api/api-token-interceptor.service";
 import { SecurityModule } from './security/security.module';
 import { NewregistrationPageComponent } from './newregistration-page/newregistration-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AlertModule } from 'ngx-bootstrap/alert';
+import { AlertsComponent } from './alerts/alerts.component';
 
 // import dans notre module
 @NgModule({
@@ -16,14 +19,15 @@ import { NewregistrationPageComponent } from './newregistration-page/newregistra
   declarations: [
     AppComponent,
     DummyPageComponent,
-    NewregistrationPageComponent
+    NewregistrationPageComponent,
+    AlertsComponent
   ],
   // Import other Angular MODULES
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule, 
-    FormsModule, SecurityModule
+    FormsModule, SecurityModule, BrowserAnimationsModule,AlertModule.forRoot()
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
