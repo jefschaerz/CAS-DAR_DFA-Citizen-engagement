@@ -2,11 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IssueType } from "src/app/models/issue-type";
-// TODO Import the environment file to get prod or dev apiUrl
+// Import the environment file to get prod or dev apiUrl
 import { environment } from "../../../environments/environment";
-
-// DONE Insert here your personnal api URL
-// REMOVED const apiUrl = "https://masrad-2020-ce-jean-francois.herokuapp.com/api";
 
 @Injectable({
   providedIn: "root",

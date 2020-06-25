@@ -39,7 +39,9 @@ export class LoginPageComponent {
 
       // Perform the authentication request to the API.
       this.auth.login(this.authRequest).subscribe({
+        // Info JFS : In case of success
         next: () => this.router.navigateByUrl("/"),
+        // Info JFS : In case of error
         error: (err) => {
           this.loginError = true;
           console.warn(`Authentication failed: ${err.message}`);

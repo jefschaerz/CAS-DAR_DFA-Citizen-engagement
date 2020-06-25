@@ -67,6 +67,7 @@ export class AuthService {
    * Logs in a user with the provided AuthRequest object and emits the received AuthResponse if successful.
    */
   login(authRequest: AuthRequest): Observable<User> {
+    // Info JFS : Devrait retourner un json selon le format supposé AuthResponse
     return this.http.post<AuthResponse>(`${environment.apiUrl}/auth`, authRequest).pipe(
       // The tap operator allows you to do something with an observable's emitted value
       // and emit it again unaltered.
