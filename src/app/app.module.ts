@@ -8,13 +8,15 @@ import { DummyPageComponent } from './dummy-page/dummy-page.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ApiTokenInterceptorService } from "./api/api-token-interceptor.service";
 import { SecurityModule } from './security/security.module';
+import { NewregistrationPageComponent } from './newregistration-page/newregistration-page.component';
 
 // import dans notre module
 @NgModule({
   // Declar COMPONENTS of modules
   declarations: [
     AppComponent,
-    DummyPageComponent
+    DummyPageComponent,
+    NewregistrationPageComponent
   ],
   // Import other Angular MODULES
   imports: [

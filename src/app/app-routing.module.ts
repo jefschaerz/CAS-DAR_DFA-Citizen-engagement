@@ -3,14 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 // Added manually by JFS
 import {LoginPageComponent} from './security/login-page/login-page.component';
 import {DummyPageComponent} from './dummy-page/dummy-page.component';
-import {NewregistrationformComponent} from './newregistration/newregistrationform/newregistrationform.component';
+import {NewregistrationPageComponent} from './newregistration-page/newregistration-page.component';
 import {AuthGuard} from './security/guards/auth.guard';
 
 const routes: Routes = [
   // Add this default route to redirect to dummy
   { path: "", redirectTo: "dummy", pathMatch: "full" },
   { path: "login", component: LoginPageComponent },
-  { path: "newregistration", component: NewregistrationformComponent },
+  { path: "newregistration", component: NewregistrationPageComponent },
 
   // Add the route to display the dummy page
   { path: "seeissue", component: DummyPageComponent,

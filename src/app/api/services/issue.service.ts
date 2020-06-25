@@ -9,6 +9,9 @@ import { environment } from "../../../environments/environment";
   providedIn: "root",
 })
 export class IssueService {
+  loadAllActions() {
+    throw new Error("Method not implemented.");
+  }
   constructor(private http: HttpClient) {}
 
   loadAllIssues(): Observable<Issue[]> {
