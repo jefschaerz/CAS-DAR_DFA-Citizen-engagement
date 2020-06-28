@@ -9,9 +9,12 @@ import { environment } from "../../../environments/environment";
   providedIn: 'root'
 })
 export class ActionService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   loadAllActions(): Observable<Action[]> {
     return this.http.get<Action[]>(`${environment.apiUrl}/Actions`);
   }
+
+  //TODO : Handle Errors PI
+  //See
 }

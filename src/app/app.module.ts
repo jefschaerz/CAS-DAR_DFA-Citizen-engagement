@@ -12,6 +12,7 @@ import { NewregistrationPageComponent } from './newregistration-page/newregistra
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { AlertsComponent } from './alerts/alerts.component';
+import { MessagesComponent } from './messages/messages.component';
 
 // import dans notre module
 @NgModule({
@@ -20,14 +21,15 @@ import { AlertsComponent } from './alerts/alerts.component';
     AppComponent,
     DummyPageComponent,
     NewregistrationPageComponent,
-    AlertsComponent
+    AlertsComponent,
+    MessagesComponent
   ],
   // Import other Angular MODULES
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, 
-    FormsModule, SecurityModule, BrowserAnimationsModule,AlertModule.forRoot()
+    HttpClientModule,
+    FormsModule, SecurityModule, BrowserAnimationsModule, AlertModule.forRoot()
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

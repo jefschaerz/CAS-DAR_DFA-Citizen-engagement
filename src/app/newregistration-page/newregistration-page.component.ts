@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { User } from '../models/user';
+import { UserService } from '../api/services/user.service';
 
 @Component({
   selector: 'app-newregistration-page',
@@ -8,39 +9,35 @@ import { User } from '../models/user';
   styleUrls: ['./newregistration-page.component.scss']
 })
 export class NewregistrationPageComponent implements OnInit {
+  users: User[];
   newUser: User;
   newRegError: boolean;
 
-  constructor() {
-    this.newUser = new User() ;
-    this.newRegError = false ;
-   }
+  constructor(private userService: UserService) {
+    this.newUser = new User();
+    this.newRegError = false;
+  }
 
   ngOnInit(): void {
   }
 
- /**
-   * Called when the login form is submitted.
-   */
+  /**
+    * Called when the login form is submitted.
+    */
   onSubmit(form: NgForm) {
     // Only do something if the form is valid
     if (form.valid) {
       // Hide any previous login error.
-      this.newRegError = false; }
-      else {
-        console.warn(`Submit failed :`);
-
-      }
-
+      this.newRegError = false;
+      console.warn(`User will be added with the API`);
       // Perform the add user request to the API.
-      // this.auth.login(this.authRequest).subscribe({
-      //   // Info JFS : In case of success
-      //   next: () => this.router.navigateByUrl("/"),
-      //   // Info JFS : In case of error
-      //   error: (err) => {
-      //     this.loginError = true;
-      //     console.warn(`Authentication failed: ${err.message}`);
-      //   },
-      // });
+      this.userService.addUser(this.newUser as User).subscribe(
+        addUser => this.users.push(this.newUser)
+      );
+    }
+    else {
+      console.warn(`Submit failed :`);
+
+    }
   }
 }
