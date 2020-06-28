@@ -1,6 +1,7 @@
 <h2>New registration</h2>
 <form #newRegForm="ngForm" (submit)="onSubmit(newRegForm)">
     <div>
+    <!-- DONE : Limit size and char allowed in API-->
       <label for="username">Username</label>
       <input
         type="text"
@@ -12,7 +13,6 @@
         maxlength="25"
         pattern="^[a-zA-Z0-9]+$" ng-pattern
       />
-      <!-- TODO : Limit to 25 max and alphanumerical-->
       <p *ngIf="usernameField.hasError('required') && usernameField.touched">
         Username is required
       </p>
@@ -20,6 +20,26 @@
         Username must be in [a-zA-Z0-9]
       </p>
     </div>
+    <div>
+      <label for="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        #passwordField="ngModel"
+        required
+        [(ngModel)]="newUser.password"
+        maxlength="25"
+        minlength="4"
+      />
+      <p *ngIf="passwordField.hasError('required') && passwordField.touched">
+        Password is required
+      </p>
+      <p *ngIf="passwordField.hasError('minlength') || passwordField.hasError('maxlength') && passwordField.touched">
+        PAssword must be at least 4 characters and max 25 characters long.
+      </p>
+    </div>
+    <!-- Add confirmation password -->
     <div>
         <label for="firstname">First name</label>
         <input
@@ -34,6 +54,9 @@
         />
         <p *ngIf="firstnameField.hasError('required') && firstnameField.touched">
           Firstname is required
+        </p>
+        <p *ngIf="firstnameField.hasError('minlength') || firstnameField.hasError('maxlength') && firstnameField.touched">
+          Firstname must be at least 2 characters and max 25 characters long.
         </p>
       </div>
       <div>
@@ -51,37 +74,27 @@
         <p *ngIf="lastnameField.hasError('required') && lastnameField.touched">
           Lastname is required
         </p>
+        <p *ngIf="lastnameField.hasError('minlength') || lastnameField.hasError('maxlength') && lastnameField.touched">
+          Lastname must be at least 4 characters and max 25 characters long.
+        </p>
+        
       </div>
       <div>
         <label for="phone">Phone</label>
+        <!-- TODO : Define better pattern for phone -->
         <input
           type="text"
           name="phone"
           id="phone"
           #phoneField="ngModel"
-          required
           [(ngModel)]="newUser.phone"
-          maxlength="20"
+          maxlength="20"   
+          pattern="^[0-9]+$" ng-pattern                 
         />
-        <p *ngIf="phoneField.hasError('required') && phoneField.touched">
-          Phone is required
-        </p>
+        <p *ngIf="phoneField.hasError('pattern') && phoneField.touched">
+          Phone must be in [-\s\./0-9]*$]
+        </p>        
       </div>      
-    <div>
-      <label for="password">Password</label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        #passwordField="ngModel"
-        required
-        [(ngModel)]="newUser.password"
-      />
-      <p *ngIf="passwordField.hasError('required') && passwordField.touched">
-        Password is required
-      </p>
-    </div>
-    <!-- Add confirmation password -->
     <div>
       <button type="submit" [disabled]="newRegForm.invalid">Create</button>
       <p *ngIf="newRegError">
