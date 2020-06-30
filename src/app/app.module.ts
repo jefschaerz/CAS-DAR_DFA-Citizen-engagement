@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DummyPageComponent } from './dummy-page/dummy-page.component';
+import { DebuggingPageComponent } from './debugging-page/debugging-page.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ApiTokenInterceptorService } from "./api/api-token-interceptor.service";
 import { SecurityModule } from './security/security.module';
@@ -14,12 +14,12 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { AlertsComponent } from './alerts/alerts.component';
 import { MessagesComponent } from './messages/messages.component';
 
-// import dans notre module
+// Import dans notre module
 @NgModule({
   // Declar COMPONENTS of modules
   declarations: [
     AppComponent,
-    DummyPageComponent,
+    DebuggingPageComponent,
     NewregistrationPageComponent,
     AlertsComponent,
     MessagesComponent

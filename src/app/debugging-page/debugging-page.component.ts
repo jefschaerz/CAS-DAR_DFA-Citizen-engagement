@@ -4,15 +4,15 @@ import { IssueService } from '../api/services/issue.service';
 import { ActionService } from '../api/services/action.service';
 
 @Component({
-  selector: "app-dummy-page",
-  templateUrl: "./dummy-page.component.html",
-  styleUrls: ["./dummy-page.component.scss"],
+  selector: "app-debuggin-page",
+  templateUrl: "./debugging-page.component.html",
+  styleUrls: ["./debugging-page.component.scss"],
 })
-export class DummyPageComponent implements OnInit {
+export class DebuggingPageComponent implements OnInit {
   // Inject the UserService
   constructor(private issueTypeService: IssueTypeService,
-    private issueService : IssueService,
-    private actionService: ActionService) {}
+    private issueService: IssueService,
+    private actionService: ActionService) { }
 
   ngOnInit(): void {
     // Ask the service to make an API call on component initialisation
@@ -28,7 +28,7 @@ export class DummyPageComponent implements OnInit {
     });
 
     // Subscribe to get list of all actions. Only posible for staff users ! 
-      this.actionService.loadAllActions().subscribe({
+    this.actionService.loadAllActions().subscribe({
       next: (result) => console.log("Actions", result),
       error: (error) => console.warn("Error", error),
     });
