@@ -1,4 +1,5 @@
 <h2>New registration</h2>
+<!-- Template-driven method-->
 <form #newRegForm="ngForm" (submit)="onSubmit(newRegForm)">
   <div>
     <!-- DONE : Limit size and char allowed in API-->
@@ -56,14 +57,11 @@
       Phone must be in [-\s\./0-9]*$]
     </p>
   </div>
+  <!-- TODO provide choice and hide if not staff user -->
   <div>
-    <!-- TODO provide choice and hide if not staff user -->
     <label for="roles">Roles</label>
-    <input type="text" value="citizen" name="roles" id="roles" #rolesField="ngModel" [(ngModel)]="newUser.roles"
-      required />
-    <p *ngIf="rolesField.hasError('required') && rolesField.touched">
-      Roles is required
-    </p>
+    <input type="checkbox" name="Citizen" [(ngModel)]="newUserIsCitizen">Citizen
+    <input type="checkbox" name="Staff" [(ngModel)]="newUserIsStaff">Staff
   </div>
   <div>
     <button type="submit" [disabled]="newRegForm.invalid">Create</button>

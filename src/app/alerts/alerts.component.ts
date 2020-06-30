@@ -13,18 +13,18 @@ export class AlertsComponent implements OnInit {
     'Now this text is different from what it was before. Go ahead and click the button one more time',
     'Well done! Click reset button and you\'ll see the first message'
   ];
-  displayAlert : boolean = false;
+  displayAlert: boolean = false;
 
   ngOnInit() {
 
   }
 
   showAlert(): void {
-    this.displayAlert = true ;
+    this.displayAlert = true;
   }
 
-  hideAlert(): void{
-    this.displayAlert = false ;
+  hideAlert(): void {
+    this.displayAlert = false;
   }
 
 }
