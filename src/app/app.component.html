@@ -8,12 +8,21 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <h1 class="title">Citizen Engagment by JFS</h1>
 <nav>
-  <a routerLink="/debugging" routerLinkActive="active">Debugging</a>
-  <a routerLink="/newregistration" routerLinkActive="active">New registration</a>
-  <a routerLink="/seeissue" routerLinkActive="active">See issues</a>
-  <a routerLink="/newissue" routerLinkActive="active">Add an issue</a>
-  <a routerLink="/logout" routerLinkActive="active">Logout</a>
-  <a routerLink="/login" routerLinkActive="active">Login</a>
+  <a routerLink="/debugging"
+     routerLinkActive="active">Debugging</a>
+  <a routerLink="/newregistration"
+     routerLinkActive="active">New registration</a>
+  <a routerLink="/seeissues"
+     routerLinkActive="active">See issues</a>
+  <a routerLink="/newissue"
+     routerLinkActive="active">Add an issue</a>
+  <!-- TODO : Link with isAuthenticted or not-->
+  <a routerLink="/logout"
+     routerLinkActive="active"
+     *ngIf=false>Logout</a>
+  <a routerLink="/login"
+     routerLinkActive="active">Login</a>
+
   <!--a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a -->
 </nav>
 <app-alerts></app-alerts>

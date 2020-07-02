@@ -27,11 +27,11 @@ export class DebuggingPageComponent implements OnInit {
       error: (error) => console.warn("Error", error),
     });
 
-    // Subscribe to get list of all actions. Only posible for staff users ! 
-    this.actionService.loadAllActions().subscribe({
-      next: (result) => console.log("Actions", result),
-      error: (error) => console.warn("Error", error),
-    });
+    // Subscribe to get list of all actions. Only posible for STAFF users ! 
+    // this.actionService.loadAllActions().subscribe({
+    //   next: (result) => console.log("Actions", result),
+    //   error: (error) => console.warn("Error", error),
+    // });
 
   }
 }

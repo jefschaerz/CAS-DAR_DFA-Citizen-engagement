@@ -21,13 +21,21 @@ export class UserService {
     })
   };
 
+
   constructor(private http: HttpClient,
     private messageService: MessagesService) { }
+  /** GET: get list of all users (staff only) to the API */
+  //  getUser(): Observable<User> {
+  //   return this.http.get<User>(`${environment.apiUrl}/users`, this.httpOptions).pipe(
+  //     map(this.log(`Success : List of users`)),
+  //     catchError(this.handleError<User>('GetUsers'))
+  //   );
+  // }
 
   /** POST: add a new user to the API */
   addUser(user: User): Observable<User> {
     return this.http.post<any>(`${environment.apiUrl}/users`, user, this.httpOptions).pipe(
-      tap((newUser: User) => this.log(`Added user w/ id=${newUser.id}`)),
+      tap((newUser: User) => this.log(`Success : Added user w/ id=${newUser.id}`)),
       catchError(this.handleError<User>('AddUser'))
     );
   }
@@ -45,7 +53,7 @@ export class UserService {
       console.error(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
+      this.log(`Error : ${operation} failed: ${error.message} / API info : ${error.error.name.message}`);
 
       // Let the app keep running by returning an empty result.
       return of(result as T);

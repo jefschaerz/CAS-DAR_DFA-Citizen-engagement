@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { setTheme } from 'ngx-bootstrap/utils';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'citizen-engagement';
-  greeting = 'Test' ;
+  greeting = 'Test';
+
+  constructor() {
+    // Could be ncessary to set the version or boostrap used
+    setTheme('bs4'); // or 'bs4'
+  }
 }

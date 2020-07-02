@@ -87,7 +87,6 @@ export class AuthService {
   logout() {
     // Remove the AuthResponse from the localStorage when user logs out
     localStorage.removeItem(STORAGE_KEY);
-    //Removed :     this.authenticated$.next(null);
     console.log("User logged out");
   }
 

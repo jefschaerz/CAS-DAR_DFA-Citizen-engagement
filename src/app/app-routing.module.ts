@@ -14,7 +14,7 @@ const routes: Routes = [
 
   // Add the route to display the debugging page
   {
-    path: "seeissue", component: DebuggingPageComponent,
+    path: "seeissues", component: DebuggingPageComponent,
     // Prevent access to this page to unauthenticated users
     canActivate: [AuthGuard],
   },

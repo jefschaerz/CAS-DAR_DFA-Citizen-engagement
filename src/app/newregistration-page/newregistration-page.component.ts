@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
 import { User } from '../models/user';
 import { UserService } from '../api/services/user.service';
 
@@ -15,7 +16,7 @@ export class NewregistrationPageComponent implements OnInit {
   newUserIsStaff: boolean;
   newRegError: boolean;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
     this.newUser = new User();
     this.newRegError = false;
     this.newUserIsCitizen = false;
@@ -33,6 +34,11 @@ export class NewregistrationPageComponent implements OnInit {
   // TODO: Not working
   get diagnostic() { return JSON.stringify(this.newUser); }
 
+
+  goToLogin() {
+    console.log('Move to new login page')
+    this.router.navigate(['/login']);
+  }
   /**
     * Called when the login form is submitted.
     */
@@ -44,7 +50,8 @@ export class NewregistrationPageComponent implements OnInit {
       // TODO : Adapt newUser oject with roles information
       if (this.newUserIsCitizen) {
         console.log('Citizen checked');
-        this.newUser.roles = ["citizen"];
+        //Working : this.newUser.roles = ["citizen"];
+        this.newUser.roles.push("citizen");
       }
       if (this.newUserIsStaff) {
         console.log('Staff checked');
@@ -52,10 +59,11 @@ export class NewregistrationPageComponent implements OnInit {
       }
       console.warn(`User will be added with the API`);
       console.log(this.newUser);
+      console.log('API CALL disabled because user cannot be then deleted');
       // Perform the add user request to the API.
-      this.userService.addUser(this.newUser as User).subscribe(
-        addUser => this.users.push(this.newUser)
-      );
+      // this.userService.addUser(this.newUser as User).subscribe(
+      //   addUser => this.users.push(this.newUser)
+      // );
     }
     else {
       console.warn(`Submit failed :`);
