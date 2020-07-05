@@ -15,6 +15,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AlertsComponent } from './alerts/alerts.component';
 import { MessagesComponent } from './messages/messages.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
+import { ManageissueComponent } from './issues/manageissue/manageissue.component';
 
 // Import dans notre module
 @NgModule({
@@ -25,7 +26,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     NewregistrationPageComponent,
     AlertsComponent,
     MessagesComponent,
-    UserMenuComponent
+    UserMenuComponent, ManageissueComponent
   ],
   // Import other Angular MODULES
   imports: [

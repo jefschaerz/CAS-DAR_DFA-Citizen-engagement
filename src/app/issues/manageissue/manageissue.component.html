@@ -1,0 +1,50 @@
+<div class="container">
+    <!-- Grid container -->
+    <div class="row">
+        <!-- Grid columns -->
+        <div classe="container-fluid boxDiv"
+             col-4></div>
+        <!-- Add Map-->
+        <!--app-Map-></app-Map-->
+        <div>
+            Map
+        </div>
+        <div class="container-fluid boxDiv"
+             col-6>
+            <h2>New issue</h2>
+            <!-- Template-driven method-->
+            <form #IssueForm="ngForm"
+                  (submit)="onSubmit(IssueForm)">
+                <div class="form-group col-4">
+                    <label for="description">Description</label>
+                    <input class="form-control"
+                           type="text"
+                           name="description"
+                           id="description"
+                           #descriptionField="ngModel"
+                           required
+                           [(ngModel)]="newissue.description"
+                           maxlength="25"
+                           pattern="^[a-zA-Z0-9]+$"
+                           ng-pattern />
+
+                </div>
+
+                <div class="form-group col-4">
+                    <div class="row">
+                        <button class="form-control btn btn-primary col-4"
+                                type="submit"
+                                [disabled]="IssueForm.invalid">Create</button>
+                        <p *ngIf="newIssueError">
+                            Unable to create the new issue. See the log for more information.
+                        </p>
+                        <button class="form-control btn btn-primary col-4 offset-4"
+                                type="button"
+                                (click)="goToAllIssues()">Cancel</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

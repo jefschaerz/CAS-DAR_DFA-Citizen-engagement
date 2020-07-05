@@ -1,4 +1,4 @@
-<h2>New registration</h2>
+<h2>New user registration</h2>
 <!-- Template-driven method-->
 <form #newRegForm="ngForm"
       (submit)="onSubmit(newRegForm)">
@@ -78,26 +78,51 @@
         Lastname must be at least 4 characters and max 25 characters long.
       </p>
 
-  </div>
-  <div>
-    <label for="phone">Phone</label>
-    <!-- TODO : Define better pattern for phone -->
-    <input type="text" name="phone" id="phone" #phoneField="ngModel" [(ngModel)]="newUser.phone" maxlength="20"
-      pattern="^[0-9]+$" ng-pattern />
-    <p *ngIf="phoneField.hasError('pattern') && phoneField.touched">
-      Phone must be in [-\s\./0-9]*$]
-    </p>
-  </div>
-  <!-- TODO provide choice and hide if not staff user -->
-  <div>
-    <label for="roles">Roles</label>
-    <input type="checkbox" name="Citizen" [(ngModel)]="newUserIsCitizen">Citizen
-    <input type="checkbox" name="Staff" [(ngModel)]="newUserIsStaff">Staff
-  </div>
-  <div>
-    <button type="submit" [disabled]="newRegForm.invalid">Create</button>
-    <p *ngIf="newRegError">
-      Unable to create the new user. See the log for more information.
-    </p>
+    </div>
+    <div class="form-group col-4">
+      <label for="phone">Phone</label>
+      <!-- TODO : Define better pattern for phone -->
+      <input class="form-control"
+             type="text"
+             name="phone"
+             id="phone"
+             #phoneField="ngModel"
+             [(ngModel)]="newUser.phone"
+             maxlength="20"
+             pattern="^[0-9]+$"
+             ng-pattern />
+      <p *ngIf="phoneField.hasError('pattern') && phoneField.touched">
+        Phone must be in [-\s\./0-9]*$]
+      </p>
+    </div>
+    <!-- TODO provide choice and hide if not staff user -->
+    <div class="form-group col-8">
+      <label for="roles">Roles</label>
+      <div class="row">
+        <label for="Citizen">Citizen</label>
+        <input class="form-control col-4"
+               type="checkbox"
+               name="Citizen"
+               [(ngModel)]="newUserIsCitizen">
+        <label for="Staff">Staff</label>
+        <input class="form-control col-4"
+               type="checkbox"
+               name="Staff"
+               [(ngModel)]="newUserIsStaff">
+      </div>
+    </div>
+    <div class="form-group col-4">
+      <div class="row">
+        <button class="form-control btn btn-primary col-4"
+                type="submit"
+                [disabled]="newRegForm.invalid">Create</button>
+        <p *ngIf="newRegError">
+          Unable to create the new user. See the log for more information.
+        </p>
+        <button class="form-control btn btn-primary col-4 offset-4"
+                type="button"
+                (click)="goToLogin()">Cancel</button>
+      </div>
+    </div>
   </div>
 </form>
