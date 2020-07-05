@@ -20,8 +20,9 @@
       routerLink="/login"
       routerLinkActive="active">Login</a>
    <app-logout-button *ngIf="isUserLogged"></app-logout-button>
-   <button *ngIf="isUserLogged">User: {{loggedUserName}}</button>
-   <!--a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a -->
+   <app-user-menu *ngIf="isUserLogged"
+                  [displayUserName]="loggedUserName"></app-user-menu>
+
 </nav>
 <app-alerts></app-alerts>
 

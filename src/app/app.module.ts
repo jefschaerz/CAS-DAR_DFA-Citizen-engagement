@@ -11,8 +11,10 @@ import { SecurityModule } from './security/security.module';
 import { NewregistrationPageComponent } from './newregistration-page/newregistration-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AlertsComponent } from './alerts/alerts.component';
 import { MessagesComponent } from './messages/messages.component';
+import { UserMenuComponent } from './user-menu/user-menu.component';
 
 // Import dans notre module
 @NgModule({
@@ -22,14 +24,15 @@ import { MessagesComponent } from './messages/messages.component';
     DebuggingPageComponent,
     NewregistrationPageComponent,
     AlertsComponent,
-    MessagesComponent
+    MessagesComponent,
+    UserMenuComponent
   ],
   // Import other Angular MODULES
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule, SecurityModule, BrowserAnimationsModule, AlertModule.forRoot()
+    FormsModule, SecurityModule, BrowserAnimationsModule, BsDropdownModule.forRoot(), AlertModule.forRoot()
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

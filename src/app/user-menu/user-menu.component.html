@@ -1,0 +1,17 @@
+<div class="btn-group"
+     dropdown>
+    <button id="button-animated"
+            dropdownToggle
+            type="button"
+            class="btn btn-primary dropdown-toggle">
+        {{displayUserName}}<span class="caret"></span>
+    </button>
+    <ul id="dropdown-animated"
+        *dropdownMenu
+        class="dropdown-menu"
+        role="menu">
+        <!-- TODO : Implement function. Currently disabled-->
+        <li class="disabled"
+            role="menuitem-disabled"><a class="dropdown-item disabled">Edit profile</a></li>
+    </ul>
+</div>
