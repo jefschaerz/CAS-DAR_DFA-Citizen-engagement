@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { AlertsModule } from './alerts/alerts.module'
 import { AppComponent } from './app.component';
 import { DebuggingPageComponent } from './debugging-page/debugging-page.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
@@ -12,7 +13,6 @@ import { NewregistrationPageComponent } from './newregistration-page/newregistra
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { AlertsComponent } from './alerts/alerts.component';
 import { MessagesComponent } from './messages/messages.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ManageissueComponent } from './issues/manageissue/manageissue.component';
@@ -24,7 +24,6 @@ import { ManageissueComponent } from './issues/manageissue/manageissue.component
     AppComponent,
     DebuggingPageComponent,
     NewregistrationPageComponent,
-    AlertsComponent,
     MessagesComponent,
     UserMenuComponent, ManageissueComponent
   ],
@@ -33,7 +32,7 @@ import { ManageissueComponent } from './issues/manageissue/manageissue.component
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule, SecurityModule, BrowserAnimationsModule, BsDropdownModule.forRoot(), AlertModule.forRoot()
+    FormsModule, SecurityModule, BrowserAnimationsModule, AlertsModule, BsDropdownModule.forRoot(), AlertModule.forRoot()
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
