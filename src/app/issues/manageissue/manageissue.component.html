@@ -10,10 +10,9 @@
             </div>
         </div>
         <div class="container-fluid col-6 boxDiv">
-            <!-- Container for the data -->
+            <!-- Container for the data collect or display -->
             <h4>Current state</h4>
             <div class="row rowDiv">
-                <!-- Row for current state -->
                 <!-- TODO Hide if add newIssue / show only in Viewissue-->
                 <!-- TODO create component to handle this ?!-->
                 <div class="col-3 justify-content-md-center">
@@ -34,6 +33,19 @@
             <form #IssueForm="ngForm"
                   (submit)="onSubmit(IssueForm)">
                 <div class="form-group">
+                    <label for="issueTypes">Type of issues</label>
+                    <select class="custom-select"
+                            #mySelect
+                            (change)='onIssueTypeSelected(mySelect.value)'>
+                        <option value=""
+                                disabled
+                                selected>Choose your issueType !</option>
+                        <option *ngFor="let issueType of issueTypes">
+                            {{issueType.description}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="description">Description</label>
                     <input class="form-control"
                            type="text"
@@ -41,20 +53,30 @@
                            id="description"
                            #descriptionField="ngModel"
                            required
-                           [(ngModel)]="newissue.description"
-                           maxlength="25"
-                           pattern="^[a-zA-Z0-9]+$"
+                           [(ngModel)]="newIssue.description"
+                           maxlength="1000"
                            ng-pattern />
                 </div>
                 <div class="form-group">
-                    <label for="issueDescription">Type of issues</label>
-                    <select class="custom-select">
-                        <option value="0">Choose your types</option>
-                        <option *ngFor="let issueType of issueTypes">
-                            {{issueType.description}}
-                        </option>
-                    </select>
+                    <label for="location">Location</label>
+                    <input class="form-control col-5"
+                           type="text"
+                           name="location_lat"
+                           id="location_lat"
+                           #latitudeField="ngModel"
+                           required
+                           [(ngModel)]="currentLocationLat"
+                           ng-pattern />
+                    <input class="form-control col-5"
+                           type="text"
+                           name="location_long"
+                           id="location_long"
+                           #longitudeField="ngModel"
+                           required
+                           [(ngModel)]="currentLocationLong"
+                           ng-pattern />
                 </div>
+
                 <!-- Bottom with buttons -->
                 <div class="form-group">
                     <div class="row rowDiv">
