@@ -3,6 +3,8 @@ import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { User } from '../models/user';
 import { UserService } from '../api/services/user.service';
+import { environment } from "../../environments/environment";
+
 
 @Component({
   selector: 'app-newregistration-page',
@@ -29,6 +31,7 @@ export class NewregistrationPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('Pattern from environnemet :', `${environment.alphaNumericPattern}`);
   }
 
   // TODO: Not working
@@ -44,6 +47,7 @@ export class NewregistrationPageComponent implements OnInit {
     */
   onSubmit(form: NgForm) {
     // Only do something if the form is valid
+
     if (form.valid) {
       // Hide any previous login error.
       this.newRegError = false;
