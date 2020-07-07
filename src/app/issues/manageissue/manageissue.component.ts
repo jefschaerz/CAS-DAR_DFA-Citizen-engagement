@@ -14,6 +14,7 @@ export class ManageissueComponent implements OnInit {
   issues: Issue[];
   newissue: Issue;
   issueTypes: IssueType[];
+
   newIssueError: boolean;
 
   constructor(private issueTypeService: IssueTypeService, private router: Router) {
@@ -21,6 +22,7 @@ export class ManageissueComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getTypesOfIssue();
   }
 
   goToAllIssues() {
@@ -33,12 +35,18 @@ export class ManageissueComponent implements OnInit {
     // Perform the add user request to the API.
 
     //TODO : Save list os issue correctly in array !!
-    // Check Jokes code
     this.issueTypeService.loadAllIssueTypes().subscribe(
-      receivedIssueTypes => console.log(receivedIssueTypes)
-      // receivedIssueTypes => this.issueTypes = receivedIssueTypes
-    );
-
+      receivedIssueTypes => {
+        this.issueTypes = receivedIssueTypes,
+          console.log("ReceviedIssueTypes issueTypes", this.issueTypes)
+      });
+    // Test with only one issue by ID
+    // this.issueTypeService.loadOneIssueTypes("5eebaaa6f717e8001654ce2b").subscribe(
+    //   receivedIssueType => {
+    //     console.log("ReceviedOneIssueType", receivedIssueType),
+    //       this.issueTypes.push(receivedIssueType);
+    //   }
+    //);
 
     console.warn(`Issue will be ask by the API`);
     console.log("IssueTypes : ", this.issueTypes);

@@ -1,9 +1,19 @@
 // Create model class for issue type
 export class IssueType {
-    readonly id: string;
-    readonly href: string;
-    name: string;
-    description?: string;
-    icon?: string;
-    imageUrl?: string;
-  }
+  readonly id: string;
+  readonly href: string;
+  name: string;
+  description?: string;
+  icon?: string;
+  imageUrl?: string;
+}
+
+export class IssueTypeResponse {
+  readonly id: string;
+  readonly href: string;
+  name: string;
+  description?: string;
+  icon?: string;
+  imageUrl?: string;
+
+}
