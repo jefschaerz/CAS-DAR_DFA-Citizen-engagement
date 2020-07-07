@@ -16,7 +16,7 @@ export class Issue {
   //TODO : Must contain protocol and extension How to validate (Enums, start with)
   additionalImageUrls?: string[];
   issueTypeHref: string;
-  //TODO GeoJSON Poitn type 
+  //TODO GeoJSON Point type 
   location: Location;
   readonly state: State;
   reason?: string;

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { IssueType, IssueTypeResponse } from "src/app/models/issue-type";
+import { IssueType } from "src/app/models/issue-type";
 // Import the environment file to get prod or dev apiUrl
 import { environment } from "../../../environments/environment";
 

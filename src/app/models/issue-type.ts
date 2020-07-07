@@ -7,13 +7,3 @@ export class IssueType {
   icon?: string;
   imageUrl?: string;
 }
-
-export class IssueTypeResponse {
-  readonly id: string;
-  readonly href: string;
-  name: string;
-  description?: string;
-  icon?: string;
-  imageUrl?: string;
-
-}

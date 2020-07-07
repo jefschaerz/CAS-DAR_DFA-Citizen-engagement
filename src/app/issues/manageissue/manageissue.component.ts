@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { IssueTypeService } from '../../api/services/issue-type.service';
+import { IssueService } from '../../api/services/issue.service';
 import { Issue } from 'src/app/models/issue';
 import { IssueType } from 'src/app/models/issue-type';
 import { Location } from 'src/app/models/location';
+import { AlertService } from '../../alerts/alerts.service';
 import { environment } from "../../../environments/environment";
 
 @Component({
@@ -23,14 +25,17 @@ export class ManageissueComponent implements OnInit {
   currentLocationLat: number = 47.125058;
   currentLocationLong: number = 6.932254;
 
-  constructor(private issueTypeService: IssueTypeService, private router: Router) {
+  constructor(private issueTypeService: IssueTypeService,
+    private router: Router,
+    private issueService: IssueService,
+    private alertService: AlertService) {
     this.newIssue = new Issue();
     this.newIssue.description = 'New issue from App by JFS';
     this.newIssue.imageUrl = '';
     this.newIssue.additionalImageUrls = [];
     this.newLocation = new Location();
     this.newIssue.location = this.newLocation;
-    this.newLocation.coordinates = { latitude: 0, longitude: 0 };
+    this.newLocation.coordinates = [];
     //this.newissue.location.coordinates = [0 , 0];
     //this.renanLocation = { "Point" , { 47.125058, 6.932254 };
 
@@ -84,10 +89,17 @@ export class ManageissueComponent implements OnInit {
       console.log('HrefType = ', this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription));
       // Get hRefIssue Type from selection
       this.newIssue.issueTypeHref = this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription);
-      this.newIssue.location.coordinates = { latitude: this.currentLocationLat, longitude: this.currentLocationLong };
+      this.newIssue.location.coordinates.push(this.currentLocationLat, this.currentLocationLong);
 
       // this.newIssue.location = [this.currentLocationLat, this.currentLocationLong];
       console.log(`Issue will be added with the API ;`, this.newIssue);
+
+      // Perform the add issue request to the API.
+      this.issueService.addIssue(this.newIssue as Issue).subscribe({
+        next: (result) => this.alertService.success('the issue hs been correctly added', result),
+        error: (error) => this.alertService.error('An error occurs during the add of the issue. ', error)
+      });
+
     }
     else {
       console.warn(`Submit failed :`);

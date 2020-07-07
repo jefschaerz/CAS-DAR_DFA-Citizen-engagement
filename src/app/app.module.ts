@@ -25,7 +25,8 @@ import { ManageissueComponent } from './issues/manageissue/manageissue.component
     DebuggingPageComponent,
     NewregistrationPageComponent,
     MessagesComponent,
-    UserMenuComponent, ManageissueComponent
+    UserMenuComponent,
+    ManageissueComponent
   ],
   // Import other Angular MODULES
   imports: [

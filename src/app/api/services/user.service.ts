@@ -21,7 +21,6 @@ export class UserService {
     })
   };
 
-
   constructor(private http: HttpClient,
     private messageService: MessagesService) { }
   /** GET: get list of all users (staff only) to the API */
