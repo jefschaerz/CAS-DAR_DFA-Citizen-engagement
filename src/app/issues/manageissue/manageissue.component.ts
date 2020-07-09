@@ -63,11 +63,13 @@ export class ManageissueComponent implements OnInit {
 
   getTypesOfIssue() {
     // Ask service for the list of current type of issues defined
-    this.issueTypeService.loadAllIssueTypes().subscribe(
-      receivedIssueTypes => {
+    this.issueTypeService.loadAllIssueTypes().subscribe({
+      next: (receivedIssueTypes) => {
         this.issueTypes = receivedIssueTypes,
           console.log("ReceviedIssueTypes issueTypes", this.issueTypes)
-      }, error => console.error('Erreur ', error));
+      },
+      error: (error) => console.error('Erreur ', error)
+    });
 
     // Test with only one issue by ID
     // this.issueTypeService.loadOneIssueTypes("5eebaaa6f717e8001654ce2b").subscribe(
@@ -90,8 +92,6 @@ export class ManageissueComponent implements OnInit {
       // Get hRefIssue Type from selection
       this.newIssue.issueTypeHref = this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription);
       this.newIssue.location.coordinates.push(this.currentLocationLat, this.currentLocationLong);
-
-      // this.newIssue.location = [this.currentLocationLat, this.currentLocationLong];
       console.log(`Issue will be added with the API ;`, this.newIssue);
 
       // Perform the add issue request to the API.

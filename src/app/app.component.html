@@ -7,23 +7,30 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <h1 class="title">Citizen Engagment by JFS</h1>
-<nav>
-   <a routerLink="/debugging"
-      routerLinkActive="active">Debugging</a>
-   <a routerLink="/newregistration"
-      routerLinkActive="active">New registration</a>
-   <a routerLink="/seeissues"
-      routerLinkActive="active">See issues</a>
-   <a routerLink="/addissue"
-      routerLinkActive="active">Add an issue</a>
-   <a *ngIf="!isUserLogged"
-      routerLink="/login"
-      routerLinkActive="active">Login</a>
-   <app-logout-button *ngIf="isUserLogged"></app-logout-button>
-   <app-user-menu *ngIf="isUserLogged"
-                  [displayUserName]="loggedUserName"></app-user-menu>
+<div class="container-fluid">
+   <nav>
+      <a routerLink="/debugging"
+         routerLinkActive="active">Debugging</a>
+      <a routerLink="/newregistration"
+         routerLinkActive="active">New registration</a>
+      <a class="col-2"
+         routerLink="/seeissues"
+         routerLinkActive="active">See issues</a>
+      <a class="col-2"
+         routerLink="/addissue"
+         routerLinkActive="active">Add an issue</a>
+      <a class="col-2"
+         *ngIf="!isUserLogged"
+         routerLink="/login"
+         routerLinkActive="active">Login</a>
+      <app-logout-button class="col-2"
+                         *ngIf="isUserLogged"></app-logout-button>
+      <app-user-menu class="col-2"
+                     *ngIf="isUserLogged"
+                     [displayUserName]="loggedUserName"></app-user-menu>
 
-</nav>
+   </nav>
+</div>
 <app-alert>Alert :</app-alert>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->

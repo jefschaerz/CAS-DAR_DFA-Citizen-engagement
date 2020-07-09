@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CommonModule } from "@angular/common";
 import { LoginPageComponent } from './security/login-page/login-page.component';
 import { DebuggingPageComponent } from './debugging-page/debugging-page.component';
 import { NewregistrationPageComponent } from './newregistration-page/newregistration-page.component';
 import { AuthGuard } from './security/guards/auth.guard';
 import { ManageissueComponent } from './issues/manageissue/manageissue.component';
+import { ListissuesComponent } from './issues/listissues/listissues.component';
 
 const routes: Routes = [
   // Add this default route to redirect to debugg
@@ -14,7 +16,7 @@ const routes: Routes = [
 
   // Add the route to display the debugging page
   {
-    path: "seeissues", component: DebuggingPageComponent,
+    path: "seeissues", component: ListissuesComponent,
     // Prevent access to this page to unauthenticated users
     canActivate: [AuthGuard],
   },
@@ -31,7 +33,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), CommonModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

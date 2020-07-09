@@ -1,5 +1,6 @@
 // Importation de modules Javascript
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +17,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { MessagesComponent } from './messages/messages.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ManageissueComponent } from './issues/manageissue/manageissue.component';
+import { ListissuesComponent } from './issues/listissues/listissues.component';
 
 // Import dans notre module
 @NgModule({
@@ -26,11 +28,13 @@ import { ManageissueComponent } from './issues/manageissue/manageissue.component
     NewregistrationPageComponent,
     MessagesComponent,
     UserMenuComponent,
-    ManageissueComponent
+    ManageissueComponent,
+    ListissuesComponent
   ],
   // Import other Angular MODULES
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule, SecurityModule, BrowserAnimationsModule, AlertsModule, BsDropdownModule.forRoot(), AlertModule.forRoot()

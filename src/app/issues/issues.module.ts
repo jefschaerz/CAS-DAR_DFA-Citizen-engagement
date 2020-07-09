@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { IssuesRoutingModule } from './issues-routing.module';
 import { ManageissueComponent } from './manageissue/manageissue.component';
+import { ListissuesComponent } from './listissues/listissues.component';
 
 
 @NgModule({
-  declarations: [ManageissueComponent],
+  declarations: [ManageissueComponent, ListissuesComponent],
   imports: [
     CommonModule,
     IssuesRoutingModule
