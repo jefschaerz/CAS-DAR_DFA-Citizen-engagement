@@ -8,6 +8,7 @@ import { IssueType } from 'src/app/models/issue-type';
 import { Location } from 'src/app/models/location';
 import { AlertService } from '../../alerts/alerts.service';
 import { environment } from "../../../environments/environment";
+import { GeolocationService } from '../../shared/services/geolocation.service';
 
 @Component({
   selector: 'app-manageissue',
@@ -28,7 +29,8 @@ export class ManageissueComponent implements OnInit {
   constructor(private issueTypeService: IssueTypeService,
     private router: Router,
     private issueService: IssueService,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private geolocation: GeolocationService) {
     this.newIssue = new Issue();
     this.newIssue.description = 'New issue from App by JFS';
     this.newIssue.imageUrl = '';
@@ -38,6 +40,17 @@ export class ManageissueComponent implements OnInit {
     this.newLocation.coordinates = [];
     //this.newissue.location.coordinates = [0 , 0];
     //this.renanLocation = { "Point" , { 47.125058, 6.932254 };
+    this.geolocation
+      .getCurrentPosition()
+      .then((position) => {
+        console.log('User located!', position);
+        // Set current location point
+        this.currentLocationLat = position.coords.latitude;
+        this.currentLocationLong = position.coords.longitude;
+      })
+      .catch((error) => {
+        console.warn('Failed to locate user because', error);
+      });
   }
 
   ngOnInit(): void {

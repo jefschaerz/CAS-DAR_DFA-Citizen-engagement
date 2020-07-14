@@ -18,7 +18,6 @@ export class IssueService {
     throw new Error("Method not implemented.");
   }
 
-
   loadAllIssues(): Observable<Issue[]> {
     return this.http.get<Issue[]>(`${environment.apiUrl}/issues`);
   }
