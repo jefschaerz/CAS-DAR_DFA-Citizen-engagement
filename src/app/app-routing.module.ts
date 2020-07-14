@@ -7,6 +7,7 @@ import { NewregistrationPageComponent } from './newregistration-page/newregistra
 import { AuthGuard } from './security/guards/auth.guard';
 import { ManageissueComponent } from './issues/manageissue/manageissue.component';
 import { ListissuesComponent } from './issues/listissues/listissues.component';
+import { MapComponent } from './issues/map/map.component';
 
 const routes: Routes = [
   // Add this default route to redirect to debugg
@@ -27,6 +28,11 @@ const routes: Routes = [
   },
   {
     path: "debugging", component: DebuggingPageComponent,
+    // Prevent access to this page to unauthenticated users
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "map", component: MapComponent,
     // Prevent access to this page to unauthenticated users
     canActivate: [AuthGuard],
   },

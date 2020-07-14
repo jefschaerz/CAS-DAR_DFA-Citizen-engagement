@@ -18,6 +18,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ManageissueComponent } from './issues/manageissue/manageissue.component';
 import { ListissuesComponent } from './issues/listissues/listissues.component';
+import { MapComponent } from './issues/map/map.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 // Import dans notre module
 @NgModule({
@@ -29,11 +31,12 @@ import { ListissuesComponent } from './issues/listissues/listissues.component';
     MessagesComponent,
     UserMenuComponent,
     ManageissueComponent,
-    ListissuesComponent
+    ListissuesComponent, MapComponent
   ],
   // Import other Angular MODULES
   imports: [
     BrowserModule,
+    LeafletModule,
     CommonModule,
     AppRoutingModule,
     HttpClientModule,

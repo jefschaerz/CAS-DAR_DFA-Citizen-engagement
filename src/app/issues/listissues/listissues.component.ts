@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertService } from 'src/app/alerts/alerts.service';
 import { IssueService } from 'src/app/api/services/issue.service';
 import { Issue } from 'src/app/models/issue';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-listissues',
@@ -12,15 +13,6 @@ export class ListissuesComponent implements OnInit {
   issues: Issue[];
   issue: Issue;
   selectedIssue: Issue;
-
-  bookList = [
-    {
-      name: 'eXtreme Programming Explained'
-    },
-    {
-      name: 'Clean Code'
-    }
-  ];
 
   constructor(private issueService: IssueService,
     public alertService: AlertService) {
@@ -36,8 +28,6 @@ export class ListissuesComponent implements OnInit {
     // Subscribe to get list of all issues
     this.issueService.loadAllIssues().subscribe({
       next: (result) => {
-        this.alertService.success('Load of current issues done',);
-        console.log("Issues loaded are ", result)
         this.issues = result;
         console.log("Issues loaded in ISSUES are ", this.issues)
       },
@@ -48,6 +38,7 @@ export class ListissuesComponent implements OnInit {
 
   onSelect(issue: Issue): void {
     this.selectedIssue = issue;
+    console.log('Issue selected : ', this.selectedIssue.description);//show on the map
   }
 
 }

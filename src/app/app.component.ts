@@ -15,7 +15,7 @@ export class AppComponent {
 
   constructor(public authService: AuthService) {
     // Could be necessary to set the version or boostrap used
-    setTheme('bs4'); 
+    setTheme('bs4');
 
     // Subscribe to any change of the isAuthenticated and set an internal value
     // to provide also this info to the template (html)

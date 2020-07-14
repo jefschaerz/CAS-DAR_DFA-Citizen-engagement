@@ -10,9 +10,6 @@ import { AuthRequest } from "../models/auth-request";
 // TODO Import the environment file to get prod or dev apiUrl
 import { environment } from "../../environments/environment";
 
-// DONE: Insert here your personnal api URL
-// REMOVED : const apiUrl = "https://masrad-2020-ce-jean-francois.herokuapp.com/api";
-
 // Add a constant for the storage key
 const STORAGE_KEY = "auth";
 
