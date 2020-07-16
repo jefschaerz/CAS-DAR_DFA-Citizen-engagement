@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { IssuesRoutingModule } from './issues-routing.module';
 import { ManageissueComponent } from './manageissue/manageissue.component';
 import { ListissuesComponent } from './listissues/listissues.component';
-import { MapComponent } from './map/map.component';
+import { MapComponent } from '../map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({

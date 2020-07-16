@@ -18,7 +18,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ManageissueComponent } from './issues/manageissue/manageissue.component';
 import { ListissuesComponent } from './issues/listissues/listissues.component';
-import { MapComponent } from './issues/map/map.component';
+import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 // Import dans notre module

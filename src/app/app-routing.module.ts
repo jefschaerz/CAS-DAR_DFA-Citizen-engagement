@@ -7,7 +7,7 @@ import { NewregistrationPageComponent } from './newregistration-page/newregistra
 import { AuthGuard } from './security/guards/auth.guard';
 import { ManageissueComponent } from './issues/manageissue/manageissue.component';
 import { ListissuesComponent } from './issues/listissues/listissues.component';
-import { MapComponent } from './issues/map/map.component';
+import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
   // Add this default route to redirect to debugg

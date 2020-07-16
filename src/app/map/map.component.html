@@ -1,9 +1,6 @@
 <p>Map displayed</p>
 <button (click)="addIssuesMarkers()">Display markers</button>
 <div class="map"
-     id="map2">
-</div>
-<div class="map"
      leaflet
      [leafletOptions]="mapOptions"
      [leafletLayers]="mapMarkers"
