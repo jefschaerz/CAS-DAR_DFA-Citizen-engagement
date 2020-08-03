@@ -3,6 +3,7 @@ import { defaultIcon, greenIcon } from './default-marker';
 import { latLng, MapOptions, marker, Marker, Map, tileLayer, LeafletMouseEvent } from 'leaflet';
 import { IssueService } from '../api/services/issue.service';
 import { Issue } from 'src/app/models/issue';
+import { MarkerPositionService } from 'src/app/shared/services/markerposition.service';
 
 @Component({
   selector: 'app-map',
@@ -15,8 +16,11 @@ export class MapComponent implements OnInit {
   mapOptions: MapOptions;
   issuesList: Issue[];
   newMarker: Marker;
+  newMarkerPosition: number[];
 
-  constructor(private issueService: IssueService) {
+  constructor(
+    private issueService: IssueService,
+    private markerPosition: MarkerPositionService) {
     this.issuesList = [];
     this.mapOptions = {
       layers: [
@@ -34,6 +38,7 @@ export class MapComponent implements OnInit {
 
   // Called automatically when map is ready 
   onMapReady(map: Map) {
+    console.log('Map READY called');
     // Define this.map for futur use of this.map
     this.map = map;
 
@@ -42,22 +47,26 @@ export class MapComponent implements OnInit {
       console.log(`Map moved to ${center.lng}, ${center.lat}`);
     });
 
-    // Define position on map click
-    map.on('click', <LeafletMouseEvent>(event) => {
+    // On Click on the map
+    this.map.on('click', <LeafletMouseEvent>(event) => {
       // Add a new Marker only if not yet on the map else remove
       if (this.newMarker) {
         map.removeLayer(this.newMarker);
       }
-      console.log(event.latlng.lat);
-      // Add this new marker with green icone and draggable
+      console.log(event.latlng);
+      // Add this new marker with green icon and draggable
       this.newMarker = marker(event.latlng, { icon: greenIcon, draggable: true }).bindTooltip("New").addTo(map);
+      this.refreshNewMarkerPosition(this.newMarker.getLatLng().lat, this.newMarker.getLatLng().lng);
+      // On drag currentMarker 
+      this.newMarker.on('dragend', function (event) {
+        var marker = event.target;
+        console.log('Draged latitude : ', marker.getLatLng().lat);
+        console.log('Draged longitude : ', marker.getLatLng().lng);
+        // - TODO TO FIX
+        //this.refreshNewMarkerPosition(marker.getLatLng().lat, marker.getLatLng().lng)
+      });
     });
 
-    // On drag currentMarker
-    this.newMarker.on('dragend', function (e) {
-      console.log('latitude : ', this.newMarker.getLatLng().lat);
-      console.log('longitude : ', this.newMarker.getLatLng().lng);
-    });
   }
 
   addIssuesMarkers() {
@@ -96,7 +105,18 @@ export class MapComponent implements OnInit {
     return oneMarker;
   }
 
-  ngOnInit(): void {
+  getNewMarkerCoordinates() {
+    console.log('NewMarker coordinates are :')
+  }
 
+  refreshNewMarkerPosition(NewLat: number, NewLong: number) {
+    this.markerPosition.changeValues([NewLat, NewLong]);
+  }
+
+  ngOnInit(): void {
+    this.markerPosition.currentPosition.subscribe(position => {
+      // console.log('NewPosition in Map : ', position)
+      this.newMarkerPosition = (position)
+    });
   }
 }

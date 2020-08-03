@@ -9,6 +9,7 @@ import { Location } from 'src/app/models/location';
 import { AlertService } from '../../alerts/alerts.service';
 import { environment } from "../../../environments/environment";
 import { GeolocationService } from '../../shared/services/geolocation.service';
+import { MarkerPositionService } from '../../shared/services/markerposition.service';
 
 @Component({
   selector: 'app-manageissue',
@@ -25,12 +26,14 @@ export class ManageissueComponent implements OnInit {
   // Renan coordinates
   currentLocationLat: number = 47.125058;
   currentLocationLong: number = 6.932254;
+  newMarkerPosition: number[];
 
   constructor(private issueTypeService: IssueTypeService,
     private router: Router,
     private issueService: IssueService,
     private alertService: AlertService,
-    private geolocation: GeolocationService) {
+    private geolocation: GeolocationService,
+    private markerPosition: MarkerPositionService) {
     this.newIssue = new Issue();
     this.newIssue.description = 'New issue from App by JFS';
     this.newIssue.imageUrl = '';
@@ -52,8 +55,16 @@ export class ManageissueComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //Retrieve current list of issueTypes
+    // Retrieve current list of issueTypes
     this.getTypesOfIssue();
+    // Get new Marker Position on change
+    this.markerPosition.currentPosition.subscribe(position => {
+      this.newMarkerPosition = (position)
+      console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
+      this.currentLocationLat = position[0];
+      this.currentLocationLong = position[1];
+      console.log('change in CurrentlocationLat : ', this.currentLocationLat);
+    });
   }
 
   goToAllIssues() {
