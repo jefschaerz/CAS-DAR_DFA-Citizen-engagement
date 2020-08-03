@@ -38,8 +38,6 @@ export class ManageissueComponent implements OnInit {
     this.newLocation = new Location();
     this.newIssue.location = this.newLocation;
     this.newLocation.coordinates = [];
-    //this.newissue.location.coordinates = [0 , 0];
-    //this.renanLocation = { "Point" , { 47.125058, 6.932254 };
     this.geolocation
       .getCurrentPosition()
       .then((position) => {

@@ -32,6 +32,7 @@ export class MapComponent implements OnInit {
     this.mapMarkers = [];
   }
 
+  // Called automatically when map is ready 
   onMapReady(map: Map) {
     // Define this.map for futur use of this.map
     this.map = map;
@@ -43,8 +44,19 @@ export class MapComponent implements OnInit {
 
     // Define position on map click
     map.on('click', <LeafletMouseEvent>(event) => {
-      console.log(event.latlng);
-      this.newMarker = marker(event.latlng, { icon: greenIcon }).bindTooltip("New").addTo(map);
+      // Add a new Marker only if not yet on the map else remove
+      if (this.newMarker) {
+        map.removeLayer(this.newMarker);
+      }
+      console.log(event.latlng.lat);
+      // Add this new marker with green icone and draggable
+      this.newMarker = marker(event.latlng, { icon: greenIcon, draggable: true }).bindTooltip("New").addTo(map);
+    });
+
+    // On drag currentMarker
+    this.newMarker.on('dragend', function (e) {
+      console.log('latitude : ', this.newMarker.getLatLng().lat);
+      console.log('longitude : ', this.newMarker.getLatLng().lng);
     });
   }
 
@@ -68,7 +80,7 @@ export class MapComponent implements OnInit {
 
   refreshMarkers(map: L.Map) {
     console.log('Number of Issues in refreshMarkers:', this.issuesList.length);
-    //Clear current markers
+    // Clear current markers
     this.mapMarkers = [];
     for (var i = 0; i < this.issuesList.length; i++) {
       this.mapMarkers.push(this.addNewMarkerFromIssue(this.issuesList[i], map));
