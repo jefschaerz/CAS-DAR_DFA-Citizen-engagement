@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule } from '@angular/forms';
 import { IssuesRoutingModule } from './issues-routing.module';
 import { ManageissueComponent } from './manageissue/manageissue.component';
 import { ListissuesComponent } from './listissues/listissues.component';
@@ -12,7 +12,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
   imports: [
     CommonModule,
     LeafletModule,
-    IssuesRoutingModule
+    IssuesRoutingModule,
+    FormsModule
   ],
   exports: [ManageissueComponent, ListissuesComponent, MapComponent]
 })
