@@ -110,9 +110,10 @@ export class ManageissueComponent implements OnInit {
 
   addTagToIssue() {
     console.log('New tag : ', this.newTag);
-    //Check if tag exists already
+    // Check if provided tag already exists and add only if not
     if (this.newIssue.tags.indexOf(this.newTag) === -1) {
       this.newIssue.tags.push(this.newTag);
+      this.newTag = '';
     }
     else {
       this.alertService.error('This tag already exists for this issue', {
@@ -121,6 +122,11 @@ export class ManageissueComponent implements OnInit {
       });
     }
     console.log('Current tags : ', this.newIssue.tags);
+  }
+
+  removeTag(i: number) {
+    // TODO : Remove current tag
+    this.newIssue.tags.splice(i, 1);
   }
 
   onSubmit(form: NgForm) {
