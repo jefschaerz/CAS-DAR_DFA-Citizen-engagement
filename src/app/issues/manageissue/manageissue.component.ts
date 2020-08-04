@@ -20,6 +20,8 @@ export class ManageissueComponent implements OnInit {
   issues: Issue[];
   newIssue: Issue;
   newTag: string;
+  newFirstPictureURL: string;
+  newAdditionalPictureURL: string;
   newLocation: Location;
   issueTypes: IssueType[];
   newIssueError: boolean;
@@ -42,8 +44,12 @@ export class ManageissueComponent implements OnInit {
     this.newLocation = new Location();
     this.newIssue.location = this.newLocation;
     this.newIssue.tags = [];
+    this.newIssue.additionalImageUrls = [];
     this.newLocation.coordinates = [];
     this.newTag = 'New tag';
+    // Default values : TODO to adapt
+    this.newFirstPictureURL = 'https://picsum.photos/id/1/200/300.jpg';
+    this.newAdditionalPictureURL = 'https://picsum.photos/id/53/200/300.jpg';
     this.geolocation
       .getCurrentPosition()
       .then((position) => {
@@ -109,40 +115,78 @@ export class ManageissueComponent implements OnInit {
   }
 
   addTagToIssue() {
-    console.log('New tag : ', this.newTag);
     // Check if provided tag already exists and add only if not
-    if (this.newIssue.tags.indexOf(this.newTag) === -1) {
-      this.newIssue.tags.push(this.newTag);
-      this.newTag = '';
+    if (this.newTag != '') {
+      if (this.newIssue.tags.indexOf(this.newTag) === -1) {
+        this.newIssue.tags.push(this.newTag);
+        this.newTag = '';
+      }
+      else {
+        this.alertService.error('This tag already exists for this issue', {
+          autoClose: true,
+          keepAfterRouteChange: false
+        });
+      }
+      console.log('Current tags : ', this.newIssue.tags);
+    }
+  }
+
+  removeTag(i: number) {
+    this.newIssue.tags.splice(i, 1);
+  }
+
+  addFirstPictureToIssue() {
+    // Check if provided URL already exists and add only if not
+    if (this.newFirstPictureURL != '' &&
+      this.newIssue.imageUrl !== this.newFirstPictureURL &&
+      this.newIssue.additionalImageUrls.indexOf(this.newIssue.imageUrl) === -1) {
+      this.newIssue.imageUrl = this.newFirstPictureURL;
     }
     else {
-      this.alertService.error('This tag already exists for this issue', {
+      this.alertService.error('This imageURL already exists for this issue', {
         autoClose: true,
         keepAfterRouteChange: false
       });
     }
-    console.log('Current tags : ', this.newIssue.tags);
+    console.log('Current picture URL : ', this.newIssue.imageUrl);
   }
 
-  removeTag(i: number) {
-    // TODO : Remove current tag
-    this.newIssue.tags.splice(i, 1);
+  addAdditionalPictureToIssue() {
+    // Check if provided URL already exists (also for imageURL) and add only if not
+    if (this.newAdditionalPictureURL !== '') {
+      if (this.newIssue.additionalImageUrls.indexOf(this.newAdditionalPictureURL) === -1 &&
+        this.newAdditionalPictureURL !== this.newIssue.imageUrl) {
+        this.newIssue.additionalImageUrls.push(this.newAdditionalPictureURL);
+        this.newAdditionalPictureURL = '';
+      }
+      else {
+        this.alertService.error('This imageUrl already exists for this issue', {
+          autoClose: true,
+          keepAfterRouteChange: false
+        });
+      }
+      console.log('Current additional pictures : ', this.newIssue.additionalImageUrls);
+    }
+  }
+
+  removePicture(i: number) {
+    this.newIssue.additionalImageUrls.splice(i, 1);
+    console.log('Current additional pictures : ', this.newIssue.additionalImageUrls);
   }
 
   onSubmit(form: NgForm) {
     // Only do something if the form is valid
     if (form.valid) {
-
       // Create the new issue with all required information
       console.log('HrefType = ', this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription));
-      // Get hRefIssue Type from selection
+      // Get hRefIssue type from selection
       this.newIssue.issueTypeHref = this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription);
       this.newIssue.location.coordinates.push(this.currentLocationLat, this.currentLocationLong);
       console.log(`Issue will be added with the API ;`, this.newIssue);
 
       // Perform the add issue request to the API.
       this.issueService.addIssue(this.newIssue as Issue).subscribe({
-        next: (result) => this.alertService.success('the issue hs been correctly added', result),
+        next: (result) => this.alertService.success('tThe issue hs been correctly added', result),
         error: (error) => this.alertService.error('An error occurs during the add of the issue. ', error)
       });
 
