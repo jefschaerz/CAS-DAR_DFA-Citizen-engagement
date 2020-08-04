@@ -6,9 +6,16 @@
             <!-- Container for the Map-->
             <app-map>Map</app-map>
         </div>
-        <div class="container-fluid col boxDiv">
-
-            <table class="table table-hover table-bordered">
+        <div class="container-fluid col-10 boxDiv">
+            <h4 class="">Search</h4>
+            <div class="form-group mb-4">
+                <input class="form-control"
+                       type="text"
+                       [(ngModel)]="searchText"
+                       placeholder="keyword">
+            </div>
+            <table class="table table-hover table-bordered"
+                   *ngIf="(issues | filter: searchText).length > 0; else noResults">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -28,7 +35,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let issue of issues; let index = index; "
+                    <tr *ngFor="let issue of issues | filter: searchText;; let index = index; "
                         scope="row">
                         <td (click)="onSelect(issue)">{{index+1}}</td>
                         <!-- <td (click)="onSelect(issue)">{{issue.assigneeHref}}</td> -->
@@ -40,13 +47,17 @@
                         <td (click)="onSelect(issue)">{{issue.imageUrl}}</td>
                         <td (click)="onSelect(issue)">{{issue.additionalImageUrls}}</td>
                         <td (click)="onSelect(issue)">{{issue.issueTypeHref}}</td>
-                        <td (click)="onSelect(issue)">{{issue.location.coordinates}}</td>
+                        <td (click)="onSelect(issue)">{{issue.location.coordinates[0]}}
+                            {{issue.location.coordinates[1]}}</td>
                         <td (click)="onSelect(issue)">{{issue.state}}</td>
                         <td (click)="onSelect(issue)">{{issue.tags}}</td>
                         <!-- <td (click)="onSelect(issue)">{{issue.updatedAt}}</td> -->
                     </tr>
                 </tbody>
             </table>
+            <ng-template #noResults>
+                <p>No results found for "{{searchText}}".</p>
+            </ng-template>
         </div>
     </div>
 </div>

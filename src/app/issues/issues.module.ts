@@ -6,9 +6,10 @@ import { ManageissueComponent } from './manageissue/manageissue.component';
 import { ListissuesComponent } from './listissues/listissues.component';
 import { MapComponent } from '../map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { FilterissuesComponent } from './filterissues/filterissues.component';
 
 @NgModule({
-  declarations: [ManageissueComponent, ListissuesComponent, MapComponent],
+  declarations: [ManageissueComponent, ListissuesComponent, MapComponent, FilterissuesComponent],
   imports: [
     CommonModule,
     LeafletModule,

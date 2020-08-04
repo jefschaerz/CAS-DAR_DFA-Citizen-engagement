@@ -13,6 +13,7 @@ export class ListissuesComponent implements OnInit {
   issues: Issue[];
   issue: Issue;
   selectedIssue: Issue;
+  searchText: string;
 
   constructor(private issueService: IssueService,
     public alertService: AlertService) {

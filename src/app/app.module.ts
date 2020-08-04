@@ -21,6 +21,8 @@ import { ListissuesComponent } from './issues/listissues/listissues.component';
 import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { FilterissuesComponent } from './issues/filterissues/filterissues.component';
+import { FilterPipe } from './shared/tools/filter.pipe';
 
 // Import dans notre module
 @NgModule({
@@ -32,7 +34,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     MessagesComponent,
     UserMenuComponent,
     ManageissueComponent,
-    ListissuesComponent, MapComponent
+    FilterPipe,
+    ListissuesComponent, MapComponent, FilterissuesComponent
   ],
   // Import other Angular MODULES
   imports: [
