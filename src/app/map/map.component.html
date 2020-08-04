@@ -1,7 +1,9 @@
 <!-- <button (click)="addIssuesMarkers()">Display markers</button> -->
-<div class="map"
-     leaflet
-     [leafletOptions]="mapOptions"
-     [leafletLayers]="mapMarkers"
-     (leafletMapReady)="onMapReady($event)">
+<div class="container-fluid">
+     <div class="map"
+          leaflet
+          [leafletOptions]="mapOptions"
+          [leafletLayers]="mapMarkers"
+          (leafletMapReady)="onMapReady($event)">
+     </div>
 </div>

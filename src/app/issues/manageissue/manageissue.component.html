@@ -1,180 +1,178 @@
-<div class="container-fluid boxDiv">
-    <div class="row rowDiv">
-        <!-- Main row -->
-        <div class="container-fluid col-6 boxDiv">
-            <!-- Container for the Map-->
-            <app-map>Map</app-map>
-        </div>
-        <!-- Display only if edit issue -->
-        <div class="container-fluid col-6 boxDiv">
-            <!-- Container for the data collect or display -->
-            <div *ngIf=(!isNewIssue)>
-                <h4>Current state</h4>
-                <div class="row rowDiv">
-                    <!-- TODO Hide if add newIssue / show only in Viewissue-->
-                    <!-- TODO create component to handle this ?!-->
-                    <div class="col-3 justify-content-md-center">
-                        <button>New</button>
-                    </div>
-                    <div class="col-3 justify-content-md-center">
-                        <button>In progress</button>
-                    </div>
-                    <div class="col-3 justify-content-md-center">
-                        <button>Rejected</button>
-                    </div>
-                    <div class="col-3 justify-content-md-center">
-                        <button>Resolved</button>
-                    </div>
+<div class="row rowDiv">
+    <!-- Main row -->
+    <div class="container-fluid col-6 boxDiv">
+        <!-- Container for the Map-->
+        <app-map>Map</app-map>
+    </div>
+    <!-- Display only if edit issue -->
+    <div class="container-fluid col-6 boxDiv">
+        <!-- Container for the data collect or display -->
+        <div *ngIf=(!isNewIssue)>
+            <h4>Current state</h4>
+            <div class="row rowDiv">
+                <!-- TODO Hide if add newIssue / show only in Viewissue-->
+                <!-- TODO create component to handle this ?!-->
+                <div class="col-3 justify-content-md-center">
+                    <button>New</button>
+                </div>
+                <div class="col-3 justify-content-md-center">
+                    <button>In progress</button>
+                </div>
+                <div class="col-3 justify-content-md-center">
+                    <button>Rejected</button>
+                </div>
+                <div class="col-3 justify-content-md-center">
+                    <button>Resolved</button>
                 </div>
             </div>
-            <h4 class="secondary">Add an issue</h4>
-            <!-- Template-driven method-->
-            <form #IssueForm="ngForm"
-                  (submit)="onSubmit(IssueForm)">
-                <div class="form-group">
-                    <label for="issueTypes">Type of issues</label>
-                    <select class="custom-select"
-                            #mySelect
-                            (change)='onIssueTypeSelected(mySelect.value)'>
-                        <option value=""
-                                disabled
-                                selected> - Select one - </option>
-                        <option *ngFor="let issueType of issueTypes">
-                            {{issueType.description}}
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
+        </div>
+        <h4>Add an issue</h4>
+        <!-- Template-driven method-->
+        <form #IssueForm="ngForm"
+              (submit)="onSubmit(IssueForm)">
+            <div class="form-group">
+                <label for="issueTypes">Type of issues</label>
+                <select class="custom-select"
+                        #mySelect
+                        (change)='onIssueTypeSelected(mySelect.value)'>
+                    <option value=""
+                            disabled
+                            selected> - Select one - </option>
+                    <option *ngFor="let issueType of issueTypes">
+                        {{issueType.description}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input class="form-control"
+                       type="text"
+                       name="description"
+                       id="description"
+                       #descriptionField="ngModel"
+                       required
+                       [(ngModel)]="newIssue.description"
+                       maxlength="1000"
+                       ng-pattern />
+            </div>
+            <label for="location">Location</label>
+            <div class="form-group">
+                <div class="col-6 justify-content-md-center">
+                    <label for="latitude">Latitude</label>
                     <input class="form-control"
                            type="text"
-                           name="description"
-                           id="description"
-                           #descriptionField="ngModel"
+                           name="location_lat"
+                           id="location_lat"
+                           #latitudeField="ngModel"
                            required
-                           [(ngModel)]="newIssue.description"
-                           maxlength="1000"
+                           [(ngModel)]="currentLocationLat"
                            ng-pattern />
                 </div>
-                <label for="location">Location</label>
-                <div class="form-group">
-                    <div class="col-6 justify-content-md-center">
-                        <label for="latitude">Latitude</label>
-                        <input class="form-control"
-                               type="text"
-                               name="location_lat"
-                               id="location_lat"
-                               #latitudeField="ngModel"
-                               required
-                               [(ngModel)]="currentLocationLat"
-                               ng-pattern />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-6 justify-content-md-center">
-                        <label for="longitude"
-                               class="col-form-label">Longitude</label>
-                        <input class="form-control"
-                               type="text"
-                               name="location_long"
-                               id="location_long"
-                               #longitudeField="ngModel"
-                               required
-                               [(ngModel)]="currentLocationLong"
-                               ng-pattern />
-                    </div>
-                </div>
-                <label for="tag">Tags</label>
-                <div class="form-group">
-                    <input class="form-control col-4"
+            </div>
+            <div class="form-group">
+                <div class="col-6 justify-content-md-center">
+                    <label for="longitude"
+                           class="col-form-label">Longitude</label>
+                    <input class="form-control"
                            type="text"
-                           name="tag"
-                           id="tag"
-                           #descriptionField="ngModel"
-                           [(ngModel)]="newTag"
-                           maxlength="20"
+                           name="location_long"
+                           id="location_long"
+                           #longitudeField="ngModel"
+                           required
+                           [(ngModel)]="currentLocationLong"
                            ng-pattern />
-                    <button class="form-control col-4 btn btn-primary"
+                </div>
+            </div>
+            <label for="tag">Tags</label>
+            <div class="form-group">
+                <input class="form-control col-4"
+                       type="text"
+                       name="tag"
+                       id="tag"
+                       #descriptionField="ngModel"
+                       [(ngModel)]="newTag"
+                       maxlength="20"
+                       ng-pattern />
+                <button class="form-control col-4 btn btn-primary"
+                        type="button"
+                        (click)="addTagToIssue()">Add tag</button>
+            </div>
+
+            <div class="form-group">
+                <label for="currenttag">Current tags</label>
+                <ul class="list-group">
+                    <li class="list-group-item"
+                        *ngFor="let tag of newIssue.tags; let i = index;">
+                        <span class="p-0 m-0">{{tag}}</span>
+                        <span class="pull-right">
+                            <button class="btn btn-xs btn-warning"
+                                    (click)="removeTag(i)">Delete
+                            </button>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <label for="picture">Pictures</label>
+            <div class="form-group">
+                <input class="form-control col-8"
+                       type="text"
+                       name="picture"
+                       id="picture"
+                       #descriptionField="ngModel"
+                       [(ngModel)]="newFirstPictureURL"
+                       maxlength="500"
+                       ng-pattern />
+                <button class="form-control col btn btn-primary"
+                        type="button"
+                        (click)="addFirstPictureToIssue()">Add pictures</button>
+            </div>
+
+            <label for="additionalpictures">Additionnal pictures</label>
+            <div class="form-group">
+                <input class="form-control col-8"
+                       type="text"
+                       name="additionalpictures"
+                       id="additionalpictures"
+                       #descriptionField="ngModel"
+                       [(ngModel)]="newAdditionalPictureURL"
+                       maxlength="500"
+                       ng-pattern />
+                <button class="form-control col btn btn-primary"
+                        type="button"
+                        (click)="addAdditionalPictureToIssue()">Add more pictures</button>
+            </div>
+
+            <div class="form-group">
+                <label for="currenttag">Current pictures</label>
+                <ul class="list-group">
+                    <li class="list-group-item"
+                        *ngFor="let picture of newIssue.additionalImageUrls; let pic = index;">
+                        <span class="p-0 m-0">{{picture}}</span>
+                        <span class="pull-right">
+                            <button class="btn btn-xs btn-warning"
+                                    (click)="removePicture(pic)">Delete
+                            </button>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Bottom with buttons -->
+            <div class="form-group">
+                <div class="row rowDiv">
+                    <button class="form-control btn btn-primary col-4"
+                            type="submit"
+                            [disabled]="IssueForm.invalid">Create</button>
+                    <p *ngIf="newIssueError">
+                        Unable to create the new issue. See the log for more information.
+                    </p>
+                    <button class="form-control btn btn-primary col-4 offset-4"
                             type="button"
-                            (click)="addTagToIssue()">Add tag</button>
+                            (click)="goToAllIssues()">Cancel</button>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="currenttag">Current tags</label>
-                    <ul class="list-group">
-                        <li class="list-group-item"
-                            *ngFor="let tag of newIssue.tags; let i = index;">
-                            <span class="p-0 m-0">{{tag}}</span>
-                            <span class="pull-right">
-                                <button class="btn btn-xs btn-warning"
-                                        (click)="removeTag(i)">Delete
-                                </button>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-
-                <label for="picture">Pictures</label>
-                <div class="form-group">
-                    <input class="form-control col-8"
-                           type="text"
-                           name="picture"
-                           id="picture"
-                           #descriptionField="ngModel"
-                           [(ngModel)]="newFirstPictureURL"
-                           maxlength="500"
-                           ng-pattern />
-                    <button class="form-control col btn btn-primary"
-                            type="button"
-                            (click)="addFirstPictureToIssue()">Add pictures</button>
-                </div>
-
-                <label for="additionalpictures">Additionnal pictures</label>
-                <div class="form-group">
-                    <input class="form-control col-8"
-                           type="text"
-                           name="additionalpictures"
-                           id="additionalpictures"
-                           #descriptionField="ngModel"
-                           [(ngModel)]="newAdditionalPictureURL"
-                           maxlength="500"
-                           ng-pattern />
-                    <button class="form-control col btn btn-primary"
-                            type="button"
-                            (click)="addAdditionalPictureToIssue()">Add more pictures</button>
-                </div>
-
-                <div class="form-group">
-                    <label for="currenttag">Current pictures</label>
-                    <ul class="list-group">
-                        <li class="list-group-item"
-                            *ngFor="let picture of newIssue.additionalImageUrls; let pic = index;">
-                            <span class="p-0 m-0">{{picture}}</span>
-                            <span class="pull-right">
-                                <button class="btn btn-xs btn-warning"
-                                        (click)="removePicture(pic)">Delete
-                                </button>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Bottom with buttons -->
-                <div class="form-group">
-                    <div class="row rowDiv">
-                        <button class="form-control btn btn-primary col-4"
-                                type="submit"
-                                [disabled]="IssueForm.invalid">Create</button>
-                        <p *ngIf="newIssueError">
-                            Unable to create the new issue. See the log for more information.
-                        </p>
-                        <button class="form-control btn btn-primary col-4 offset-4"
-                                type="button"
-                                (click)="goToAllIssues()">Cancel</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>
+        </form>
     </div>
 </div>

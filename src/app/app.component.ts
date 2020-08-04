@@ -12,6 +12,7 @@ export class AppComponent {
   greeting = 'Test';
   isUserLogged: boolean;
   loggedUserName: string;
+  isMenuCollapsed = true;
 
   constructor(public authService: AuthService) {
     // Could be necessary to set the version or boostrap used

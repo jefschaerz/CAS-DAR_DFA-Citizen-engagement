@@ -6,9 +6,10 @@ import { Router } from "@angular/router";
   selector: "app-logout-button",
   // Define html code directly here because very short
   template: '<button (click)="logout()">Logout</button>',
+  //template: '<a class="nav-link" routerLink="/newregistration" routerLinkActive="active">New registration</a>'
 })
 export class LogoutButtonComponent {
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) { }
 
   // Logout method 
   logout(): void {

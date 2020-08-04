@@ -1,0 +1,11 @@
+@media (max-width: 576px){
+    ul.collapse{
+       display:none !important;
+    }
+ }
+ 
+ @media (min-width: 576px){
+    ul.full{
+       display:none !important;
+    }
+ }

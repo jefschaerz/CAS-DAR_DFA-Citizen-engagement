@@ -20,6 +20,7 @@ import { ManageissueComponent } from './issues/manageissue/manageissue.component
 import { ListissuesComponent } from './issues/listissues/listissues.component';
 import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 // Import dans notre module
 @NgModule({
@@ -40,7 +41,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     CommonModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule, SecurityModule, BrowserAnimationsModule, AlertsModule, BsDropdownModule.forRoot(), AlertModule.forRoot()
+    FormsModule, SecurityModule, BrowserAnimationsModule, AlertsModule, BsDropdownModule.forRoot(), CollapseModule.forRoot(), AlertModule.forRoot()
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
