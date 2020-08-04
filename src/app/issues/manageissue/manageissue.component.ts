@@ -17,6 +17,9 @@ import { MarkerPositionService } from '../../shared/services/markerposition.serv
   styleUrls: ['./manageissue.component.scss']
 })
 export class ManageissueComponent implements OnInit {
+
+  // @Input() isNewIssue: boolean;
+
   issues: Issue[];
   newIssue: Issue;
   newTag: string;
@@ -30,6 +33,8 @@ export class ManageissueComponent implements OnInit {
   currentLocationLat: number = 47.125058;
   currentLocationLong: number = 6.932254;
   newMarkerPosition: number[];
+  // Indicate if component used to create new issue or to modifiy current issue
+  isNewIssue: boolean;
 
   constructor(private issueTypeService: IssueTypeService,
     private router: Router,
@@ -50,6 +55,7 @@ export class ManageissueComponent implements OnInit {
     // Default values : TODO to adapt
     this.newFirstPictureURL = 'https://picsum.photos/id/1/200/300.jpg';
     this.newAdditionalPictureURL = 'https://picsum.photos/id/53/200/300.jpg';
+    this.isNewIssue = true;
     this.geolocation
       .getCurrentPosition()
       .then((position) => {

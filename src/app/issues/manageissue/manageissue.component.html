@@ -5,26 +5,29 @@
             <!-- Container for the Map-->
             <app-map>Map</app-map>
         </div>
+        <!-- Display only if edit issue -->
         <div class="container-fluid col-6 boxDiv">
             <!-- Container for the data collect or display -->
-            <h4>Current state</h4>
-            <div class="row rowDiv">
-                <!-- TODO Hide if add newIssue / show only in Viewissue-->
-                <!-- TODO create component to handle this ?!-->
-                <div class="col-3 justify-content-md-center">
-                    <button>New</button>
-                </div>
-                <div class="col-3 justify-content-md-center">
-                    <button>In progress</button>
-                </div>
-                <div class="col-3 justify-content-md-center">
-                    <button>Rejected</button>
-                </div>
-                <div class="col-3 justify-content-md-center">
-                    <button>Resolved</button>
+            <div *ngIf=(!isNewIssue)>
+                <h4>Current state</h4>
+                <div class="row rowDiv">
+                    <!-- TODO Hide if add newIssue / show only in Viewissue-->
+                    <!-- TODO create component to handle this ?!-->
+                    <div class="col-3 justify-content-md-center">
+                        <button>New</button>
+                    </div>
+                    <div class="col-3 justify-content-md-center">
+                        <button>In progress</button>
+                    </div>
+                    <div class="col-3 justify-content-md-center">
+                        <button>Rejected</button>
+                    </div>
+                    <div class="col-3 justify-content-md-center">
+                        <button>Resolved</button>
+                    </div>
                 </div>
             </div>
-            <h4>Issue</h4>
+            <h4 class="secondary">Add an issue</h4>
             <!-- Template-driven method-->
             <form #IssueForm="ngForm"
                   (submit)="onSubmit(IssueForm)">

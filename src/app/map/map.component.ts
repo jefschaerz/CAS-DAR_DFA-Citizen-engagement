@@ -73,6 +73,8 @@ export class MapComponent implements OnInit {
       // Disable click (for see all issues only)
       // this.map.off('click');
     });
+    // Display curent issues with markers
+    this.addIssuesMarkers();
 
   }
 
