@@ -19,6 +19,7 @@ import { MarkerPositionService } from '../../shared/services/markerposition.serv
 export class ManageissueComponent implements OnInit {
   issues: Issue[];
   newIssue: Issue;
+  newTag: string;
   newLocation: Location;
   issueTypes: IssueType[];
   newIssueError: boolean;
@@ -40,7 +41,9 @@ export class ManageissueComponent implements OnInit {
     this.newIssue.additionalImageUrls = [];
     this.newLocation = new Location();
     this.newIssue.location = this.newLocation;
+    this.newIssue.tags = [];
     this.newLocation.coordinates = [];
+    this.newTag = 'New tag';
     this.geolocation
       .getCurrentPosition()
       .then((position) => {
@@ -57,11 +60,11 @@ export class ManageissueComponent implements OnInit {
   ngOnInit(): void {
     // Retrieve current list of issueTypes
     this.getTypesOfIssue();
+
     // Get new Marker Position on change
     this.markerPosition.currentPosition.subscribe(position => {
       this.newMarkerPosition = (position)
       console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
-      // Set new values
       this.currentLocationLat = position[0];
       this.currentLocationLong = position[1];
       console.log('change in CurrentlocationLat : ', this.currentLocationLat);
@@ -103,6 +106,21 @@ export class ManageissueComponent implements OnInit {
 
     console.warn(`Issue will be ask by the API`);
     console.log("IssueTypes : ", this.issueTypes);
+  }
+
+  addTagToIssue() {
+    console.log('New tag : ', this.newTag);
+    //Check if tag exists already
+    if (this.newIssue.tags.indexOf(this.newTag) === -1) {
+      this.newIssue.tags.push(this.newTag);
+    }
+    else {
+      this.alertService.error('This tag already exists for this issue', {
+        autoClose: true,
+        keepAfterRouteChange: false
+      });
+    }
+    console.log('Current tags : ', this.newIssue.tags);
   }
 
   onSubmit(form: NgForm) {

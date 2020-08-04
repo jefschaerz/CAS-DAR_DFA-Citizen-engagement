@@ -36,7 +36,7 @@
                             (change)='onIssueTypeSelected(mySelect.value)'>
                         <option value=""
                                 disabled
-                                selected></option>
+                                selected> - Select one - </option>
                         <option *ngFor="let issueType of issueTypes">
                             {{issueType.description}}
                         </option>
@@ -54,24 +54,49 @@
                            maxlength="1000"
                            ng-pattern />
                 </div>
+                <label for="location">Location</label>
                 <div class="form-group">
-                    <label for="location">Location</label>
-                    <input class="form-control col-5"
-                           type="text"
-                           name="location_lat"
-                           id="location_lat"
-                           #latitudeField="ngModel"
-                           required
-                           [(ngModel)]="currentLocationLat"
-                           ng-pattern />
-                    <input class="form-control col-5"
-                           type="text"
-                           name="location_long"
-                           id="location_long"
-                           #longitudeField="ngModel"
-                           required
-                           [(ngModel)]="currentLocationLong"
-                           ng-pattern />
+                    <div class="col-6 justify-content-md-center">
+                        <label for="latitude">Latitude</label>
+                        <input class="form-control"
+                               type="text"
+                               name="location_lat"
+                               id="location_lat"
+                               #latitudeField="ngModel"
+                               required
+                               [(ngModel)]="currentLocationLat"
+                               ng-pattern />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-6 justify-content-md-center">
+                        <label for="longitude"
+                               class="col-form-label">Longitude</label>
+                        <input class="form-control"
+                               type="text"
+                               name="location_long"
+                               id="location_long"
+                               #longitudeField="ngModel"
+                               required
+                               [(ngModel)]="currentLocationLong"
+                               ng-pattern />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tag">Tags</label>
+                    <div class="form-group row">
+                        <input class="form-control col-4"
+                               type="text"
+                               name="tag"
+                               id="tag"
+                               #descriptionField="ngModel"
+                               [(ngModel)]="newTag"
+                               maxlength="20"
+                               ng-pattern />
+                        <button class="form-control col-4 btn btn-primary"
+                                type="button"
+                                (click)="addTagToIssue()">Add tag</button>
+                    </div>
                 </div>
 
                 <!-- TODO : Add tags fields -->
