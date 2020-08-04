@@ -4,6 +4,7 @@ import { latLng, MapOptions, marker, Marker, Map, tileLayer, LeafletMouseEvent }
 import { IssueService } from '../api/services/issue.service';
 import { Issue } from 'src/app/models/issue';
 import { MarkerPositionService } from 'src/app/shared/services/markerposition.service';
+import { registerEscClick } from 'ngx-bootstrap/utils';
 
 @Component({
   selector: 'app-map',
@@ -36,10 +37,12 @@ export class MapComponent implements OnInit {
     this.mapMarkers = [];
   }
 
+  onMarkedDragEnd(event: DragEvent) {
+    console.log('drag end', event);
+  };
   // Called automatically when map is ready 
   onMapReady(map: Map) {
     console.log('Map READY called');
-    // Define this.map for futur use of this.map
     this.map = map;
 
     this.map.on('moveend', () => {
@@ -49,22 +52,26 @@ export class MapComponent implements OnInit {
 
     // On Click on the map
     this.map.on('click', <LeafletMouseEvent>(event) => {
+      console.log(`Map clicked EVENT`);
       // Add a new Marker only if not yet on the map else remove
       if (this.newMarker) {
         map.removeLayer(this.newMarker);
       }
       console.log(event.latlng);
-      // Add this new marker with green icon and draggable
-      this.newMarker = marker(event.latlng, { icon: greenIcon, draggable: true }).bindTooltip("New").addTo(map);
+      // Add this new marker with green icon and NOT yet draggable (TODO : not working now)
+      this.newMarker = marker(event.latlng, { icon: greenIcon, draggable: false }).bindTooltip("New").addTo(map);
       this.refreshNewMarkerPosition(this.newMarker.getLatLng().lat, this.newMarker.getLatLng().lng);
-      // On drag currentMarker 
-      this.newMarker.on('dragend', function (event) {
-        var marker = event.target;
-        console.log('Draged latitude : ', marker.getLatLng().lat);
-        console.log('Draged longitude : ', marker.getLatLng().lng);
-        // - TODO TO FIX
-        //this.refreshNewMarkerPosition(marker.getLatLng().lat, marker.getLatLng().lng)
-      });
+
+      // NOT WORKING :  On drag currentMarker
+      // this.newMarker.on('dragend', function (event) {
+      //   var marker = event.target;
+      //   console.log('Draged latitude : ', marker.getLatLng().lat);
+      //   console.log('Draged longitude : ', marker.getLatLng().lng);
+      // - TODO TO FIX
+      //this.refreshNewMarkerPosition(marker.getLatLng().lat, marker.getLatLng().lng)
+      //});
+      // Disable click (for see all issues only)
+      // this.map.off('click');
     });
 
   }
@@ -114,9 +121,13 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Update marker position on change
     this.markerPosition.currentPosition.subscribe(position => {
-      // console.log('NewPosition in Map : ', position)
       this.newMarkerPosition = (position)
     });
+
+
+
+
   }
 }

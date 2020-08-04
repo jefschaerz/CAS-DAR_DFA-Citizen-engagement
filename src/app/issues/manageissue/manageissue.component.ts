@@ -61,6 +61,7 @@ export class ManageissueComponent implements OnInit {
     this.markerPosition.currentPosition.subscribe(position => {
       this.newMarkerPosition = (position)
       console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
+      // Set new values
       this.currentLocationLat = position[0];
       this.currentLocationLong = position[1];
       console.log('change in CurrentlocationLat : ', this.currentLocationLat);

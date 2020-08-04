@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+// Service providing user geolocalisation
+
 @Injectable({ providedIn: 'root' })
 export class GeolocationService {
   private hasApi: boolean;

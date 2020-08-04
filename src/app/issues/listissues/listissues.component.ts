@@ -38,7 +38,8 @@ export class ListissuesComponent implements OnInit {
 
   onSelect(issue: Issue): void {
     this.selectedIssue = issue;
-    console.log('Issue selected : ', this.selectedIssue.description);//show on the map
+    console.log('Issue selected : ', this.selectedIssue.description);
+    //show on the map
   }
 
 }
