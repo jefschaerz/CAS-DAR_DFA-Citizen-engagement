@@ -116,6 +116,7 @@ export class ManageissueComponent implements OnInit {
     this.newLocation = new Location();
     this.issue.location = this.newLocation;
     this.issue.tags = [];
+    this.issue.state = 'inProgress';
     this.issue.additionalImageUrls = [];
     this.newLocation.coordinates = [];
     this.newTag = 'New tag';
@@ -148,17 +149,20 @@ export class ManageissueComponent implements OnInit {
       },
       error: (error) => console.error('Erreur ', error)
     });
+  }
 
+  getOneIssue(searchedId: any) {
+    // Search in the issues list the searched one
     // Test with only one issue by ID
     // this.issueTypeService.loadOneIssueTypes("5eebaaa6f717e8001654ce2b").subscribe(
     //   receivedIssueType => {
     //     console.log("ReceviedOneIssueType", receivedIssueType),
     //       this.issueTypes.push(receivedIssueType);
     //   }
-    //);
-
-    console.warn(`Issue will be ask by the API`);
-    console.log("IssueTypes : ", this.issueTypes);
+    // );
+    // console.warn(`Issue will be ask by the API`);
+    // console.log("IssueTypes : ", this.issueTypes);
+    //   }
   }
 
   addTagToIssue() {

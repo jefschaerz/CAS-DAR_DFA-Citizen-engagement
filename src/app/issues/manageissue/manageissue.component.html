@@ -4,11 +4,9 @@
         <!-- Container for the Map-->
         <app-map [addNewMarkerAllowed]=addNewMarkerAllowed>Map</app-map>
     </div>
-    <!-- Display only if edit issue -->
     <div class="container-fluid col-6 boxDiv">
         <!-- Container for the data collect or display -->
         <div *ngIf=(!isNewIssue)>
-
             <h4>Current state</h4>
             <div class="row rowDiv">
                 <!-- TODO create component to handle this ?!-->
@@ -16,12 +14,11 @@
                     <button [ngClass]="{'btn-secondary': issue.state === 'new'}"
                             class="btn">New</button>
                 </div>
-                <div [ngClass]="{'btn-success': issue.state === 'inProgress'}"
-                     class="col-3 justify-content-md-center">
-                    <button>In progress</button>
+                <div class="col-3 justify-content-md-center">
+                    <button [ngClass]="{'btn-info': issue.state === 'inProgress'}">In progress</button>
                 </div>
                 <div class="col-3 justify-content-md-center">
-                    <button>Rejected</button>
+                    <button [ngClass]="{'btn-danger': issue.state === 'rejected'}">Rejected</button>
                 </div>
                 <div class="col-3 justify-content-md-center">
                     <button [ngClass]="{'btn-success': issue.state === 'resolved'}"
@@ -29,8 +26,10 @@
                 </div>
             </div>
         </div>
-        <h4 *ngIf=(isNewIssue)>Add an issue</h4>
-        <h4 *ngIf=(!isNewIssue)>Edit issue with ID : {{ issueId }}</h4>
+        <div>
+            <h4 *ngIf=(isNewIssue)>Add an issue</h4>
+            <h4 *ngIf=(!isNewIssue)>Edit issue with ID : {{ issueId }}</h4>
+        </div>
         <!-- Template-driven method-->
         <form #IssueForm="ngForm"
               (submit)="onSubmit(IssueForm)">
@@ -169,7 +168,11 @@
                 <div class="row rowDiv">
                     <button class="form-control btn btn-primary col-4"
                             type="submit"
-                            [disabled]="IssueForm.invalid">Create</button>
+                            [disabled]="IssueForm.invalid">
+                        <ng-container *ngIf="isNewIssue">Create</ng-container>
+                        <ng-container *ngIf="!isNewIssue">Update</ng-container>
+                    </button>
+
                     <p *ngIf="issueError">
                         Unable to create the new issue. See the log for more information.
                     </p>

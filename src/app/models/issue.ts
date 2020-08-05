@@ -18,7 +18,7 @@ export class Issue {
   issueTypeHref: string;
   //TODO GeoJSON Point type 
   location: Location;
-  readonly state: State;
+  state: State; //readonly in API
   reason?: string;
   tags?: string[];
   readonly updatedAt: Date;
