@@ -18,6 +18,18 @@
          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
                <a class="nav-link"
+                  routerLink="/seeissues"
+                  routerLinkActive="active"
+                  (click)="isMenuCollapsed = true">See issues</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link"
+                  routerLink="/addissue"
+                  routerLinkActive="active"
+                  (click)="isMenuCollapsed = true">Add an issue</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link"
                   routerLink="/map"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">Map</a>
@@ -34,18 +46,8 @@
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">New registration</a>
             </li>
-            <li class="nav-item">
-               <a class="nav-link"
-                  routerLink="/seeissues"
-                  routerLinkActive="active"
-                  (click)="isMenuCollapsed = true">See issues</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link"
-                  routerLink="/addissue"
-                  routerLinkActive="active"
-                  (click)="isMenuCollapsed = true">Add an issue</a>
-            </li>
+
+
             <li class="nav-item">
                <a class="nav-link disabled"
                   href="#"
@@ -70,14 +72,15 @@
                               [displayUserName]="loggedUserName"></app-user-menu>
             </li>
          </ul>
-         <form class="form-inline my-2 my-lg-0">
+         <!--  Not used
+            <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2"
                    type="search"
                    placeholder="Search"
                    aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0"
                     type="submit">Search</button>
-         </form>
+         </form> -->
       </div>
    </nav>
 </div>

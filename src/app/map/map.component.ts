@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { defaultIcon, greenIcon } from './default-marker';
 import { latLng, MapOptions, marker, Marker, Map, tileLayer, LeafletMouseEvent } from 'leaflet';
 import { IssueService } from '../api/services/issue.service';
@@ -12,6 +12,8 @@ import { registerEscClick } from 'ngx-bootstrap/utils';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
+  @Input() addNewMarkerAllowed: boolean;
+
   map: Map;
   mapMarkers: Marker[];
   mapOptions: MapOptions;
@@ -35,6 +37,16 @@ export class MapComponent implements OnInit {
       center: latLng(47.126058, 6.942254)
     };
     this.mapMarkers = [];
+    this.addNewMarkerAllowed = false;
+    console.log('End of MapComponent constructor....');
+  }
+
+  ngOnInit(): void {
+    // Update marker position on change
+    this.markerPosition.currentPosition.subscribe(position => {
+      this.newMarkerPosition = (position)
+    });
+    console.log('** ngONInit : AddNewMarkerAllowed : ', this.addNewMarkerAllowed);
   }
 
   onMarkedDragEnd(event: DragEvent) {
@@ -42,7 +54,7 @@ export class MapComponent implements OnInit {
   };
   // Called automatically when map is ready 
   onMapReady(map: Map) {
-    console.log('Map READY called');
+    console.log('------ Map READY called ------');
     this.map = map;
 
     this.map.on('moveend', () => {
@@ -50,31 +62,37 @@ export class MapComponent implements OnInit {
       console.log(`Map moved to ${center.lng}, ${center.lat}`);
     });
 
-    // On Click on the map
-    this.map.on('click', <LeafletMouseEvent>(event) => {
-      console.log(`Map clicked EVENT`);
-      // Add a new Marker only if not yet on the map else remove
-      if (this.newMarker) {
-        map.removeLayer(this.newMarker);
-      }
-      console.log(event.latlng);
-      // Add this new marker with green icon and NOT yet draggable (TODO : not working now)
-      this.newMarker = marker(event.latlng, { icon: greenIcon, draggable: false }).bindTooltip("New").addTo(map);
-      this.refreshNewMarkerPosition(this.newMarker.getLatLng().lat, this.newMarker.getLatLng().lng);
+    // Allow to add marker only if in add issue mode (not in edit mode)
+    if (this.addNewMarkerAllowed) {
+      console.log('Add mode because addnNewMarkedAllowed: ', this.addNewMarkerAllowed);
+      this.map.on('click', <LeafletMouseEvent>(event) => {
+        console.log(`Map clicked EVENT`);
+        // Add a new Marker only if not yet on the map else remove
+        if (this.newMarker) {
+          map.removeLayer(this.newMarker);
+        }
+        console.log(event.latlng);
+        // Add this new marker with green icon and NOT yet draggable (TODO : not working now)
+        this.newMarker = marker(event.latlng, { icon: greenIcon, draggable: false }).bindTooltip("New").addTo(map);
+        this.refreshNewMarkerPosition(this.newMarker.getLatLng().lat, this.newMarker.getLatLng().lng);
 
-      // NOT WORKING :  On drag currentMarker
-      // this.newMarker.on('dragend', function (event) {
-      //   var marker = event.target;
-      //   console.log('Draged latitude : ', marker.getLatLng().lat);
-      //   console.log('Draged longitude : ', marker.getLatLng().lng);
-      // - TODO TO FIX
-      //this.refreshNewMarkerPosition(marker.getLatLng().lat, marker.getLatLng().lng)
-      //});
-      // Disable click (for see all issues only)
-      // this.map.off('click');
-    });
+        // NOT WORKING :  On drag currentMarker
+        // this.newMarker.on('dragend', function (event) {
+        //   var marker = event.target;
+        //   console.log('Draged latitude : ', marker.getLatLng().lat);
+        //   console.log('Draged longitude : ', marker.getLatLng().lng);
+        // - TODO TO FIX
+        //this.refreshNewMarkerPosition(marker.getLatLng().lat, marker.getLatLng().lng)
+        //});
+        // Disable click (for see all issues only)
+        // this.map.off('click');
+      });
 
-    // Display curent issues with markers
+    }
+    else {
+      console.log('Edit mode because addnNewMarkedAllowed:: ', this.addNewMarkerAllowed);
+    }
+    // Display current issues with markers
     this.addIssuesMarkers();
 
   }
@@ -108,9 +126,9 @@ export class MapComponent implements OnInit {
   }
 
   addNewMarkerFromIssue(oneIssue: Issue, map: L.Map): L.Marker {
-    console.log('Issue received :', oneIssue.location.coordinates, '-', oneIssue.description);
+    //console.log('Issue received :', oneIssue.location.coordinates, '-', oneIssue.description);
     let oneMarker = marker(<L.LatLngExpression>(oneIssue.location.coordinates), { icon: defaultIcon }).bindTooltip(oneIssue.description);
-    console.log('Add marker to the map..');
+    //console.log('Add marker to the map..');
     oneMarker.addTo(map);
     return oneMarker;
   }
@@ -123,14 +141,5 @@ export class MapComponent implements OnInit {
     this.markerPosition.changeValues([NewLat, NewLong]);
   }
 
-  ngOnInit(): void {
-    // Update marker position on change
-    this.markerPosition.currentPosition.subscribe(position => {
-      this.newMarkerPosition = (position)
-    });
 
-
-
-
-  }
 }

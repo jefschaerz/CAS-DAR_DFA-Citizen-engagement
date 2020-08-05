@@ -11,16 +11,17 @@ import { filter, map } from 'rxjs/operators';
 })
 export class ListissuesComponent implements OnInit {
   issues: Issue[];
+  displayedIssues: Issue[];
   issue: Issue;
   selectedIssue: Issue;
   searchText: string;
+  addNewMarkerAllowed = false;
 
   constructor(private issueService: IssueService,
     public alertService: AlertService) {
   }
 
   ngOnInit(): void {
-    console.log('Issues before init: ', this.issues);
     this.getIssuesList();
     console.log('Issues after init: ', this.issues);
   }
