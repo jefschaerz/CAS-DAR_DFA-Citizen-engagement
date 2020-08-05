@@ -4,7 +4,7 @@
           leaflet
           [leafletOptions]="mapOptions"
           [leafletLayers]="mapMarkers"
-          (leafletMapReady)="onMapReady($event)">
+          (leafletMapReady)="initializeMap($event)"
+          (leafletClick)="onMapClick($event)">
      </div>
-     {{addNewMarkerAllowed}}
 </div>
