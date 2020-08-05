@@ -8,25 +8,29 @@
     <div class="container-fluid col-6 boxDiv">
         <!-- Container for the data collect or display -->
         <div *ngIf=(!isNewIssue)>
+
             <h4>Current state</h4>
             <div class="row rowDiv">
-                <!-- TODO Hide if add newIssue / show only in Viewissue-->
                 <!-- TODO create component to handle this ?!-->
                 <div class="col-3 justify-content-md-center">
-                    <button>New</button>
+                    <button [ngClass]="{'btn-secondary': issue.state === 'new'}"
+                            class="btn">New</button>
                 </div>
-                <div class="col-3 justify-content-md-center">
+                <div [ngClass]="{'btn-success': issue.state === 'inProgress'}"
+                     class="col-3 justify-content-md-center">
                     <button>In progress</button>
                 </div>
                 <div class="col-3 justify-content-md-center">
                     <button>Rejected</button>
                 </div>
                 <div class="col-3 justify-content-md-center">
-                    <button>Resolved</button>
+                    <button [ngClass]="{'btn-success': issue.state === 'resolved'}"
+                            class="btn">Resolved</button>
                 </div>
             </div>
         </div>
-        <h4>Add an issue</h4>
+        <h4 *ngIf=(isNewIssue)>Add an issue</h4>
+        <h4 *ngIf=(!isNewIssue)>Edit issue with ID : {{ issueId }}</h4>
         <!-- Template-driven method-->
         <form #IssueForm="ngForm"
               (submit)="onSubmit(IssueForm)">
@@ -51,7 +55,7 @@
                        id="description"
                        #descriptionField="ngModel"
                        required
-                       [(ngModel)]="newIssue.description"
+                       [(ngModel)]="issue.description"
                        maxlength="1000"
                        ng-pattern />
             </div>
@@ -99,10 +103,11 @@
             </div>
 
             <div class="form-group">
-                <label for="currenttag">Current tags</label>
+                <label *ngIf="(issue.tags.length > 0)"
+                       for="currenttag">Current tags</label>
                 <ul class="list-group">
                     <li class="list-group-item"
-                        *ngFor="let tag of newIssue.tags; let i = index;">
+                        *ngFor="let tag of issue.tags; let i = index;">
                         <span class="p-0 m-0">{{tag}}</span>
                         <span class="pull-right">
                             <button class="btn btn-xs btn-warning"
@@ -113,7 +118,7 @@
                 </ul>
             </div>
 
-            <label for="picture">Pictures</label>
+            <label for="picture">Picture URL</label>
             <div class="form-group">
                 <input class="form-control col-8"
                        type="text"
@@ -125,10 +130,10 @@
                        ng-pattern />
                 <button class="form-control col btn btn-primary"
                         type="button"
-                        (click)="addFirstPictureToIssue()">Add pictures</button>
+                        (click)="addFirstPictureToIssue()">Add this picture</button>
             </div>
 
-            <label for="additionalpictures">Additionnal pictures</label>
+            <label for="additionalpictures">Additionnal pictures URL</label>
             <div class="form-group">
                 <input class="form-control col-8"
                        type="text"
@@ -140,14 +145,15 @@
                        ng-pattern />
                 <button class="form-control col btn btn-primary"
                         type="button"
-                        (click)="addAdditionalPictureToIssue()">Add more pictures</button>
+                        (click)="addAdditionalPictureToIssue()">Add this picture</button>
             </div>
 
             <div class="form-group">
-                <label for="currenttag">Current pictures</label>
+                <label *ngIf="(issue.additionalImageUrls.length > 0)"
+                       for="currenttag">Current pictures</label>
                 <ul class="list-group">
                     <li class="list-group-item"
-                        *ngFor="let picture of newIssue.additionalImageUrls; let pic = index;">
+                        *ngFor="let picture of issue.additionalImageUrls; let pic = index;">
                         <span class="p-0 m-0">{{picture}}</span>
                         <span class="pull-right">
                             <button class="btn btn-xs btn-warning"
@@ -164,7 +170,7 @@
                     <button class="form-control btn btn-primary col-4"
                             type="submit"
                             [disabled]="IssueForm.invalid">Create</button>
-                    <p *ngIf="newIssueError">
+                    <p *ngIf="issueError">
                         Unable to create the new issue. See the log for more information.
                     </p>
                     <button class="form-control btn btn-primary col-4 offset-4"

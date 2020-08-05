@@ -63,8 +63,7 @@ export class MapComponent implements OnInit {
     //   const center = this.map.getCenter();
     //   console.log(`Map moved to ${center.lng}, ${center.lat}`);
     // });
-
-  }
+  };
 
   onMapReady(map: Map) {
 
@@ -138,10 +137,7 @@ export class MapComponent implements OnInit {
     return oneMarker;
   }
 
-  getNewMarkerCoordinates() {
-    console.log('NewMarker coordinates are :')
-  }
-
+  // Updte newMarker position in sahred service for other components
   refreshNewMarkerPosition(NewLat: number, NewLong: number) {
     this.markerPosition.changeValues([NewLat, NewLong]);
   }
@@ -175,6 +171,13 @@ export class MapComponent implements OnInit {
     this.clearMap();
     const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
     this.newMarker = marker([coordinates.lat, coordinates.lng], { icon: greenIcon, draggable: false }).bindTooltip("New").addTo(this.map);
+    // Not working Drag
+    // this.newMarker.on('dragend', function (event) {
+    //   var marker = event.target;
+    //   console.log('Draged latitude : ', marker.getLatLng().lat);
+    //   console.log('Draged longitude : ', marker.getLatLng().lng);
+    //   this.refreshNewMarkerPosition(this.marker.getLatLng().lat, marker.getLatLng().lng)
+    // })
     // Refresh newMarker position in shared service 
     this.refreshNewMarkerPosition(this.newMarker.getLatLng().lat, this.newMarker.getLatLng().lng);
     // Center map on the new marker

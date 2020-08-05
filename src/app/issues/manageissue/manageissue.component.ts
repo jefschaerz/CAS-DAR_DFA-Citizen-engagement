@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { IssueTypeService } from '../../api/services/issue-type.service';
 import { IssueService } from '../../api/services/issue.service';
-import { Issue } from 'src/app/models/issue';
+import { Issue, State } from 'src/app/models/issue';
 import { IssueType } from 'src/app/models/issue-type';
 import { Location } from 'src/app/models/location';
 import { AlertService } from '../../alerts/alerts.service';
@@ -17,17 +17,15 @@ import { MarkerPositionService } from '../../shared/services/markerposition.serv
   styleUrls: ['./manageissue.component.scss']
 })
 export class ManageissueComponent implements OnInit {
-
-  // @Input() isNewIssue: boolean;
-
+  issueId: any;
   issues: Issue[];
-  newIssue: Issue;
+  issue: Issue;
   newTag: string;
   newFirstPictureURL: string;
   newAdditionalPictureURL: string;
   newLocation: Location;
   issueTypes: IssueType[];
-  newIssueError: boolean;
+  issueError: boolean;
   selectedIssueTypeDescription: string;
   // Renan coordinates
   currentLocationLat: number = 47.125058;
@@ -42,21 +40,14 @@ export class ManageissueComponent implements OnInit {
     private issueService: IssueService,
     private alertService: AlertService,
     private geolocation: GeolocationService,
-    private markerPosition: MarkerPositionService) {
-    this.newIssue = new Issue();
-    this.newIssue.description = 'New issue from App by JFS';
-    this.newIssue.imageUrl = '';
-    this.newIssue.additionalImageUrls = [];
-    this.newLocation = new Location();
-    this.newIssue.location = this.newLocation;
-    this.newIssue.tags = [];
-    this.newIssue.additionalImageUrls = [];
-    this.newLocation.coordinates = [];
-    this.newTag = 'New tag';
-    this.isNewIssue = true;
-    // Default values : TODO to adapt
-    this.newFirstPictureURL = 'https://picsum.photos/id/1/200/300.jpg';
-    this.newAdditionalPictureURL = 'https://picsum.photos/id/53/200/300.jpg';
+    private markerPosition: MarkerPositionService,
+    private route: ActivatedRoute) {
+
+    // Defined to retrieve id in route patch for edit issue purpose
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.issueId = params.get('id');
+    });
+
     this.geolocation
       .getCurrentPosition()
       .then((position) => {
@@ -71,6 +62,15 @@ export class ManageissueComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    // Check if Add or Edit Issue operation (based on the current route)
+    if (this.router.url === '/addissue') {
+      this.isNewIssue = true;
+    }
+    else {
+      this.isNewIssue = false;
+    }
+
     // Retrieve current list of issueTypes
     this.getTypesOfIssue();
 
@@ -82,6 +82,46 @@ export class ManageissueComponent implements OnInit {
       this.currentLocationLong = position[1];
       console.log('change in CurrentlocationLat : ', this.currentLocationLat);
     });
+
+    // Load information according to operation
+    if (this.isNewIssue) {
+      this.loadNewIssueDefaultValues();
+    }
+    else {
+      this.loadIssueToEditValues(this.issue);
+    }
+  }
+
+  loadNewIssueDefaultValues() {
+    this.issue = new Issue();
+    this.issue.description = 'New issue from App by JFS';
+    this.issue.imageUrl = '';
+    this.issue.additionalImageUrls = [];
+    this.newLocation = new Location();
+    this.issue.location = this.newLocation;
+    this.issue.tags = [];
+    this.issue.additionalImageUrls = [];
+    this.newLocation.coordinates = [];
+    this.newTag = 'New tag';
+    // Default values : TODO : to adapt
+    this.newFirstPictureURL = 'https://picsum.photos/id/1/200/300.jpg';
+    this.newAdditionalPictureURL = 'https://picsum.photos/id/53/200/300.jpg';
+  }
+
+  loadIssueToEditValues(issueToEdit: Issue) {
+    this.issue = new Issue();
+    this.issue.description = '';
+    this.issue.imageUrl = '';
+    this.issue.additionalImageUrls = [];
+    this.newLocation = new Location();
+    this.issue.location = this.newLocation;
+    this.issue.tags = [];
+    this.issue.additionalImageUrls = [];
+    this.newLocation.coordinates = [];
+    this.newTag = 'New tag';
+    // Default values : TODO : to adapt
+    this.newFirstPictureURL = '';
+    this.newAdditionalPictureURL = '';
   }
 
   goToAllIssues() {
@@ -124,8 +164,8 @@ export class ManageissueComponent implements OnInit {
   addTagToIssue() {
     // Check if provided tag already exists and add only if not
     if (this.newTag != '') {
-      if (this.newIssue.tags.indexOf(this.newTag) === -1) {
-        this.newIssue.tags.push(this.newTag);
+      if (this.issue.tags.indexOf(this.newTag) === -1) {
+        this.issue.tags.push(this.newTag);
         this.newTag = '';
       }
       else {
@@ -134,20 +174,20 @@ export class ManageissueComponent implements OnInit {
           keepAfterRouteChange: false
         });
       }
-      console.log('Current tags : ', this.newIssue.tags);
+      console.log('Current tags : ', this.issue.tags);
     }
   }
 
   removeTag(i: number) {
-    this.newIssue.tags.splice(i, 1);
+    this.issue.tags.splice(i, 1);
   }
 
   addFirstPictureToIssue() {
     // Check if provided URL already exists and add only if not
     if (this.newFirstPictureURL != '' &&
-      this.newIssue.imageUrl !== this.newFirstPictureURL &&
-      this.newIssue.additionalImageUrls.indexOf(this.newIssue.imageUrl) === -1) {
-      this.newIssue.imageUrl = this.newFirstPictureURL;
+      this.issue.imageUrl !== this.newFirstPictureURL &&
+      this.issue.additionalImageUrls.indexOf(this.issue.imageUrl) === -1) {
+      this.issue.imageUrl = this.newFirstPictureURL;
     }
     else {
       this.alertService.error('This imageURL already exists for this issue', {
@@ -155,15 +195,15 @@ export class ManageissueComponent implements OnInit {
         keepAfterRouteChange: false
       });
     }
-    console.log('Current picture URL : ', this.newIssue.imageUrl);
+    console.log('Current picture URL : ', this.issue.imageUrl);
   }
 
   addAdditionalPictureToIssue() {
     // Check if provided URL already exists (also for imageURL) and add only if not
     if (this.newAdditionalPictureURL !== '') {
-      if (this.newIssue.additionalImageUrls.indexOf(this.newAdditionalPictureURL) === -1 &&
-        this.newAdditionalPictureURL !== this.newIssue.imageUrl) {
-        this.newIssue.additionalImageUrls.push(this.newAdditionalPictureURL);
+      if (this.issue.additionalImageUrls.indexOf(this.newAdditionalPictureURL) === -1 &&
+        this.newAdditionalPictureURL !== this.issue.imageUrl) {
+        this.issue.additionalImageUrls.push(this.newAdditionalPictureURL);
         this.newAdditionalPictureURL = '';
       }
       else {
@@ -172,13 +212,13 @@ export class ManageissueComponent implements OnInit {
           keepAfterRouteChange: false
         });
       }
-      console.log('Current additional pictures : ', this.newIssue.additionalImageUrls);
+      console.log('Current additional pictures : ', this.issue.additionalImageUrls);
     }
   }
 
   removePicture(i: number) {
-    this.newIssue.additionalImageUrls.splice(i, 1);
-    console.log('Current additional pictures : ', this.newIssue.additionalImageUrls);
+    this.issue.additionalImageUrls.splice(i, 1);
+    console.log('Current additional pictures : ', this.issue.additionalImageUrls);
   }
 
   onSubmit(form: NgForm) {
@@ -187,12 +227,12 @@ export class ManageissueComponent implements OnInit {
       // Create the new issue with all required information
       console.log('HrefType = ', this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription));
       // Get hRefIssue type from selection
-      this.newIssue.issueTypeHref = this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription);
-      this.newIssue.location.coordinates.push(this.currentLocationLat, this.currentLocationLong);
-      console.log(`Issue will be added with the API ;`, this.newIssue);
+      this.issue.issueTypeHref = this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription);
+      this.issue.location.coordinates.push(this.currentLocationLat, this.currentLocationLong);
+      console.log(`Issue will be added with the API ;`, this.issue);
 
       // Perform the add issue request to the API.
-      this.issueService.addIssue(this.newIssue as Issue).subscribe({
+      this.issueService.addIssue(this.issue as Issue).subscribe({
         next: (result) => this.alertService.success('tThe issue hs been correctly added', result),
         error: (error) => this.alertService.error('An error occurs during the add of the issue. ', error)
       });

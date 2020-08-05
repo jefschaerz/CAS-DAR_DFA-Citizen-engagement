@@ -3,6 +3,7 @@ import { IssueTypeService } from "../api/services/issue-type.service";
 import { IssueService } from '../api/services/issue.service';
 import { ActionService } from '../api/services/action.service';
 import { AlertService } from '../alerts/alerts.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-debuggin-page",
@@ -10,6 +11,8 @@ import { AlertService } from '../alerts/alerts.service';
   styleUrls: ["./debugging-page.component.scss"],
 })
 export class DebuggingPageComponent implements OnInit {
+
+  issueNb = { id: 1 };
   options = {
     autoClose: true,
     keepAfterRouteChange: false
@@ -18,7 +21,8 @@ export class DebuggingPageComponent implements OnInit {
   constructor(private issueTypeService: IssueTypeService,
     private issueService: IssueService,
     private actionService: ActionService,
-    public alertService: AlertService) { }
+    public alertService: AlertService,
+    private router: Router) { }
 
   ngOnInit(): void {
     // Ask the service to make an API call on component initialisation
@@ -38,6 +42,9 @@ export class DebuggingPageComponent implements OnInit {
     //   next: (result) => console.log("Actions", result),
     //   error: (error) => console.warn("Error", error),
     // });
-
   }
+  goToIssueNbRoute() {
+    this.router.navigate(['/editissue', this.issueNb.id]);
+  }
+
 }

@@ -25,7 +25,7 @@ export class IssueService {
   /** POST: add a new issue to the API */
   addIssue(issue: Issue): Observable<Issue> {
     return this.http.post<any>(`${environment.apiUrl}/issues`, issue).pipe(
-      tap((newIssue: Issue) => console.log(`Success : Added issue w/ id=${newIssue.description}`)),
+      tap((issue: Issue) => console.log(`Success : Added issue w/ id=${issue.description}`)),
 
     )
   }

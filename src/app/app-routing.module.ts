@@ -27,6 +27,16 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: "editissue", component: ManageissueComponent,
+    // Prevent access to this page to unauthenticated users
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "editissue/:id", component: ManageissueComponent,
+    // Prevent access to this page to unauthenticated users
+    canActivate: [AuthGuard],
+  },
+  {
     path: "debugging", component: DebuggingPageComponent,
     // Prevent access to this page to unauthenticated users
     canActivate: [AuthGuard],
