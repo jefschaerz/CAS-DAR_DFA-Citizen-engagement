@@ -10,7 +10,7 @@ import { AlertService } from '../../alerts/alerts.service';
 import { environment } from "../../../environments/environment";
 import { GeolocationService } from '../../shared/services/geolocation.service';
 import { MarkerPositionService } from '../../shared/services/markerposition.service';
-
+import * as _ from 'lodash';
 @Component({
   selector: 'app-manageissue',
   templateUrl: './manageissue.component.html',
@@ -88,7 +88,7 @@ export class ManageissueComponent implements OnInit {
       this.loadNewIssueDefaultValues();
     }
     else {
-      this.loadIssueToEditValues(this.issue);
+      this.loadIssueToEditValues();
     }
   }
 
@@ -108,7 +108,16 @@ export class ManageissueComponent implements OnInit {
     this.newAdditionalPictureURL = 'https://picsum.photos/id/53/200/300.jpg';
   }
 
-  loadIssueToEditValues(issueToEdit: Issue) {
+  loadIssueToEditValues() {
+    // let loadedIssue = new Issue;
+    // this.issue = new Issue;
+    // this.issue.description = 'default';
+    // console.log('this.issue values loaded : ', this.issue.description);
+    // let loadedIssue = this.getOneIssue(this.issueId);
+    // this.issue = _.cloneDeep(this.getOneIssue(this.issueId));
+    // //console.log('loadedIssue values in copy : ', loadedIssue);
+
+
     this.issue = new Issue();
     this.issue.description = '';
     this.issue.imageUrl = '';
