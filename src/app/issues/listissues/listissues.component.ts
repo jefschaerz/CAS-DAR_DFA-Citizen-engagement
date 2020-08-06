@@ -28,14 +28,15 @@ export class ListissuesComponent implements OnInit {
 
   getIssuesList(): void {
     // Subscribe to get list of all issues
-    this.issueService.loadAllIssues().subscribe({
-      next: (result) => {
-        this.issues = result;
-        console.log("Issues loaded in ISSUES are ", this.issues)
-      },
-      error: (error) => console.warn("Error", error),
-      complete: () => console.log('Load completed!')
-    });
+    this.issueService.loadAllIssues()
+      .subscribe({
+        next: (result) => {
+          this.issues = result;
+          console.log("Issues loaded in ISSUES are ", this.issues)
+        },
+        error: (error) => console.warn("Error", error),
+        complete: () => console.log('Load completed!')
+      });
   }
 
   onSelect(issue: Issue): void {
