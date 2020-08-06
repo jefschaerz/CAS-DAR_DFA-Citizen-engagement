@@ -109,29 +109,29 @@ export class ManageissueComponent implements OnInit {
   }
 
   loadIssueToEditValues() {
-    // let loadedIssue = new Issue;
-    // this.issue = new Issue;
-    // this.issue.description = 'default';
-    // console.log('this.issue values loaded : ', this.issue.description);
-    // let loadedIssue = this.getOneIssue(this.issueId);
-    // this.issue = _.cloneDeep(this.getOneIssue(this.issueId));
+    //let loadedIssue = new Issue;
+    this.issue = new Issue;
+    this.issue.description = 'default';
+    console.log('this.issue values loaded : ', this.issue.description);
+    let loadedIssue = this.getOneIssue(this.issueId);
+    this.issue = _.cloneDeep(this.getOneIssue(this.issueId));
     // //console.log('loadedIssue values in copy : ', loadedIssue);
 
-
-    this.issue = new Issue();
-    this.issue.description = '';
-    this.issue.imageUrl = '';
-    this.issue.additionalImageUrls = [];
-    this.newLocation = new Location();
-    this.issue.location = this.newLocation;
-    this.issue.tags = [];
-    this.issue.state = 'inProgress';
-    this.issue.additionalImageUrls = [];
-    this.newLocation.coordinates = [];
-    this.newTag = 'New tag';
-    // Default values : TODO : to adapt
-    this.newFirstPictureURL = '';
-    this.newAdditionalPictureURL = '';
+    // // Work with this :
+    // this.issue = new Issue();
+    // this.issue.description = '';
+    // this.issue.imageUrl = '';
+    // this.issue.additionalImageUrls = [];
+    // this.newLocation = new Location();
+    // this.issue.location = this.newLocation;
+    // this.issue.tags = [];
+    // this.issue.state = 'inProgress';
+    // this.issue.additionalImageUrls = [];
+    // this.newLocation.coordinates = [];
+    // this.newTag = 'New tag';
+    // // Default values : TODO : to adapt
+    // this.newFirstPictureURL = '';
+    // this.newAdditionalPictureURL = '';
   }
 
   goToAllIssues() {
@@ -161,6 +161,7 @@ export class ManageissueComponent implements OnInit {
   }
 
   getOneIssue(searchedId: any) {
+    return this.issues.find(issue => issue.id === searchedId);
     // Search in the issues list the searched one
     // Test with only one issue by ID
     // this.issueTypeService.loadOneIssueTypes("5eebaaa6f717e8001654ce2b").subscribe(
