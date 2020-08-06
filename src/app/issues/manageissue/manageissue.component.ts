@@ -83,15 +83,15 @@ export class ManageissueComponent implements OnInit {
       console.log('change in CurrentlocationLat : ', this.currentLocationLat);
     });
 
-    // Load information according to operation
-    if (this.isNewIssue) {
-      this.loadNewIssueDefaultValues();
-    }
-    else {
+    this.loadNewIssueDefaultValues();
+
+    if (!this.isNewIssue) {
+      // Load information of the issue to edit
       this.loadIssueToEditValues();
     }
   }
 
+  // For new issue
   loadNewIssueDefaultValues() {
     this.issue = new Issue();
     this.issue.description = 'New issue from App by JFS';
@@ -108,11 +108,11 @@ export class ManageissueComponent implements OnInit {
     this.newAdditionalPictureURL = 'https://picsum.photos/id/53/200/300.jpg';
   }
 
+  // For issue to edit
   loadIssueToEditValues() {
-    // Load defautl object
-    this.getIssuesList();
-    console.log('this.issue', this.issue);
-    //this.loadNewIssueDefaultValues();
+    // Load issue info by the service. Need time..
+    this.getSearchIssue();
+
     // Clone object : WORKS !
     //let loadedIssue = _.cloneDeep((this.issue));
 
@@ -120,27 +120,10 @@ export class ManageissueComponent implements OnInit {
 
     //loadedIssue.description = 'Changed';
     //console.log('LoadedIssue', loadedIssue);
-    console.log('this.issue', this.issue);
 
     //let loadedIssue = this.getOneIssue(this.issueId);
     //this.issue = _.cloneDeep(this.getOneIssue(this.issueId));
     // //console.log('loadedIssue values in copy : ', loadedIssue);
-
-    // // Work with this :
-    // this.issue = new Issue();
-    // this.issue.description = '';
-    // this.issue.imageUrl = '';
-    // this.issue.additionalImageUrls = [];
-    // this.newLocation = new Location();
-    // this.issue.location = this.newLocation;
-    // this.issue.tags = [];
-    // this.issue.state = 'inProgress';
-    // this.issue.additionalImageUrls = [];
-    // this.newLocation.coordinates = [];
-    // this.newTag = 'New tag';
-    // // Default values : TODO : to adapt
-    // this.newFirstPictureURL = '';
-    // this.newAdditionalPictureURL = '';
   }
 
   goToAllIssues() {
@@ -169,26 +152,26 @@ export class ManageissueComponent implements OnInit {
     });
   }
 
-  getIssuesList(): void {
+  getSearchIssue(): void {
     // Subscribe to get linfo of one issue
     this.issueService.loadOneIssue(this.issueId)
       .subscribe({
         next: (result) => {
           this.issue = result;
-          console.log("Issue loaded : ", this.issue)
+          console.log("Issue loaded by the service : ", this.issue)
         },
         error: (error) => console.warn(["Error during load of issue with ID", this.issueId], error),
         complete: () => console.log('Load completed!')
       });
   }
-  getOneIssue(searchedId: string) {
-    // Search in the issues list the searched one and load info in Edit issue to display
-    console.log('this.issues', this.issues);
-    let index = (this.issues.findIndex(x => x.id === searchedId));
-    console.log('Index', index);
-    return this.issues[index];
+  // getOneIssue(searchedId: string) {
+  //   // Search in the issues list the searched one and load info in Edit issue to display
+  //   console.log('this.issues', this.issues);
+  //   let index = (this.issues.findIndex(x => x.id === searchedId));
+  //   console.log('Index', index);
+  //   return this.issues[index];
 
-  }
+  // }
 
   addTagToIssue() {
     // Check if provided tag already exists and add only if not
