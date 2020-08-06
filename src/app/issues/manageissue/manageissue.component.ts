@@ -109,12 +109,21 @@ export class ManageissueComponent implements OnInit {
   }
 
   loadIssueToEditValues() {
-    //let loadedIssue = new Issue;
-    this.issue = new Issue;
-    this.issue.description = 'default';
-    console.log('this.issue values loaded : ', this.issue.description);
-    let loadedIssue = this.getOneIssue(this.issueId);
-    this.issue = _.cloneDeep(this.getOneIssue(this.issueId));
+    // Load defautl object
+    this.getIssuesList();
+    console.log('this.issue', this.issue);
+    //this.loadNewIssueDefaultValues();
+    // Clone object : WORKS !
+    //let loadedIssue = _.cloneDeep((this.issue));
+
+    //let loadedIssue = this.getOneIssue(this.issueId);
+
+    //loadedIssue.description = 'Changed';
+    //console.log('LoadedIssue', loadedIssue);
+    console.log('this.issue', this.issue);
+
+    //let loadedIssue = this.getOneIssue(this.issueId);
+    //this.issue = _.cloneDeep(this.getOneIssue(this.issueId));
     // //console.log('loadedIssue values in copy : ', loadedIssue);
 
     // // Work with this :
@@ -160,19 +169,25 @@ export class ManageissueComponent implements OnInit {
     });
   }
 
-  getOneIssue(searchedId: any) {
-    return this.issues.find(issue => issue.id === searchedId);
-    // Search in the issues list the searched one
-    // Test with only one issue by ID
-    // this.issueTypeService.loadOneIssueTypes("5eebaaa6f717e8001654ce2b").subscribe(
-    //   receivedIssueType => {
-    //     console.log("ReceviedOneIssueType", receivedIssueType),
-    //       this.issueTypes.push(receivedIssueType);
-    //   }
-    // );
-    // console.warn(`Issue will be ask by the API`);
-    // console.log("IssueTypes : ", this.issueTypes);
-    //   }
+  getIssuesList(): void {
+    // Subscribe to get linfo of one issue
+    this.issueService.loadOneIssue(this.issueId)
+      .subscribe({
+        next: (result) => {
+          this.issue = result;
+          console.log("Issue loaded : ", this.issue)
+        },
+        error: (error) => console.warn(["Error during load of issue with ID", this.issueId], error),
+        complete: () => console.log('Load completed!')
+      });
+  }
+  getOneIssue(searchedId: string) {
+    // Search in the issues list the searched one and load info in Edit issue to display
+    console.log('this.issues', this.issues);
+    let index = (this.issues.findIndex(x => x.id === searchedId));
+    console.log('Index', index);
+    return this.issues[index];
+
   }
 
   addTagToIssue() {

@@ -12,7 +12,7 @@ import { Router } from "@angular/router";
 })
 export class DebuggingPageComponent implements OnInit {
 
-  issueNb = { id: 1 };
+  //issueNb = { id: 1  };
   options = {
     autoClose: true,
     keepAfterRouteChange: false
@@ -44,7 +44,7 @@ export class DebuggingPageComponent implements OnInit {
     // });
   }
   goToIssueNbRoute() {
-    this.router.navigate(['/editissue', this.issueNb.id]);
+    this.router.navigate(['/editissue', '5f297015659f4400165b68c6']);
   }
 
 }

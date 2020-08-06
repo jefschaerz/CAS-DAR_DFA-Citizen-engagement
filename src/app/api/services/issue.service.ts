@@ -22,6 +22,10 @@ export class IssueService {
     return this.http.get<Issue[]>(`${environment.apiUrl}/issues`);
   }
 
+  loadOneIssue(issueId): Observable<Issue> {
+    return this.http.get<Issue>(`${environment.apiUrl}/issues/${issueId}`);
+  }
+
   /** POST: add a new issue to the API */
   addIssue(issue: Issue): Observable<Issue> {
     return this.http.post<any>(`${environment.apiUrl}/issues`, issue).pipe(
