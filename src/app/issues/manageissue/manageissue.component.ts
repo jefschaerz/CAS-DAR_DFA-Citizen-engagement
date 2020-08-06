@@ -10,6 +10,7 @@ import { AlertService } from '../../alerts/alerts.service';
 import { environment } from "../../../environments/environment";
 import { GeolocationService } from '../../shared/services/geolocation.service';
 import { MarkerPositionService } from '../../shared/services/markerposition.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-manageissue',
@@ -43,7 +44,9 @@ export class ManageissueComponent implements OnInit {
     private markerPosition: MarkerPositionService,
     private route: ActivatedRoute) {
 
-    // Defined to retrieve id in route patch for edit issue purpose
+    this.issues = [];
+
+    // Defined to retrieve id in route path for edit issue purpose
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.issueId = params.get('id');
     });
@@ -59,6 +62,7 @@ export class ManageissueComponent implements OnInit {
       .catch((error) => {
         console.warn('Failed to locate user because', error);
       });
+    console.log('*** End of ManageissueComponent constructor..')
   }
 
   ngOnInit(): void {
@@ -74,7 +78,7 @@ export class ManageissueComponent implements OnInit {
     // Retrieve current list of issueTypes
     this.getTypesOfIssue();
 
-    // Get new Marker Position on change
+    // Get new marker Pposition on change
     this.markerPosition.currentPosition.subscribe(position => {
       this.newMarkerPosition = (position)
       console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
@@ -83,12 +87,14 @@ export class ManageissueComponent implements OnInit {
       console.log('change in CurrentlocationLat : ', this.currentLocationLat);
     });
 
-    // Load information according to operation
+    // Load issue information according to operation
     if (this.isNewIssue) {
       this.loadNewIssueDefaultValues();
+      console.log('Load default values');
     }
     else {
-      this.loadIssueToEditValues(this.issue);
+      this.loadIssueToEditValues();
+      console.log('Load values for issue with ID', this.issueId);
     }
   }
 
@@ -108,21 +114,28 @@ export class ManageissueComponent implements OnInit {
     this.newAdditionalPictureURL = 'https://picsum.photos/id/53/200/300.jpg';
   }
 
-  loadIssueToEditValues(issueToEdit: Issue) {
-    this.issue = new Issue();
-    this.issue.description = '';
-    this.issue.imageUrl = '';
-    this.issue.additionalImageUrls = [];
-    this.newLocation = new Location();
-    this.issue.location = this.newLocation;
-    this.issue.tags = [];
-    this.issue.state = 'inProgress';
-    this.issue.additionalImageUrls = [];
-    this.newLocation.coordinates = [];
-    this.newTag = 'New tag';
-    // Default values : TODO : to adapt
-    this.newFirstPictureURL = '';
-    this.newAdditionalPictureURL = '';
+  loadIssueToEditValues() {
+    let loadedIssue = new Issue;
+    this.issue = new Issue;
+    this.issue.description = 'default';
+    console.log('this.issue values loaded : ', this.issue.description);
+    loadedIssue = this.getOneIssue(this.issueId);
+    this.issue = _.cloneDeep(this.getOneIssue(this.issueId));
+    console.log('loadedIssue values in copy : ', loadedIssue.description);
+    // this.issue = new Issue();
+    // this.issue.description = '';
+    // this.issue.imageUrl = '';
+    // this.issue.additionalImageUrls = [];
+    // this.newLocation = new Location();
+    // this.issue.location = this.newLocation;
+    // this.issue.tags = [];
+    // this.issue.state = 'inProgress';
+    // this.issue.additionalImageUrls = [];
+    // this.newLocation.coordinates = [];
+    // this.newTag = 'New tag';
+    // // Default values : TODO : to adapt
+    // this.newFirstPictureURL = '';
+    // this.newAdditionalPictureURL = '';
   }
 
   goToAllIssues() {
@@ -151,18 +164,10 @@ export class ManageissueComponent implements OnInit {
     });
   }
 
-  getOneIssue(searchedId: any) {
-    // Search in the issues list the searched one
-    // Test with only one issue by ID
-    // this.issueTypeService.loadOneIssueTypes("5eebaaa6f717e8001654ce2b").subscribe(
-    //   receivedIssueType => {
-    //     console.log("ReceviedOneIssueType", receivedIssueType),
-    //       this.issueTypes.push(receivedIssueType);
-    //   }
-    // );
-    // console.warn(`Issue will be ask by the API`);
-    // console.log("IssueTypes : ", this.issueTypes);
-    //   }
+  getOneIssue(searchedId: any): Issue {
+    // Search in the issues list the searched one and load info in Edit issue to display
+    return this.issues.find(x => x.id === searchedId);
+
   }
 
   addTagToIssue() {
@@ -184,6 +189,11 @@ export class ManageissueComponent implements OnInit {
 
   removeTag(i: number) {
     this.issue.tags.splice(i, 1);
+  }
+
+  deleteIssue() {
+    //To implemente (confirm and call API service to delete really)
+    //Update markers and list
   }
 
   addFirstPictureToIssue() {

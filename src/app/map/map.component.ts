@@ -66,9 +66,7 @@ export class MapComponent implements OnInit {
   };
 
   onMapReady(map: Map) {
-
-    //this.map = map;
-
+    // TO REMOVE !
     // Allow to add a NEW marker only if in add issue mode (not in edit mode)
     // if (this.addNewMarkerAllowed) {
     //   console.log('Add mode because addnNewMarkedAllowed: ', this.addNewMarkerAllowed);
@@ -94,7 +92,6 @@ export class MapComponent implements OnInit {
     //     // Disable click (for see all issues only)
     //     // this.map.off('click');
     //   });
-
     // }
     // else {
     //   console.log('Edit mode because addnNewMarkedAllowed:: ', this.addNewMarkerAllowed);

@@ -1,7 +1,9 @@
 <p>Debugging-page works!</p>
 <button class="btn btn-info m-1"
         (click)="alertService.info('Some info....', options)">Info</button>
+<div>
+        <button class="btn btn-info m-1"
+                (click)="goToIssueNbRoute('5f297015659f4400165b68c6')">Edit Issue nb X</button>
+</div>
 
-<button class="btn btn-info m-1"
-        (click)="goToIssueNbRoute()">Edit Issue nb X</button>
 <app-logout-button></app-logout-button>

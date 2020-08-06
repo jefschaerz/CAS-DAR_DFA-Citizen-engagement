@@ -43,8 +43,9 @@ export class DebuggingPageComponent implements OnInit {
     //   error: (error) => console.warn("Error", error),
     // });
   }
-  goToIssueNbRoute() {
-    this.router.navigate(['/editissue', this.issueNb.id]);
+  goToIssueNbRoute(issueId: string) {
+    console.log('Go to issue : ', issueId);
+    this.router.navigate(['/editissue', issueId]);
   }
 
 }
