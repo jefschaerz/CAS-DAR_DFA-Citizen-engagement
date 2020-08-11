@@ -6,46 +6,57 @@
     </div>
     <div class="container-fluid col-6 boxDiv">
         <!-- Container for the data collect or display -->
-        <div *ngIf=(!isNewIssue)>
-            <h4>Current state</h4>
-            <div class="row rowDiv">
-                <!-- TODO create component to handle this ?!-->
-                <div class="col-3 justify-content-md-center">
-                    <button [ngClass]="{'btn-secondary': issue.state === 'new'}"
-                            class="btn">New</button>
-                </div>
-                <div class="col-3 justify-content-md-center">
-                    <button [ngClass]="{'btn-info': issue.state === 'inProgress'}">In progress</button>
-                </div>
-                <div class="col-3 justify-content-md-center">
-                    <button [ngClass]="{'btn-danger': issue.state === 'rejected'}">Rejected</button>
-                </div>
-                <div class="col-3 justify-content-md-center">
-                    <button [ngClass]="{'btn-success': issue.state === 'resolved'}"
-                            class="btn">Resolved</button>
-                </div>
-            </div>
-        </div>
         <div>
             <h4 *ngIf=(isNewIssue)>Add an issue</h4>
             <h4 *ngIf=(!isNewIssue)>Edit issue with ID : {{ issueId }}</h4>
         </div>
+        <div *ngIf=(!isNewIssue)
+             class="form-group form-inline row">
+            <div class="col-lg-3">
+                <label class="justify-content-start">Current state</label>
+            </div>
+            <!-- TODO create component to handle this ?!-->
+            <div class="col-lg-2 justify-content-md-center">
+                <button [ngClass]="{'btn-secondary': issue.state === 'new'}"
+                        class="btn">New</button>
+            </div>
+            <div class="col-lg-3 justify-content-md-center">
+                <button [ngClass]="{'btn-info': issue.state === 'inProgress'}">In progress</button>
+            </div>
+            <div class="col-lg-2 justify-content-md-center">
+                <button [ngClass]="{'btn-danger': issue.state === 'rejected'}">Rejected</button>
+            </div>
+            <div class="col-lg-2 justify-content-md-center">
+                <button [ngClass]="{'btn-success': issue.state === 'resolved'}"
+                        class="btn">Resolved</button>
+            </div>
+
+            <p></p>
+        </div>
         <!-- Template-driven method-->
         <form #IssueForm="ngForm"
               (submit)="onSubmit(IssueForm)">
-            <div class="form-group">
-                <label for="issueTypes">Type of issues</label>
-                <select class="custom-select"
-                        #mySelect
-                        (change)='onIssueTypeSelected(mySelect.value)'>
-                    <option value=""
-                            disabled
-                            selected> - Select one - </option>
-                    <option *ngFor="let issueType of issueTypes">
-                        {{issueType.description}}
-                    </option>
-                </select>
+            <div class="form-group form-inline row">
+                <div class="col-lg-3">
+                    <label class="justify-content-start"
+                           for="issueTypes">Type of issues</label>
+                </div>
+                <div><select class="col-lg custom-select"
+                            #mySelect
+                            [(ngModel)]="issue.issueTypeHref"
+                            (change)='onIssueTypeSelected(mySelect.value)'
+                            name="selectIssueType">
+                        <option disabled
+                                selected> - Select one - </option>
+                        <!-- Save href value in issueTypeHref but display issueType.description -->
+                        <option [(ngValue)]="issueType.href"
+                                *ngFor="let issueType of issueTypes">
+                            {{issueType.description}}
+                        </option>
+                    </select>
+                </div>
             </div>
+
             <div class="form-group">
                 <label for="description">Description</label>
                 <input class="form-control"
@@ -56,12 +67,17 @@
                        required
                        [(ngModel)]="issue.description"
                        maxlength="1000"
-                       ng-pattern />
+                       ng-pattern
+                       placeholder="Provide a description" />
+                <p *ngIf="descriptionField.hasError('required') && descriptionField.touched">
+                    Description is required
+                </p>
             </div>
             <label for="location">Location</label>
-            <div class="form-group">
-                <div class="col-6 justify-content-md-center">
-                    <label for="latitude">Latitude</label>
+            <div class="form-group offset-1 row">
+                <div class="form-inline">
+                    <label for="latitude"
+                           class="col-form-label">Latitude</label>
                     <input class="form-control"
                            type="text"
                            name="location_lat"
@@ -70,10 +86,6 @@
                            required
                            [(ngModel)]="currentLocationLat"
                            ng-pattern />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-6 justify-content-md-center">
                     <label for="longitude"
                            class="col-form-label">Longitude</label>
                     <input class="form-control"
@@ -87,8 +99,8 @@
                 </div>
             </div>
             <label for="tag">Tags</label>
-            <div class="form-group">
-                <input class="form-control col-4"
+            <div class="form-group form-inline">
+                <input class="form-control col-8"
                        type="text"
                        name="tag"
                        id="tag"
@@ -96,9 +108,9 @@
                        [(ngModel)]="newTag"
                        maxlength="20"
                        ng-pattern />
-                <button class="form-control col-4 btn btn-primary"
+                <button class="form-control col-2 btn btn-primary"
                         type="button"
-                        (click)="addTagToIssue()">Add tag</button>
+                        (click)="addTagToIssue()">Add this tag</button>
             </div>
 
             <div class="form-group">
@@ -118,7 +130,7 @@
             </div>
 
             <label for="picture">Picture URL</label>
-            <div class="form-group">
+            <div class="form-group form-inline">
                 <input class="form-control col-8"
                        type="text"
                        name="picture"
@@ -127,13 +139,13 @@
                        [(ngModel)]="newFirstPictureURL"
                        maxlength="500"
                        ng-pattern />
-                <button class="form-control col btn btn-primary"
+                <button class="form-control col-2 btn btn-primary float-right"
                         type="button"
                         (click)="addFirstPictureToIssue()">Add this picture</button>
             </div>
 
             <label for="additionalpictures">Additionnal pictures URL</label>
-            <div class="form-group">
+            <div class="form-group form-inline">
                 <input class="form-control col-8"
                        type="text"
                        name="additionalpictures"
@@ -142,7 +154,7 @@
                        [(ngModel)]="newAdditionalPictureURL"
                        maxlength="500"
                        ng-pattern />
-                <button class="form-control col btn btn-primary"
+                <button class="form-control col-2 btn btn-primary"
                         type="button"
                         (click)="addAdditionalPictureToIssue()">Add this picture</button>
             </div>
@@ -162,6 +174,8 @@
                     </li>
                 </ul>
             </div>
+
+            <p> Current issue: {{issue | json}}</p>
 
             <!-- Bottom with buttons -->
             <div class="form-group">

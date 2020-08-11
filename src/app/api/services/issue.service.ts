@@ -33,4 +33,11 @@ export class IssueService {
 
     )
   }
+
+  /** PATCH: update an issue with the API */
+  updateIssue(issue: Issue): Observable<Issue> {
+    return this.http.patch<any>(`${environment.apiUrl}/issues/${issue.id}`, issue).pipe(
+      tap((issue: Issue) => console.log(`Success : Updated issue w/ id=${issue.description}`)),
+    )
+  }
 }

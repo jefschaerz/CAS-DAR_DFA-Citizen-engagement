@@ -83,6 +83,7 @@ export class ManageissueComponent implements OnInit {
       console.log('change in CurrentlocationLat : ', this.currentLocationLat);
     });
 
+    // Load defaut values  
     this.loadNewIssueDefaultValues();
 
     if (!this.isNewIssue) {
@@ -91,7 +92,7 @@ export class ManageissueComponent implements OnInit {
     }
   }
 
-  // For new issue
+  // For a new issue
   loadNewIssueDefaultValues() {
     this.issue = new Issue();
     this.issue.description = 'New issue from App by JFS';
@@ -101,6 +102,7 @@ export class ManageissueComponent implements OnInit {
     this.issue.location = this.newLocation;
     this.issue.tags = [];
     this.issue.additionalImageUrls = [];
+    this.issue.issueTypeHref = '';
     this.newLocation.coordinates = [];
     this.newTag = 'New tag';
     // Default values : TODO : to adapt
@@ -108,22 +110,12 @@ export class ManageissueComponent implements OnInit {
     this.newAdditionalPictureURL = 'https://picsum.photos/id/53/200/300.jpg';
   }
 
-  // For issue to edit
+  // For an issue to edit
   loadIssueToEditValues() {
     // Load issue info by the service. Need time..
     this.getSearchIssue();
+    // Set according issueType inissues Types 
 
-    // Clone object : WORKS !
-    //let loadedIssue = _.cloneDeep((this.issue));
-
-    //let loadedIssue = this.getOneIssue(this.issueId);
-
-    //loadedIssue.description = 'Changed';
-    //console.log('LoadedIssue', loadedIssue);
-
-    //let loadedIssue = this.getOneIssue(this.issueId);
-    //this.issue = _.cloneDeep(this.getOneIssue(this.issueId));
-    // //console.log('loadedIssue values in copy : ', loadedIssue);
   }
 
   goToAllIssues() {
@@ -131,8 +123,9 @@ export class ManageissueComponent implements OnInit {
     this.router.navigate(['/seeissues']);
   }
 
+  // No more necessary
   onIssueTypeSelected(value: string) {
-    this.selectedIssueTypeDescription = value;
+    // this.selectedIssueTypeDescription = value;
     console.log("The selected value is : " + value);
   }
   // Search for href of select issuetype
@@ -237,17 +230,30 @@ export class ManageissueComponent implements OnInit {
     // Only do something if the form is valid
     if (form.valid) {
       // Create the new issue with all required information
-      console.log('HrefType = ', this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription));
+      //console.log('HrefType = ', this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription));
       // Get hRefIssue type from selection
-      this.issue.issueTypeHref = this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription);
+      //this.issue.issueTypeHref = this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription);
+      // Replace coordintates with latest one.
+      this.issue.location.coordinates = [];
       this.issue.location.coordinates.push(this.currentLocationLat, this.currentLocationLong);
-      console.log(`Issue will be added with the API ;`, this.issue);
+      console.log(`Issue will be added/updated with the API ;`, this.issue);
 
-      // Perform the add issue request to the API.
-      this.issueService.addIssue(this.issue as Issue).subscribe({
-        next: (result) => this.alertService.success('tThe issue hs been correctly added', result),
-        error: (error) => this.alertService.error('An error occurs during the add of the issue. ', error)
-      });
+      // Perform the ADD issue request to the API.
+      if (this.isNewIssue) {
+        console.log('Add a new issue', this.issue);
+        this.issueService.addIssue(this.issue as Issue).subscribe({
+          next: (result) => this.alertService.success('The issue has been correctly added', result),
+          error: (error) => this.alertService.error('An error occurs during the add of the issue. ', error)
+        });
+      }
+      else {
+        // Perform the UPDATE issue request to the API.
+        console.log('Update an issue', this.issue);
+        this.issueService.updateIssue(this.issue as Issue).subscribe({
+          next: (result) => this.alertService.success('The issue has been correctly updated', result),
+          error: (error) => this.alertService.error('An error occurs during the update of the issue. ', error)
+        });
+      }
 
     }
     else {

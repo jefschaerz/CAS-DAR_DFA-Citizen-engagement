@@ -76,6 +76,10 @@ h1 {
     border : 0px solid ;
 
   }
+/* For input not valid */
+  input.ng-invalid.ng-dirty {
+    background-color: #ffc0c0;
+  }
   
   /*
   Copyright Google LLC. All Rights Reserved.
