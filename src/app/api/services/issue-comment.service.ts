@@ -12,13 +12,13 @@ import { environment } from "../../../environments/environment";
 export class IssueCommentService {
   constructor(private http: HttpClient) { }
 
-  loadAllIssueComments(id: string): Observable<IssueComment[]> {
+  loadIssueComments(id: string): Observable<IssueComment[]> {
     return this.http.get<IssueComment[]>(`${environment.apiUrl}/issues/${id}/Comments`);
   }
 
   addCommentToIssue(issueId: string, myComment: IssueComment): Observable<IssueComment> {
     return this.http.post<any>(`${environment.apiUrl}/issues/${issueId}/Comments`, myComment).pipe(
-      tap((comment: IssueComment) => console.log(`Success : Comment add to issue (: ${myComment}`)),
+      tap((comment: IssueComment) => console.log(`Success : Comment added to issue:`, comment)),
 
     )
   }

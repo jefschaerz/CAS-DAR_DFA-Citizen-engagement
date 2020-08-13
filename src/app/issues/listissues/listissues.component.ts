@@ -20,6 +20,8 @@ export class ListissuesComponent implements OnInit {
   searchText: string;
   addNewMarkerAllowed = false;
   issueComment: IssueComment;
+  issueComments: IssueComment[];
+  commentText: string;
 
   constructor(private issueService: IssueService,
     public alertService: AlertService,
@@ -41,7 +43,21 @@ export class ListissuesComponent implements OnInit {
           console.log("Issues loaded in ISSUES are ", this.issues)
         },
         error: (error) => console.warn("Error", error),
-        complete: () => console.log('Load completed!')
+        complete: () => console.log('getIssuesList completed!')
+      });
+  }
+
+  getIssueComments(issueId: string): void {
+    // Subscribe to get list of comments for this issue
+    this.issueComments = [];
+    this.issueCommentService.loadIssueComments(issueId)
+      .subscribe({
+        next: (result) => {
+          this.issueComments = result;
+          console.log("Comments loaded are:", this.issueComments)
+        },
+        error: (error) => console.warn("Error", error),
+        complete: () => console.log('getIssueComment completed!')
       });
   }
 
@@ -59,16 +75,23 @@ export class ListissuesComponent implements OnInit {
   addOneComment(id: string): void {
     // Subscribe to add a comment
     this.issueComment = new IssueComment;
-    this.issueComment.text = 'Comment #1';
+    this.issueComment.text = '';
 
     console.log()
     this.issueCommentService.addCommentToIssue(id, this.issueComment)
       .subscribe({
         next: (result) => {
-          console.log("Comment add successfully")
+          this.alertService.success('Your comment has been correctly added', {
+            autoClose: true,
+            keepAfterRouteChange: false
+          });
         },
-        error: (error) => console.warn("Error during add of comment", error),
-        complete: () => console.log('Comment add completed!')
+        error: (error) => {
+          this.alertService.error('En error occurs when adding your comment', {
+            autoClose: true,
+            keepAfterRouteChange: false
+          });
+        },
       });
   }
 
