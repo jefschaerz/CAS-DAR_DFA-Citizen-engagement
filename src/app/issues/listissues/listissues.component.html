@@ -19,6 +19,7 @@
                    *ngIf="(issues | filter: searchText).length > 0; else noResults">
                 <thead>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col">#</th>
                         <!-- <th scope="col">AssignedHref</th> -->
                         <th scope="col">CreatedAt</th>
@@ -38,6 +39,9 @@
                 <tbody>
                     <tr *ngFor="let issue of issues | filter: searchText;; let index = index; "
                         scope="row">
+                        <td>
+                            <button (click)="onEditIssue(issue.id)">Edit</button>
+                        </td>
                         <td (click)="onSelect(issue)">{{index+1}}</td>
                         <!-- <td (click)="onSelect(issue)">{{issue.assigneeHref}}</td> -->
                         <td (click)="onSelect(issue)">{{issue.createdAt}}</td>

@@ -3,6 +3,7 @@ import { AlertService } from 'src/app/alerts/alerts.service';
 import { IssueService } from 'src/app/api/services/issue.service';
 import { Issue } from 'src/app/models/issue';
 import { filter, map } from 'rxjs/operators';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-listissues',
@@ -18,7 +19,8 @@ export class ListissuesComponent implements OnInit {
   addNewMarkerAllowed = false;
 
   constructor(private issueService: IssueService,
-    public alertService: AlertService) {
+    public alertService: AlertService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -43,6 +45,11 @@ export class ListissuesComponent implements OnInit {
     this.selectedIssue = issue;
     console.log('Issue selected : ', this.selectedIssue.description);
     //show on the map
+  }
+
+  onEditIssue(id: string) {
+    console.log('Issue to edit : ', id);
+    this.router.navigate(['/editissue', id]);
   }
 
 }
