@@ -123,6 +123,21 @@ export class ManageissueComponent implements OnInit {
     this.router.navigate(['/seeissues']);
   }
 
+  deleteIssue() {
+    // Perform the DELETE issue request to the API.
+    console.log('Delete this issue', this.issue);
+    this.issueService.deleteIssue(this.issue as Issue).subscribe({
+      error: (error) => this.alertService.error('An error occurs during the deletion of the issue. ', error),
+      complete: () => {
+        this.alertService.success('The issue has been correctly deleted', {
+          autoClose: true,
+          keepAfterRouteChange: false
+        });
+        this.goToAllIssues();
+      }
+    });
+  }
+
   // No more necessary
   onIssueTypeSelected(value: string) {
     // this.selectedIssueTypeDescription = value;
@@ -146,14 +161,17 @@ export class ManageissueComponent implements OnInit {
   }
 
   getSearchIssue(): void {
-    // Subscribe to get linfo of one issue
+    // Subscribe to get info of one issue
     this.issueService.loadOneIssue(this.issueId)
       .subscribe({
         next: (result) => {
           this.issue = result;
           console.log("Issue loaded by the service : ", this.issue)
         },
-        error: (error) => console.warn(["Error during load of issue with ID", this.issueId], error),
+        error: (error) => {
+          console.warn(["Error during load of issue with ID", this.issueId], error);
+          this.goToAllIssues();
+        },
         complete: () => console.log('Load completed!')
       });
   }
@@ -163,7 +181,6 @@ export class ManageissueComponent implements OnInit {
   //   let index = (this.issues.findIndex(x => x.id === searchedId));
   //   console.log('Index', index);
   //   return this.issues[index];
-
   // }
 
   addTagToIssue() {
@@ -233,7 +250,8 @@ export class ManageissueComponent implements OnInit {
       //console.log('HrefType = ', this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription));
       // Get hRefIssue type from selection
       //this.issue.issueTypeHref = this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription);
-      // Replace coordintates with latest one.
+
+      // Replace coordinates with latest one.
       this.issue.location.coordinates = [];
       this.issue.location.coordinates.push(this.currentLocationLat, this.currentLocationLong);
       console.log(`Issue will be added/updated with the API ;`, this.issue);
@@ -242,16 +260,22 @@ export class ManageissueComponent implements OnInit {
       if (this.isNewIssue) {
         console.log('Add a new issue', this.issue);
         this.issueService.addIssue(this.issue as Issue).subscribe({
-          next: (result) => this.alertService.success('The issue has been correctly added', result),
-          error: (error) => this.alertService.error('An error occurs during the add of the issue. ', error)
+          error: (error) => this.alertService.error('An error occurs during the add of the issue. ', error),
+          complete: () => this.alertService.success('The issue has been correctly added', {
+            autoClose: true,
+            keepAfterRouteChange: false
+          })
         });
       }
       else {
         // Perform the UPDATE issue request to the API.
         console.log('Update an issue', this.issue);
         this.issueService.updateIssue(this.issue as Issue).subscribe({
-          next: (result) => this.alertService.success('The issue has been correctly updated', result),
-          error: (error) => this.alertService.error('An error occurs during the update of the issue. ', error)
+          error: (error) => this.alertService.error('An error occurs during the update of the issue. ', error),
+          complete: () => this.alertService.success('The issue has been correctly updated', {
+            autoClose: true,
+            keepAfterRouteChange: false
+          })
         });
       }
 

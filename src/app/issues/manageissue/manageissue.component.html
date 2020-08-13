@@ -180,7 +180,7 @@
             <!-- Bottom with buttons -->
             <div class="form-group">
                 <div class="row rowDiv">
-                    <button class="form-control btn btn-primary col-4"
+                    <button class="form-control btn btn-success col-3"
                             type="submit"
                             [disabled]="IssueForm.invalid">
                         <ng-container *ngIf="isNewIssue">Create</ng-container>
@@ -190,7 +190,12 @@
                     <p *ngIf="issueError">
                         Unable to create the new issue. See the log for more information.
                     </p>
-                    <button class="form-control btn btn-primary col-4 offset-4"
+                    <button *ngIf=(!isNewIssue)
+                            class="form-control btn btn-danger col-3 offset-1"
+                            type="button"
+                            (click)="deleteIssue()">Delete</button>
+
+                    <button class="form-control btn btn-warning col-3 offset-1"
                             type="button"
                             (click)="goToAllIssues()">Cancel</button>
                 </div>
