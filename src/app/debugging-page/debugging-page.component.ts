@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { IssueTypeService } from "../api/services/issue-type.service";
 import { IssueService } from '../api/services/issue.service';
+import { IssueCommentService } from '../api/services/issue-comment.service';
 import { ActionService } from '../api/services/action.service';
 import { AlertService } from '../alerts/alerts.service';
 import { Router } from "@angular/router";
@@ -21,6 +22,7 @@ export class DebuggingPageComponent implements OnInit {
   constructor(private issueTypeService: IssueTypeService,
     private issueService: IssueService,
     private actionService: ActionService,
+    private issueCommentService: IssueCommentService,
     public alertService: AlertService,
     private router: Router) { }
 
@@ -47,4 +49,11 @@ export class DebuggingPageComponent implements OnInit {
     this.router.navigate(['/editissue', this.issueNb]);
   }
 
+  loadIssueComments() {
+    // Subscribe to get list of all comments of a issue
+    this.issueCommentService.loadAllIssueComments('5f286ad44916cb0016592c9b').subscribe({
+      next: (result) => console.log("Issue comments", result),
+      error: (error) => console.warn("Error to get issue comments", error),
+    });
+  }
 }

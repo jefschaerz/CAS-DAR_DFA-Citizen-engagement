@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from 'src/app/alerts/alerts.service';
 import { IssueService } from 'src/app/api/services/issue.service';
+import { IssueCommentService } from 'src/app/api/services/issue-comment.service';
 import { Issue } from 'src/app/models/issue';
+import { IssueComment } from 'src/app/models/issue-comment';
 import { filter, map } from 'rxjs/operators';
 import { Router } from "@angular/router";
 
@@ -17,9 +19,11 @@ export class ListissuesComponent implements OnInit {
   selectedIssue: Issue;
   searchText: string;
   addNewMarkerAllowed = false;
+  issueComment: IssueComment;
 
   constructor(private issueService: IssueService,
     public alertService: AlertService,
+    public issueCommentService: IssueCommentService,
     private router: Router) {
   }
 
@@ -50,6 +54,22 @@ export class ListissuesComponent implements OnInit {
   onEditIssue(id: string) {
     console.log('Issue to edit : ', id);
     this.router.navigate(['/editissue', id]);
+  }
+
+  addOneComment(id: string): void {
+    // Subscribe to add a comment
+    this.issueComment = new IssueComment;
+    this.issueComment.text = 'Comment #1';
+
+    console.log()
+    this.issueCommentService.addCommentToIssue(id, this.issueComment)
+      .subscribe({
+        next: (result) => {
+          console.log("Comment add successfully")
+        },
+        error: (error) => console.warn("Error during add of comment", error),
+        complete: () => console.log('Comment add completed!')
+      });
   }
 
 }

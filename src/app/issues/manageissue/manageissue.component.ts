@@ -63,33 +63,36 @@ export class ManageissueComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // Check if Add or Edit Issue operation (based on the current route)
-    if (this.router.url === '/addissue') {
-      this.isNewIssue = true;
-    }
-    else {
-      this.isNewIssue = false;
-    }
-
     // Retrieve current list of issueTypes
     this.getTypesOfIssue();
-
-    // Get new Marker Position on change
-    this.markerPosition.currentPosition.subscribe(position => {
-      this.newMarkerPosition = (position)
-      console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
-      this.currentLocationLat = position[0];
-      this.currentLocationLong = position[1];
-      console.log('change in CurrentlocationLat : ', this.currentLocationLat);
-    });
 
     // Load defaut values  
     this.loadNewIssueDefaultValues();
 
-    if (!this.isNewIssue) {
-      // Load information of the issue to edit
+    // Subrscibe to new Marker Position
+    this.markerPosition.currentPosition.subscribe(position => {
+      this.newMarkerPosition = (position)
+      console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
+      this.issue.location.coordinates[0] = position[0];
+      this.issue.location.coordinates[1] = position[1];
+      console.log('cChange in CurrentlocationLat : ', this.currentLocationLat);
+    });
+
+    // Check if Add or Edit Issue operation (based on the current route)
+    if (this.router.url === '/addissue') {
+      // *** Add Issue action
+      this.isNewIssue = true;
+    }
+    else {
+      // *** Add Issue action
+      this.isNewIssue = false;
       this.loadIssueToEditValues();
     }
+
+    // if (!this.isNewIssue) {
+    //   // Load information of the issue to edit
+    //   this.loadIssueToEditValues();
+    // }
   }
 
   // For a new issue
@@ -115,7 +118,6 @@ export class ManageissueComponent implements OnInit {
     // Load issue info by the service. Need time..
     this.getSearchIssue();
     // Set according issueType inissues Types 
-
   }
 
   goToAllIssues() {
@@ -247,13 +249,6 @@ export class ManageissueComponent implements OnInit {
     // Only do something if the form is valid
     if (form.valid) {
       // Create the new issue with all required information
-      //console.log('HrefType = ', this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription));
-      // Get hRefIssue type from selection
-      //this.issue.issueTypeHref = this.getIssueTypeHrefFromDescription(this.selectedIssueTypeDescription);
-
-      // Replace coordinates with latest one.
-      this.issue.location.coordinates = [];
-      this.issue.location.coordinates.push(this.currentLocationLat, this.currentLocationLong);
       console.log(`Issue will be added/updated with the API ;`, this.issue);
 
       // Perform the ADD issue request to the API.

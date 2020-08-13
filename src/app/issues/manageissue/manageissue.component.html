@@ -84,7 +84,7 @@
                            id="location_lat"
                            #latitudeField="ngModel"
                            required
-                           [(ngModel)]="currentLocationLat"
+                           [(ngModel)]="issue.location.coordinates[0]"
                            ng-pattern />
                     <label for="longitude"
                            class="col-form-label">Longitude</label>
@@ -94,7 +94,7 @@
                            id="location_long"
                            #longitudeField="ngModel"
                            required
-                           [(ngModel)]="currentLocationLong"
+                           [(ngModel)]="issue.location.coordinates[1]"
                            ng-pattern />
                 </div>
             </div>

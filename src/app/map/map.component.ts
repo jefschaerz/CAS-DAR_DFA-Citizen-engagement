@@ -65,45 +65,6 @@ export class MapComponent implements OnInit {
     // });
   };
 
-  onMapReady(map: Map) {
-
-    //this.map = map;
-
-    // Allow to add a NEW marker only if in add issue mode (not in edit mode)
-    // if (this.addNewMarkerAllowed) {
-    //   console.log('Add mode because addnNewMarkedAllowed: ', this.addNewMarkerAllowed);
-    //   this.map.on('click', <LeafletMouseEvent>(event) => {
-    //     console.log(`Map clicked EVENT`);
-    //     // Add a new Marker only if not yet on the map else remove
-    //     if (this.newMarker) {
-    //       map.removeLayer(this.newMarker);
-    //     }
-    //     console.log(event.latlng);
-    //     // Add this new marker with green icon and NOT yet draggable (TODO : not working now)
-    //     this.newMarker = marker(event.latlng, { icon: greenIcon, draggable: false }).bindTooltip("New").addTo(map);
-    //     this.refreshNewMarkerPosition(this.newMarker.getLatLng().lat, this.newMarker.getLatLng().lng);
-
-    //     // NOT WORKING :  On drag currentMarker
-    //     // this.newMarker.on('dragend', function (event) {
-    //     //   var marker = event.target;
-    //     //   console.log('Draged latitude : ', marker.getLatLng().lat);
-    //     //   console.log('Draged longitude : ', marker.getLatLng().lng);
-    //     // - TODO TO FIX
-    //     //this.refreshNewMarkerPosition(marker.getLatLng().lat, marker.getLatLng().lng)
-    //     //});
-    //     // Disable click (for see all issues only)
-    //     // this.map.off('click');
-    //   });
-
-    // }
-    // else {
-    //   console.log('Edit mode because addnNewMarkedAllowed:: ', this.addNewMarkerAllowed);
-    // }
-    // Get all issues available
-    // this.getListOfAllIssues();
-    // this.refreshMarkers(this.map, this.issuesList);
-  }
-
   getListOfAllIssues() {
     // Subscribe to get list of all issues
     this.issueService.loadAllIssues().subscribe({
