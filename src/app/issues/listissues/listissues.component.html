@@ -1,13 +1,13 @@
-<div class="container-fluid boxDiv">
-    <div class="row rowDiv">
+<div class="container-fluid my-container">
+    <div class="row my-row">
         <!-- Main row -->
-        <div class="container-fluid col-2 boxDiv"
+        <div class="container-fluid col-2 my-container"
              col-4>
             <!-- Container for the Map-->
             <!-- <app-map>Map</app-map> -->
             <app-map [addNewMarkerAllowed]=addNewMarkerAllowed>">Map</app-map>
         </div>
-        <div class="container-fluid col-10 boxDiv">
+        <div class="container-fluid col-10 my-container">
             <h4 class="">Search</h4>
             <div class="form-group mb-4">
                 <input class="form-control"
@@ -71,7 +71,7 @@
             </ng-template>
 
 
-            <div class="container-fluid col boxDiv">
+            <div class="container-fluid col my-container">
                 <div class="card border-secondary mb-3 flex-row flex-wrap"
                      *ngFor="let issue of issues | filter: searchText;; let index = index; "
                      scope="row">
@@ -80,7 +80,7 @@
                              alt=""
                              width="100">
                     </div>
-                    <div class="card-body row">
+                    <div class="card-body row my-row">
                         <div class="col">
                             <p class="card-title">{{issue.description}}</p>
                         </div>

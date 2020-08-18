@@ -66,14 +66,16 @@ h1 {
   }
   
   /* JFS : To show container and grid system */
-  .boxDiv {
-    min-height : 1000px;
-    //background-color: #607D8B;
-    //border-color : white ;
-    border : 0px solid ;
+  .my-container {
+    min-height : 800px;
+    border : 1px solid black ;
   }
-  .rowDiv {
-    border : 0px solid ;
+  .my-row {
+    border : 1px solid blue ;
+  }
+
+  .my-form-group {
+    border : 1px solid green ;
 
   }
 /* For input not valid */

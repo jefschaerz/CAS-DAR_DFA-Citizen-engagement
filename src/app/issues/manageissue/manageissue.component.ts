@@ -207,8 +207,11 @@ export class ManageissueComponent implements OnInit {
   }
 
   addFakeaAdditionalImageURL() {
-    //Debug
-    this.newAdditionalPictureURL = 'https://picsum.photos/id/1/200/300.jpg';
+    // Debug to add fake image
+    let randomNb: number;
+    randomNb = Math.floor((Math.random() * 100) + 1);
+
+    this.newAdditionalPictureURL = 'https://picsum.photos/id/' + randomNb + '/200.jpg';
   }
 
   removeTag(i: number) {
