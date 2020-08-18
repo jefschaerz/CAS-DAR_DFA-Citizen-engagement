@@ -1,0 +1,73 @@
+<div class="row my-row">
+    <!-- Main row -->
+    <div class="container-fluid col-md-5 my-container">
+        <!-- Container for the Map-->
+        <app-map [addNewMarkerAllowed]=addNewMarkerAllowed>Map</app-map>
+    </div>
+    <div class="container-fluid col-md-7 my-container">
+        <!-- Container for the data collect or display -->
+        <!-- Template-driven method-->
+        <h4> Current issue: {{issueId}}</h4>
+        <div class="row">
+            <div class="col">
+                <div class="form-group form-inline my-form-group">
+                    <label class="col-3 justify-content-start"
+                           for="description">Description</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form to add a new comment-->
+        <form #AddCommentForm="ngForm">
+            <div class="form-group form-inline my-form-group">
+                <input class="form-control col-5"
+                       type="text"
+                       name="comment"
+                       id="comment"
+                       #descriptionField="ngModel"
+                       [(ngModel)]="this.newComment"
+                       maxlength="1000"
+                       required
+                       ng-pattern
+                       placeholder="Add a comment.." />
+                <button type="submit"
+                        class="form-control ml-2 mr-2 col-md-2 btn btn-primary float-right"
+                        [disabled]="!AddCommentForm.form.valid"
+                        (click)="addNewComment()">Add</button>
+            </div>
+        </form>
+
+        <h4 class="">Search in comments</h4>
+        <div class="form-group mb-4">
+            <input class="form-control"
+                   type="text"
+                   [(ngModel)]="searchTextInComment"
+                   placeholder="Keyword...">
+        </div>
+
+        <table class="table table-hover table-bordered"
+               *ngIf="(issueComments | filter: searchTextInComment).length > 0; else noResults">
+            <thead>
+                <tr>
+                    <th scope="col-md-8">Comments</th>
+                    <th scope="col">CreatedAt</th>
+                    <th scope="col">CreatorHref</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let comment of issueComments | filter: searchTextInComment; let index = index; "
+                    scope="row">
+                    <td>{{comment.text}}</td>
+                    <td>{{comment.createdAt | date}} </td>
+                    <td>{{comment.id}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <ng-template #noResults>
+            <p>No results found for "{{searchTextInComment}}".</p>
+        </ng-template>
+    </div>
+    <br>
+    <p> Current comments: {{issueComments | json}}</p>
+</div>

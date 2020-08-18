@@ -18,6 +18,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ManageissueComponent } from './issues/manageissue/manageissue.component';
 import { ListissuesComponent } from './issues/listissues/listissues.component';
+import { ManageissuecommentsComponent } from './issues/manageissuecomments/manageissuecomments.component';
 import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -34,6 +35,7 @@ import { FilterPipe } from './shared/tools/filter.pipe';
     MessagesComponent,
     UserMenuComponent,
     ManageissueComponent,
+    ManageissuecommentsComponent,
     FilterPipe,
     ListissuesComponent, MapComponent, FilterissuesComponent
   ],

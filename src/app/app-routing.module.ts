@@ -7,6 +7,7 @@ import { NewregistrationPageComponent } from './newregistration-page/newregistra
 import { AuthGuard } from './security/guards/auth.guard';
 import { ManageissueComponent } from './issues/manageissue/manageissue.component';
 import { ListissuesComponent } from './issues/listissues/listissues.component';
+import { ManageissuecommentsComponent } from './issues/manageissuecomments/manageissuecomments.component';
 import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
@@ -28,6 +29,11 @@ const routes: Routes = [
   },
   {
     path: "editissue/:id", component: ManageissueComponent,
+    // Prevent access to this page to unauthenticated users
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "editissue/:id/comments", component: ManageissuecommentsComponent,
     // Prevent access to this page to unauthenticated users
     canActivate: [AuthGuard],
   },

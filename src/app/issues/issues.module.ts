@@ -8,9 +8,10 @@ import { MapComponent } from '../map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FilterissuesComponent } from './filterissues/filterissues.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ManageissuecommentsComponent } from './manageissuecomments/manageissuecomments.component';
 
 @NgModule({
-  declarations: [ManageissueComponent, ListissuesComponent, MapComponent, FilterissuesComponent],
+  declarations: [ManageissueComponent, ListissuesComponent, MapComponent, FilterissuesComponent, ManageissuecommentsComponent],
   imports: [
     CommonModule,
     LeafletModule,

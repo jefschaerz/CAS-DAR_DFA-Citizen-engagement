@@ -47,7 +47,7 @@ export class ListissuesComponent implements OnInit {
         complete: () => console.log('getIssuesList completed!')
       });
   }
-
+  // TODO move ot manageissuecomments
   getIssueComments(issueId: string): void {
     // Subscribe to get list of comments for this issue
     this.issueComments = [];
@@ -73,6 +73,10 @@ export class ListissuesComponent implements OnInit {
     this.router.navigate(['/editissue', id]);
   }
 
+  onEditComments(id: string) {
+    console.log('Issue Comments to edit : ', id);
+    this.router.navigate(['/editissue', id, 'comments']);
+  }
   addOneComment(id: string): void {
     // Subscribe to add a comment
     this.issueComment = new IssueComment;

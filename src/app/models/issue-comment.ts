@@ -1,6 +1,7 @@
 export class IssueComment {
-    readonly authorHref: string;
-    readonly createdAt: Date;
-    readonly id: string;
-    text: string;    
-  }
+  // authorHref, createdAd and id are ReadOnly in API  
+  authorHref: string;
+  createdAt: Date;
+  id: string;
+  text: string;
+}
