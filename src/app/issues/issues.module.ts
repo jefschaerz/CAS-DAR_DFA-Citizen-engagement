@@ -7,6 +7,7 @@ import { ListissuesComponent } from './listissues/listissues.component';
 import { MapComponent } from '../map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FilterissuesComponent } from './filterissues/filterissues.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 @NgModule({
   declarations: [ManageissueComponent, ListissuesComponent, MapComponent, FilterissuesComponent],
@@ -14,7 +15,7 @@ import { FilterissuesComponent } from './filterissues/filterissues.component';
     CommonModule,
     LeafletModule,
     IssuesRoutingModule,
-    FormsModule
+    FormsModule, CollapseModule.forRoot()
   ],
   exports: [ManageissueComponent, ListissuesComponent, MapComponent]
 })

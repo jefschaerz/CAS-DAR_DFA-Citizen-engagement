@@ -98,19 +98,18 @@ export class ManageissueComponent implements OnInit {
   // For a new issue
   loadNewIssueDefaultValues() {
     this.issue = new Issue();
-    this.issue.description = 'New issue from App by JFS';
+    this.issue.description = 'Default - Issue from App by JFS';
     this.issue.imageUrl = '';
     this.issue.additionalImageUrls = [];
     this.newLocation = new Location();
     this.issue.location = this.newLocation;
     this.issue.tags = [];
-    this.issue.additionalImageUrls = [];
     this.issue.issueTypeHref = '';
     this.newLocation.coordinates = [];
-    this.newTag = 'New tag';
+    this.newTag = 'Default - New tag';
     // Default values : TODO : to adapt
-    this.newFirstPictureURL = 'https://picsum.photos/id/1/200/300.jpg';
-    this.newAdditionalPictureURL = 'https://picsum.photos/id/53/200/300.jpg';
+    this.newFirstPictureURL = 'https://picsum.photos/id/200/200.jpg';
+    this.newAdditionalPictureURL = 'https://picsum.photos/id/201/200.jpg';
   }
 
   // For an issue to edit
@@ -202,11 +201,21 @@ export class ManageissueComponent implements OnInit {
     }
   }
 
+  addFakeImageURL() {
+    //Debug
+    this.issue.imageUrl = 'https://picsum.photos/id/1/200/300.jpg';
+  }
+
+  addFakeaAdditionalImageURL() {
+    //Debug
+    this.newAdditionalPictureURL = 'https://picsum.photos/id/1/200/300.jpg';
+  }
+
   removeTag(i: number) {
     this.issue.tags.splice(i, 1);
   }
 
-  addFirstPictureToIssue() {
+  checkAddFirstPictureToIssue() {
     // Check if provided URL already exists and add only if not
     if (this.newFirstPictureURL != '' &&
       this.issue.imageUrl !== this.newFirstPictureURL &&

@@ -13,9 +13,10 @@ import { Router } from "@angular/router";
   styleUrls: ['./listissues.component.scss']
 })
 export class ListissuesComponent implements OnInit {
+  isCollapsed = false;
   issues: Issue[];
   displayedIssues: Issue[];
-  issue: Issue;
+  //issue: Issue;
   selectedIssue: Issue;
   searchText: string;
   addNewMarkerAllowed = false;
@@ -61,8 +62,8 @@ export class ListissuesComponent implements OnInit {
       });
   }
 
-  onSelect(issue: Issue): void {
-    this.selectedIssue = issue;
+  onSelect(myIssue: Issue): void {
+    this.selectedIssue = myIssue;
     console.log('Issue selected : ', this.selectedIssue.description);
     //show on the map
   }

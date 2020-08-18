@@ -19,7 +19,8 @@
                    *ngIf="(issues | filter: searchText).length > 0; else noResults">
                 <thead>
                     <tr>
-                        <th scope="col"></th>
+                        <th scope="col">Actions</th>
+                        <th scope="col">Comments</th>
                         <th scope="col">#</th>
                         <!-- <th scope="col">AssignedHref</th> -->
                         <th scope="col">CreatedAt</th>
@@ -34,7 +35,7 @@
                         <!-- <th scope="col">State</th> -->
                         <th scope="col">Tags</th>
                         <!-- <th scope="col">UpdatedAt</th> -->
-                        <th scope="col">Comments</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +44,9 @@
                         <td>
                             <button (click)="onEditIssue(issue.id)">Edit</button>
                             <button (click)="addOneComment(issue.id)">Add comment</button>
+                        </td>
+                        <td>
+                            <button (click)="getIssueComments(issue.id)">Load Comments</button>
                         </td>
                         <td (click)="onSelect(issue)">{{index+1}}</td>
                         <!-- <td (click)="onSelect(issue)">{{issue.assigneeHref}}</td> -->
@@ -59,15 +63,61 @@
                         <!-- <td (click)="onSelect(issue)">{{issue.state}}</td> -->
                         <td (click)="onSelect(issue)">{{issue.tags}}</td>
                         <!-- <td (click)="onSelect(issue)">{{issue.updatedAt}}</td> -->
-                        <td>
-                            <button (click)="getIssueComments(issue.id)">Comments</button>
-                        </td>
                     </tr>
                 </tbody>
             </table>
             <ng-template #noResults>
                 <p>No results found for "{{searchText}}".</p>
             </ng-template>
+
+
+            <div class="container-fluid col boxDiv">
+                <div class="card border-secondary mb-3 flex-row flex-wrap"
+                     *ngFor="let issue of issues | filter: searchText;; let index = index; "
+                     scope="row">
+                    <div class="card-header border-0">
+                        <img src="{{issue.imageUrl}}"
+                             alt=""
+                             width="100">
+                    </div>
+                    <div class="card-body row">
+                        <div class="col">
+                            <p class="card-title">{{issue.description}}</p>
+                        </div>
+                        <hr>
+                        <div class="col"><button type="button"
+                                    class="btn btn-primary"
+                                    (click)="getIssueComments(issue.id)">See comments
+                            </button>
+                        </div>
+                        <!-- <button type="button"
+                                class="btn btn-primary"
+                                (click)="isCollapsed = !isCollapsed"
+                                [attr.aria-expanded]="!isCollapsed"
+                                attr.aria-controls="collapseBasic{{index}}">Toggle collapse - {{index}}
+                        </button>
+                        <hr>
+                        <div attr.id="collapseBasic{{index}}"
+                             [collapse]="isCollapsed"
+                             [isAnimated]="true">
+                            <div class="well well-lg card card-block card-header">Some content</div>
+                        </div> -->
+
+                        <div class="card-footer">
+                            <button type="button"
+                                    class="btn btn-primary">{{issue.state}}
+                            </button>
+                            <br>
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    (click)="onEditIssue(issue.id)">Edit</button>
+                        </div>
+                    </div>
+                    <p></p>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>

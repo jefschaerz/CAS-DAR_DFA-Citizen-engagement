@@ -73,8 +73,9 @@
                     Description is required
                 </p>
             </div>
-            <label for="location">Location</label>
+
             <div class="form-group offset-1 row">
+                <div><label for="location">Location</label></div>
                 <div class="form-inline">
                     <label for="latitude"
                            class="col-form-label">Latitude</label>
@@ -117,35 +118,42 @@
                 <label *ngIf="(issue.tags.length > 0)"
                        for="currenttag">Current tags</label>
                 <ul class="list-group">
-                    <li class="list-group-item"
-                        *ngFor="let tag of issue.tags; let i = index;">
-                        <span class="p-0 m-0">{{tag}}</span>
-                        <span class="pull-right">
-                            <button class="btn btn-xs btn-warning"
-                                    (click)="removeTag(i)">Delete
-                            </button>
-                        </span>
-                    </li>
+                    <div class="col">
+                        <li class="list-group-item"
+                            *ngFor="let tag of issue.tags; let i = index;">
+                            <span class="p-0 m-0">{{tag}}</span>
+                            <span class="pull-right">
+                                <button class="btn btn-xs btn-warning"
+                                        (click)="removeTag(i)">Delete
+                                </button>
+                            </span>
+                        </li>
+                    </div>
                 </ul>
             </div>
 
-            <label for="picture">Picture URL</label>
+
             <div class="form-group form-inline">
+                <label for="picture">Picture URL</label>
+                <img src="{{this.issue.imageUrl}}"
+                     alt="this.issue.imageUrl"
+                     width="50" />
                 <input class="form-control col-8"
                        type="text"
                        name="picture"
                        id="picture"
                        #descriptionField="ngModel"
-                       [(ngModel)]="newFirstPictureURL"
+                       [(ngModel)]="this.issue.imageUrl"
                        maxlength="500"
                        ng-pattern />
                 <button class="form-control col-2 btn btn-primary float-right"
                         type="button"
-                        (click)="addFirstPictureToIssue()">Add this picture</button>
+                        (click)="addFakeImageURL()">Browse (NA)</button>
+
             </div>
 
-            <label for="additionalpictures">Additionnal pictures URL</label>
             <div class="form-group form-inline">
+                <label for="additionalpictures">Additionnal pictures URL</label>
                 <input class="form-control col-8"
                        type="text"
                        name="additionalpictures"
@@ -154,6 +162,9 @@
                        [(ngModel)]="newAdditionalPictureURL"
                        maxlength="500"
                        ng-pattern />
+                <button class="form-control col-2 btn btn-primary"
+                        type="button"
+                        (click)="addFakeaAdditionalImageURL()">Browse (NA)</button>
                 <button class="form-control col-2 btn btn-primary"
                         type="button"
                         (click)="addAdditionalPictureToIssue()">Add this picture</button>
@@ -165,6 +176,9 @@
                 <ul class="list-group">
                     <li class="list-group-item"
                         *ngFor="let picture of issue.additionalImageUrls; let pic = index;">
+                        <span><img src={{picture}}
+                                 alt={{picture}}
+                                 width="50" /></span>
                         <span class="p-0 m-0">{{picture}}</span>
                         <span class="pull-right">
                             <button class="btn btn-xs btn-warning"
@@ -174,9 +188,6 @@
                     </li>
                 </ul>
             </div>
-
-            <p> Current issue: {{issue | json}}</p>
-
             <!-- Bottom with buttons -->
             <div class="form-group">
                 <div class="row rowDiv">
@@ -200,7 +211,7 @@
                             (click)="goToAllIssues()">Cancel</button>
                 </div>
             </div>
-
         </form>
+        <p> Current issue: {{issue | json}}</p>
     </div>
 </div>
