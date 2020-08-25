@@ -3,7 +3,7 @@ import { AlertService } from 'src/app/alerts/alerts.service';
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { IssueCommentService } from 'src/app/api/services/issue-comment.service';
 import { IssueComment } from 'src/app/models/issue-comment';
-import { Issue, State } from 'src/app/models/issue';
+import { Issue } from 'src/app/models/issue';
 import { filter } from 'rxjs/operators';
 
 @Component({

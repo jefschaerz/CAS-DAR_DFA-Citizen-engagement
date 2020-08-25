@@ -30,7 +30,8 @@ export class IssueTypeService {
 
   // Search for description of select issuetype href 
   getIssueDescriptionFromTypeHref(myIssuesTypes: IssueType[], searchHref: string): string {
-    console.log('Description used : ', searchHref);
+    //TODO called to often : find why
+    //console.log('Href used : ', searchHref);
     return (myIssuesTypes.find(issueType => issueType.href === searchHref)).description;
   }
 }

@@ -15,6 +15,32 @@
                        [(ngModel)]="searchText"
                        placeholder="keyword">
             </div>
+            <h4 class="">Filter by state</h4>
+
+            <div class="form-group mb-4">
+                <label class="mr-3"
+                       *ngFor="let state of checkboxesDataList; let i = index">
+                    <input id="state{{i}}"
+                           name="states"
+                           type="radio"
+                           [(value)]="state.href"
+                           [(ngModel)]="selectedState.href"
+                           (change)="applyFilterByText(selectedState.href)">
+                    {{state.label}}</label>
+                <!-- <div>Selected : {{selectedState.href}}</div> -->
+                <!-- <input class="
+                           form-control"
+                       type="text"
+                       [(ngModel)]="searchState"
+                       placeholder="keyword">
+                <button type="button"
+                        class="btn btn-primary"
+                        (click)="applyFilterByText(searchState)">Apply
+                </button> -->
+                <!-- <code>
+                    {{selectedItemsList | json}}
+                </code> -->
+            </div>
 
             <ng-template #noResults>
                 <p>No results found for "{{searchText}}".</p>
@@ -22,7 +48,7 @@
 
             <div class="row my-row">
                 <div class="col-lg-6"
-                     *ngFor="let issue of issues | filter: searchText;; let index = index;"
+                     *ngFor="let issue of displayedIssues | filter : searchText ; let index = index;"
                      scope="row">
                     <div class="card border-secondary mr-2 mb-3">
                         <div class="card-header border-0">
@@ -30,11 +56,11 @@
                                  alt=""
                                  width="100">
                             <span class="badge badge-success float-right">
-                                <h4>{{issue.state}}</h4>
+                                <h5>{{issue.state}}</h5>
                             </span>
-                            <span class="badge badge-secondary float-center">
-                                <h4>{{this.issueTypeService.getIssueDescriptionFromTypeHref(issueTypes, issue.issueTypeHref)}}
-                                </h4>
+                            <span class="badge badge-secondary float-right mr-2">
+                                <h5>{{this.issueTypeService.getIssueDescriptionFromTypeHref(issueTypes, issue.issueTypeHref)}}
+                                </h5>
                             </span>
                         </div>
                         <div class="card-body">
@@ -64,11 +90,12 @@
     </div>
 </div>
 
-<button (click)="getIssuesList()">Refresh listt</button>
+<button (click)="getIssuesList()">Refresh list</button>
 
 <div>
+    <h2>All Issues (not filtered)</h2>
     <table class="table table-hover table-bordered"
-           *ngIf="(issues | filter: searchText).length > 0; else noResults">
+           *ngIf="(allIssues.length >0); else noResults">
         <thead>
             <tr>
                 <th scope="col">Actions</th>
@@ -91,7 +118,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let issue of issues | filter: searchText;; let index = index; "
+            <tr *ngFor="let issue of allIssues ; let index = index; "
                 scope="row">
                 <td>
                     <button (click)="onEditIssue(issue.id)">Edit</button>
