@@ -10,29 +10,27 @@
             <h4 *ngIf=(isNewIssue)>Add an issue</h4>
             <h4 *ngIf=(!isNewIssue)>Edit issue with ID : {{ issueId }}</h4>
         </div>
-        <div *ngIf=(!isNewIssue)
-             class="form-group form-inline row">
-            <div class="col-lg-3">
-                <label class="justify-content-start">Current state</label>
-            </div>
-            <!-- TODO create component to handle this ?!-->
-            <div class="col-lg-2 justify-content-md-center">
-                <button [ngClass]="{'btn-secondary': issue.state === 'new'}"
-                        class="btn">New</button>
-            </div>
-            <div class="col-lg-3 justify-content-md-center">
-                <button [ngClass]="{'btn-info': issue.state === 'inProgress'}">In progress</button>
-            </div>
-            <div class="col-lg-2 justify-content-md-center">
-                <button [ngClass]="{'btn-danger': issue.state === 'rejected'}">Rejected</button>
-            </div>
-            <div class="col-lg-2 justify-content-md-center">
-                <button [ngClass]="{'btn-success': issue.state === 'resolved'}"
-                        class="btn">Resolved</button>
-            </div>
+        <div class="row my-row"
+             *ngIf=(!isNewIssue)>
+            <div class="col">
 
-            <p></p>
+                <label class="col-3 justify-content-start">Current state</label>
+                <!-- TODO create component to handle this (display correct colored button according to state ?!-->
+
+                <button [ngClass]="{'btn-secondary': issue.state === 'new'}"
+                        class="btn mr-2">New</button>
+
+                <button [ngClass]="{'btn-info': issue.state === 'inProgress'}"
+                        class="btn  mr-2">In progress</button>
+
+                <button [ngClass]="{'btn-danger': issue.state === 'rejected'}"
+                        class="btn mr-2">Rejected</button>
+
+                <button [ngClass]="{'btn-success': issue.state === 'resolved'}"
+                        class="btn mr-2">Resolved</button>
+            </div>
         </div>
+
         <!-- Template-driven method-->
         <form #IssueForm="ngForm"
               (submit)="onSubmit(IssueForm)">
@@ -136,19 +134,20 @@
                         (click)="addTagToIssue()">Add this tag</button>
             </div>
             <div class="row my-row ml-10 mb-2">
-                <label *ngIf="(issue.tags.length > 0)"
-                       class="ml-3"
-                       for="currenttag">Current tags</label>
-                <div class="row my-row ml-3 mb-2">
-                    <div *ngFor="let tag of issue.tags; let i = index;"
-                         class="card text-center"
-                         style="width: 7rem;">
-                        <div class="card-title">{{tag}}</div>
-                        <div class="card-body">
-                            <button class="btn btn-xs btn-warning"
-                                    (click)="removeTag(i)">Delete
-                            </button>
-                        </div>
+                <div class="col-3">
+                    <label *ngIf="(issue.tags.length > 0)"
+                           class="ml-3"
+                           for="currenttag">Current tags</label>
+                </div>
+                <div *ngFor="let tag of issue.tags; let i = index;"
+                     class="card text-center"
+                     style="width: 7rem;">
+                    <div class="card-body">
+                        <h4><span class="badge badge-info ml-1 ">{{tag}}</span></h4>
+                        <button class="btn btn-xs btn-warning"
+                                (click)="removeTag(i)">
+                            Delete
+                        </button>
                     </div>
                 </div>
             </div>
@@ -204,7 +203,7 @@
             <div class="row my-row ml-10 mb-2">
                 <div class="col-3">
                     <label *ngIf="(issue.additionalImageUrls.length > 0)"
-                           class="ml-3 pull-right"
+                           class="ml-3"
                            for="
                         currenttag">Current pictures</label>
                 </div>

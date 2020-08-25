@@ -210,7 +210,6 @@ export class ManageissueComponent implements OnInit {
     // Debug to add fake image
     let randomNb: number;
     randomNb = Math.floor((Math.random() * 100) + 1);
-
     this.newAdditionalPictureURL = 'https://picsum.photos/id/' + randomNb + '/200.jpg';
   }
 

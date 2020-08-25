@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from 'src/app/alerts/alerts.service';
 import { IssueService } from 'src/app/api/services/issue.service';
+import { IssueTypeService } from 'src/app/api/services/issue-type.service';
 import { IssueCommentService } from 'src/app/api/services/issue-comment.service';
 import { Issue } from 'src/app/models/issue';
+import { IssueType } from "src/app/models/issue-type";
 import { IssueComment } from 'src/app/models/issue-comment';
 import { filter, map } from 'rxjs/operators';
 import { Router } from "@angular/router";
@@ -15,8 +17,8 @@ import { Router } from "@angular/router";
 export class ListissuesComponent implements OnInit {
   isCollapsed = false;
   issues: Issue[];
+  issueTypes: IssueType[];
   displayedIssues: Issue[];
-  //issue: Issue;
   selectedIssue: Issue;
   searchText: string;
   addNewMarkerAllowed = false;
@@ -27,11 +29,13 @@ export class ListissuesComponent implements OnInit {
   constructor(private issueService: IssueService,
     public alertService: AlertService,
     public issueCommentService: IssueCommentService,
+    public issueTypeService: IssueTypeService,
     private router: Router) {
   }
 
   ngOnInit(): void {
     this.getIssuesList();
+    this.getIssueTypeList();
     console.log('Issues after init: ', this.issues);
   }
 
@@ -47,7 +51,21 @@ export class ListissuesComponent implements OnInit {
         complete: () => console.log('getIssuesList completed!')
       });
   }
-  // TODO move ot manageissuecomments
+
+  getIssueTypeList(): void {
+    // Subscribe to get list of all issues
+    this.issueTypes = [];
+    this.issueTypeService.loadAllIssueTypes()
+      .subscribe({
+        next: (result) => {
+          this.issueTypes = result;
+          console.log("IssueTypes loaded are ", this.issueTypes)
+        },
+        error: (error) => console.warn("Error", error),
+        complete: () => console.log('getIssueTypeList completed!')
+      });
+  }
+
   getIssueComments(issueId: string): void {
     // Subscribe to get list of comments for this issue
     this.issueComments = [];
@@ -65,6 +83,7 @@ export class ListissuesComponent implements OnInit {
   onSelect(myIssue: Issue): void {
     this.selectedIssue = myIssue;
     console.log('Issue selected : ', this.selectedIssue.description);
+    console.log('Issue description : ', this.issueTypeService.getIssueDescriptionFromTypeHref(this.issueTypes, this.selectedIssue.issueTypeHref));
     //show on the map
   }
 
@@ -77,6 +96,7 @@ export class ListissuesComponent implements OnInit {
     console.log('Issue Comments to edit : ', id);
     this.router.navigate(['/editissue', id, 'comments']);
   }
+
   addOneComment(id: string): void {
     // Subscribe to add a comment
     this.issueComment = new IssueComment;

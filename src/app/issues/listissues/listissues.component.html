@@ -1,13 +1,13 @@
 <div class="container-fluid my-container">
     <div class="row my-row">
         <!-- Main row -->
-        <div class="container-fluid col-2 my-container"
+        <div class="container-fluid col-4 my-container"
              col-4>
             <!-- Container for the Map-->
             <!-- <app-map>Map</app-map> -->
             <app-map [addNewMarkerAllowed]=addNewMarkerAllowed>">Map</app-map>
         </div>
-        <div class="container-fluid col-10 my-container">
+        <div class="container-fluid col-8 my-container">
             <h4 class="">Search</h4>
             <div class="form-group mb-4">
                 <input class="form-control"
@@ -15,110 +15,107 @@
                        [(ngModel)]="searchText"
                        placeholder="keyword">
             </div>
-            <table class="table table-hover table-bordered"
-                   *ngIf="(issues | filter: searchText).length > 0; else noResults">
-                <thead>
-                    <tr>
-                        <th scope="col">Actions</th>
-                        <th scope="col">Comments</th>
-                        <th scope="col">#</th>
-                        <!-- <th scope="col">AssignedHref</th> -->
-                        <th scope="col">CreatedAt</th>
-                        <!-- <th scope="col">CreatorHref</th> -->
-                        <th scope="col">Description</th>
-                        <!-- <th scope="col">Href</th> -->
-                        <th scope="col">Id</th>
-                        <th scope="col">ImageURL</th>
-                        <th scope="col">additionnalImageURLs</th>
-                        <!-- <th scope="col">IssuetypeHref</th> -->
-                        <th scope="col">Location</th>
-                        <!-- <th scope="col">State</th> -->
-                        <th scope="col">Tags</th>
-                        <!-- <th scope="col">UpdatedAt</th> -->
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let issue of issues | filter: searchText;; let index = index; "
-                        scope="row">
-                        <td>
-                            <button (click)="onEditIssue(issue.id)">Edit</button>
-                            <button (click)="addOneComment(issue.id)">Add comment</button>
-                        </td>
-                        <td>
-                            <button (click)="getIssueComments(issue.id)">Load Comments</button>
-                        </td>
-                        <td (click)="onSelect(issue)">{{index+1}}</td>
-                        <!-- <td (click)="onSelect(issue)">{{issue.assigneeHref}}</td> -->
-                        <td (click)="onSelect(issue)">{{issue.createdAt}}</td>
-                        <!-- <td (click)="onSelect(issue)">{{issue.creatorHref}}</td> -->
-                        <td (click)="onSelect(issue)">{{issue.description}}</td>
-                        <!-- <td (click)="onSelect(issue)">{{issue.href}}</td> -->
-                        <td (click)="onSelect(issue)">{{issue.id}}</td>
-                        <td (click)="onSelect(issue)">{{issue.imageUrl}}</td>
-                        <td (click)="onSelect(issue)">{{issue.additionalImageUrls}}</td>
-                        <!-- <td (click)="onSelect(issue)">{{issue.issueTypeHref}}</td> -->
-                        <td (click)="onSelect(issue)">{{issue.location.coordinates[0]}}
-                            {{issue.location.coordinates[1]}}</td>
-                        <!-- <td (click)="onSelect(issue)">{{issue.state}}</td> -->
-                        <td (click)="onSelect(issue)">{{issue.tags}}</td>
-                        <!-- <td (click)="onSelect(issue)">{{issue.updatedAt}}</td> -->
-                    </tr>
-                </tbody>
-            </table>
             <ng-template #noResults>
                 <p>No results found for "{{searchText}}".</p>
             </ng-template>
 
-
-            <div class="container-fluid col my-container">
-                <div class="card border-secondary mb-3 flex-row flex-wrap"
-                     *ngFor="let issue of issues | filter: searchText;; let index = index; "
+            <div class="row my-row">
+                <div class="col-lg-6"
+                     *ngFor="let issue of issues | filter: searchText;; let index = index;"
                      scope="row">
-                    <div class="card-header border-0">
-                        <img src="{{issue.imageUrl}}"
-                             alt=""
-                             width="100">
-                    </div>
-                    <div class="card-body row my-row">
-                        <div class="col">
-                            <p class="card-title">{{issue.description}}</p>
+                    <div class="card border-secondary mr-2 mb-3">
+                        <div class="card-header border-0">
+                            <img src="{{issue.imageUrl}}"
+                                 alt=""
+                                 width="100">
+                            <span class="badge badge-success float-right">
+                                <h4>{{issue.state}}</h4>
+                            </span>
+                            <span class="badge badge-secondary float-center">
+                                <h4>{{this.issueTypeService.getIssueDescriptionFromTypeHref(issueTypes, issue.issueTypeHref)}}
+                                </h4>
+                            </span>
                         </div>
-                        <hr>
-                        <div class="col"><button type="button"
-                                    class="btn btn-primary"
-                                    (click)="onEditComments(issue.id)">See comments
-                            </button>
-                        </div>
-                        <!-- <button type="button"
-                                class="btn btn-primary"
-                                (click)="isCollapsed = !isCollapsed"
-                                [attr.aria-expanded]="!isCollapsed"
-                                attr.aria-controls="collapseBasic{{index}}">Toggle collapse - {{index}}
-                        </button>
-                        <hr>
-                        <div attr.id="collapseBasic{{index}}"
-                             [collapse]="isCollapsed"
-                             [isAnimated]="true">
-                            <div class="well well-lg card card-block card-header">Some content</div>
-                        </div> -->
-
-                        <div class="card-footer">
-                            <button type="button"
-                                    class="btn btn-primary">{{issue.state}}
-                            </button>
-                            <br>
-                            <button type="button"
-                                    class="btn btn-primary"
-                                    (click)="onEditIssue(issue.id)">Edit</button>
+                        <div class="card-body">
+                            <p class="card-text">{{issue.description}}
+                            </p>
+                            <hr>
+                            <div class="float-left">
+                                <p>Tags:
+                                    <span *ngFor="let tag of issue.tags; let i = index;"
+                                          class="badge badge-warning ml-1 ">{{tag}}</span>
+                                </p>
+                            </div>
+                            <div class="float-right">
+                                <button type="button"
+                                        class="btn btn-primary mr-1"
+                                        (click)="onEditIssue(issue.id)">Edit</button>
+                                <button type="button"
+                                        class="btn btn-primary"
+                                        (click)="onEditComments(issue.id)">See comments
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <p></p>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
+
 <button (click)="getIssuesList()">Refresh listt</button>
+
+<div>
+    <table class="table table-hover table-bordered"
+           *ngIf="(issues | filter: searchText).length > 0; else noResults">
+        <thead>
+            <tr>
+                <th scope="col">Actions</th>
+                <th scope="col">Comments</th>
+                <th scope="col">#</th>
+                <!-- <th scope="col">AssignedHref</th> -->
+                <th scope="col">CreatedAt</th>
+                <!-- <th scope="col">CreatorHref</th> -->
+                <th scope="col">Description</th>
+                <!-- <th scope="col">Href</th> -->
+                <th scope="col">Id</th>
+                <th scope="col">ImageURL</th>
+                <th scope="col">additionnalImageURLs</th>
+                <!-- <th scope="col">IssuetypeHref</th> -->
+                <th scope="col">Location</th>
+                <!-- <th scope="col">State</th> -->
+                <th scope="col">Tags</th>
+                <!-- <th scope="col">UpdatedAt</th> -->
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let issue of issues | filter: searchText;; let index = index; "
+                scope="row">
+                <td>
+                    <button (click)="onEditIssue(issue.id)">Edit</button>
+                    <button (click)="onEditComments(issue.id)">Edit comments</button>
+                </td>
+                <td>
+                    <button (click)="getIssueComments(issue.id)">Load Comments</button>
+                </td>
+                <td (click)="onSelect(issue)">{{index+1}}</td>
+                <!-- <td (click)="onSelect(issue)">{{issue.assigneeHref}}</td> -->
+                <td (click)="onSelect(issue)">{{issue.createdAt}}</td>
+                <!-- <td (click)="onSelect(issue)">{{issue.creatorHref}}</td> -->
+                <td (click)="onSelect(issue)">{{issue.description}}</td>
+                <!-- <td (click)="onSelect(issue)">{{issue.href}}</td> -->
+                <td (click)="onSelect(issue)">{{issue.id}}</td>
+                <td (click)="onSelect(issue)">{{issue.imageUrl}}</td>
+                <td (click)="onSelect(issue)">{{issue.additionalImageUrls}}</td>
+                <!-- <td (click)="onSelect(issue)">{{issue.issueTypeHref}}</td> -->
+                <td (click)="onSelect(issue)">{{issue.location.coordinates[0]}}
+                    {{issue.location.coordinates[1]}}</td>
+                <!-- <td (click)="onSelect(issue)">{{issue.state}}</td> -->
+                <td (click)="onSelect(issue)">{{issue.tags}}</td>
+                <!-- <td (click)="onSelect(issue)">{{issue.updatedAt}}</td> -->
+            </tr>
+        </tbody>
+    </table>
+</div>

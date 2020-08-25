@@ -15,12 +15,22 @@ export class IssueTypeService {
   loadAllIssueTypes(): Observable<IssueType[]> {
     // Fixed error API_URL
     return this.http.get<IssueType[]>(`${environment.apiUrl}/issueTypes`);
-
   }
 
   loadOneIssueTypes(id: string): Observable<IssueType> {
     // Fixed error API_URL
     return this.http.get<IssueType>(`${environment.apiUrl}/issueTypes/${id}`)
+  }
 
+  // Search for href of select issuetype description
+  getIssueTypeHrefFromDescription(myIssuesTypes: IssueType[], searchDescription: string): string {
+    console.log('Description used : ', searchDescription);
+    return (myIssuesTypes.find(issueType => issueType.description === searchDescription)).href;
+  }
+
+  // Search for description of select issuetype href 
+  getIssueDescriptionFromTypeHref(myIssuesTypes: IssueType[], searchHref: string): string {
+    console.log('Description used : ', searchHref);
+    return (myIssuesTypes.find(issueType => issueType.href === searchHref)).description;
   }
 }
