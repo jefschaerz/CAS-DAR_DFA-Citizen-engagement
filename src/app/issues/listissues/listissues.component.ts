@@ -15,25 +15,29 @@ import { Router } from "@angular/router";
   styleUrls: ['./listissues.component.scss']
 })
 export class ListissuesComponent implements OnInit, AfterViewInit {
-  isCollapsed = false;
-  allIssues: Issue[];
+  allIssues: Issue[] = [];
   issueTypes: IssueType[];
-  displayedIssues: Issue[];
+  displayedIssues: Issue[] = [];
   selectedIssue: Issue;
   searchText: string = '';
-  searchState: string = 'new';
   addNewMarkerAllowed = false;
   issueComment: IssueComment;
   issueComments: IssueComment[];
   // To retreive list of States
   stateIDs = stateIDs;
   stateLabels = stateLabels;
-  selectedState = { href: 'new' };
+  selectedState = { href: 'all' };
   commentText: string;
   // For State handling : https://www.freakyjolly.com/how-to-get-multiple-checkbox-value-in-angular/#.X0T5lcgzZaQ
   selectedItemsList = [];
   checkedIDs = [];
   checkboxesDataList = [
+    {
+      id: '0',
+      href: 'all',
+      label: 'All',
+      isChecked: true
+    },
     {
       id: '1',
       href: 'new',
@@ -65,19 +69,19 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     public issueCommentService: IssueCommentService,
     public issueTypeService: IssueTypeService,
     private router: Router) {
+
+    console.log('*** End constructor: ', this.allIssues);
   }
 
   ngOnInit(): void {
-    this.selectedState.href = 'new';
-    this.displayedIssues = [];
     this.getIssuesList();
-    this.displayedIssues = this.allIssues;
     this.getIssueTypeList();
-    console.log('***End ngOnInit: ', this.allIssues);
+    console.log('*** End ngOnInit: ', this.allIssues);
   }
   ngAfterViewInit(): void {
-    this.applyFilterByText('new');
-    console.log('***End ngAfterViewInit: ', this.allIssues);
+    console.log('*** Start ngAfterViewInit: ', this.allIssues);
+    this.applyFilterByText(this.selectedState.href);
+    console.log('*** End ngAfterViewInit: ', this.allIssues);
   }
 
   changeSelection() {
@@ -114,7 +118,10 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
           console.log("Issues loaded in ISSUES are ", this.allIssues)
         },
         error: (error) => console.warn("Error", error),
-        complete: () => console.log('getIssuesList completed!')
+        complete: () => {
+          console.log('GetIssuesList completed!')
+          this.displayedIssues = this.allIssues;
+        }
       });
   }
 
@@ -191,7 +198,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
 
   applyFilterByText(valueToFilter) {
     console.log('Value to filter:', valueToFilter);
-    if (valueToFilter === '') {
+    if (valueToFilter === '' || valueToFilter === 'all') {
       this.displayedIssues = this.allIssues;
     }
     else {

@@ -1,34 +1,36 @@
 <div class="container-fluid my-container">
     <div class="row my-row">
         <!-- Main row -->
-        <div class="container-fluid col-4 my-container"
+        <div class="container-fluid col-lg-4 my-container"
              col-4>
             <!-- Container for the Map-->
-            <!-- <app-map>Map</app-map> -->
             <app-map [addNewMarkerAllowed]=addNewMarkerAllowed>">Map</app-map>
         </div>
-        <div class="container-fluid col-8 my-container">
-            <h4 class="">Search</h4>
-            <div class="form-group mb-4">
-                <input class="form-control"
-                       type="text"
-                       [(ngModel)]="searchText"
-                       placeholder="keyword">
-            </div>
-            <h4 class="">Filter by state</h4>
-
-            <div class="form-group mb-4">
-                <label class="mr-3"
-                       *ngFor="let state of checkboxesDataList; let i = index">
-                    <input id="state{{i}}"
-                           name="states"
-                           type="radio"
-                           [(value)]="state.href"
-                           [(ngModel)]="selectedState.href"
-                           (change)="applyFilterByText(selectedState.href)">
-                    {{state.label}}</label>
-                <!-- <div>Selected : {{selectedState.href}}</div> -->
-                <!-- <input class="
+        <div class="container-fluid col-lg-8 my-container">
+            <div class="row my-row mt-2">
+                <div class="col-lg-6">
+                    <h4 class="">Search</h4>
+                    <div class="form-group mb-4">
+                        <input class="form-control"
+                               type="text"
+                               [(ngModel)]="searchText"
+                               placeholder="keyword">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h4 class="">Filter by state</h4>
+                    <div class="form-group mb-4">
+                        <label class="mr-4"
+                               *ngFor="let state of checkboxesDataList; let i = index">
+                            <input id="state{{i}}"
+                                   name="states"
+                                   type="radio"
+                                   [(value)]="state.href"
+                                   [(ngModel)]="selectedState.href"
+                                   (change)="applyFilterByText(selectedState.href)">
+                            {{state.label}}</label>
+                        <!-- <div>Selected : {{selectedState.href}}</div> -->
+                        <!-- <input class="
                            form-control"
                        type="text"
                        [(ngModel)]="searchState"
@@ -37,36 +39,52 @@
                         class="btn btn-primary"
                         (click)="applyFilterByText(searchState)">Apply
                 </button> -->
-                <!-- <code>
+                        <!-- <code>
                     {{selectedItemsList | json}}
                 </code> -->
+                    </div>
+                </div>
             </div>
-
+            <p></p>
+            <hr>
+            <p *ngIf="(allIssues.length >0); else noResults"> All :
+                {{allIssues.length}} / Displayed : {{displayedIssues.length}}</p>
             <ng-template #noResults>
                 <p>No results found for "{{searchText}}".</p>
             </ng-template>
+            <!-- One Card -->
 
             <div class="row my-row">
                 <div class="col-lg-6"
                      *ngFor="let issue of displayedIssues | filter : searchText ; let index = index;"
                      scope="row">
-                    <div class="card border-secondary mr-2 mb-3">
-                        <div class="card-header border-0">
-                            <img src="{{issue.imageUrl}}"
-                                 alt=""
-                                 width="100">
-                            <span class="badge badge-success float-right">
-                                <h5>{{issue.state}}</h5>
-                            </span>
-                            <span class="badge badge-secondary float-right mr-2">
-                                <h5>{{this.issueTypeService.getIssueDescriptionFromTypeHref(issueTypes, issue.issueTypeHref)}}
-                                </h5>
-                            </span>
+                    <div class="card border-secondary mb-3">
+                        <!-- Card Header -->
+                        <div class="card-header border-1">
+                            <div class="row my-row">
+                                <div class="col my-col">
+                                    <span class="badge badge-pill badge-success float-right">{{issue.state}}
+                                    </span>
+                                    <span class="badge badge-secondary float-left mr-2">
+                                        {{this.issueTypeService.getIssueDescriptionFromTypeHref(issueTypes, issue.issueTypeHref)}}
+                                    </span>
+
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <p class="card-text">{{issue.description}}
-                            </p>
+                            <div class="row my-row card-text">
+                                <div class="col-3"><img src="{{issue.imageUrl}}"
+                                         alt=""
+                                         width="100">
+                                </div>
+                                <div class="col">
+                                    <h5>{{issue.description}}</h5>
+                                </div>
+
+                            </div>
                             <hr>
+
                             <div class="float-left">
                                 <p>Tags:
                                     <span *ngFor="let tag of issue.tags; let i = index;"
