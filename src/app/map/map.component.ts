@@ -15,14 +15,13 @@ import { environment } from "src/environments/environment";
 })
 export class MapComponent implements OnInit {
   @Input() addNewMarkerOnMapAllowed: boolean;
-  // Array for issues to display (search or filter)
 
   map: Map;
   mapPoint: MapCoordinates;
   mapMarkers: Marker[];
   mapOptions: MapOptions;
   lastLayer: any;
-  // Array for ALL issues defined
+  // Array for ALL issues to display std
   stdMarkers: Issue[];
   newMarker: Marker;
   newMarkerPosition: number[];
@@ -46,13 +45,18 @@ export class MapComponent implements OnInit {
       this.newMarkerPosition = (position)
     });
 
+    console.log('** End of ngONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
+  }
+
+  ngAfterViewInit() {
     // Subscribe to update marker to display
+    // Not in ngOnInit --> generate a ExpressionChangedAfterItHasBeenCheckedError ! 
     this.markersList.currentStdMarkers.subscribe(marker => {
       this.stdMarkers = marker;
       this.refreshMarkers(this.map, this.stdMarkers);
-      console.log('New markers list', this.stdMarkers)
+      console.log('markers ', marker);
     });
-    console.log('** End of ngONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
+    console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
   }
 
   onMarkedDragEnd(event: DragEvent) {
@@ -73,19 +77,16 @@ export class MapComponent implements OnInit {
   };
 
   refreshMarkers(map: L.Map, selectedIssueList: Issue[]) {
-    console.log('Number of Issues in refreshMarkers:', selectedIssueList.length);
-    // Clear current markers
     this.mapMarkers = [];
     for (var i = 0; i < selectedIssueList.length; i++) {
       this.mapMarkers.push(this.addNewMarkerFromIssue(selectedIssueList[i], map));
     }
-    console.log('Number of Markers:', this.mapMarkers);
+    console.log('Number of Markers to display:', this.mapMarkers);
   }
 
   addNewMarkerFromIssue(oneIssue: Issue, map: L.Map): L.Marker {
     //console.log('Issue received :', oneIssue.location.coordinates, '-', oneIssue.description);
     let oneMarker = marker(<L.LatLngExpression>(oneIssue.location.coordinates), { icon: defaultIcon }).bindTooltip(oneIssue.description);
-    //console.log('Add marker to the map..');
     oneMarker.addTo(map);
     return oneMarker;
   }
@@ -125,7 +126,9 @@ export class MapComponent implements OnInit {
   private createNewMarker() {
     this.clearMap();
     const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
-    this.newMarker = marker([coordinates.lat, coordinates.lng], { icon: greenIcon, draggable: false }).bindTooltip("New").addTo(this.map);
+    this.newMarker = marker([coordinates.lat, coordinates.lng], { icon: greenIcon, draggable: false }).addTo(this.map);
+    this.newMarker.bindTooltip("New issue");
+    this.newMarker.addEventListener('click')
     // Not working Drag
     // this.newMarker.on('dragend', function (event) {
     //   var marker = event.target;
@@ -163,6 +166,7 @@ export class MapComponent implements OnInit {
   }
 
   private clearMap() {
+    // Remove layer with markers
     if (this.map.hasLayer(this.newMarker)) this.map.removeLayer(this.newMarker);
   }
 }

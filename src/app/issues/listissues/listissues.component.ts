@@ -81,8 +81,8 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     console.log('*** End ngOnInit - ListissuesCompo ', this.allIssues);
   }
   ngAfterViewInit(): void {
-    console.log('*** Start ngAfterViewInit: ', this.allIssues);
-    console.log('*** End ngAfterViewInit - ListissuesCompo ', this.allIssues);
+    // console.log('*** Start ngAfterViewInit: ', this.allIssues);
+    //console.log('*** End ngAfterViewInit - ListissuesCompo ', this.allIssues);
   }
 
   // Update newMarker List in shared service for other components
@@ -120,7 +120,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
       .subscribe({
         next: (result) => {
           this.allIssues = result;
-          console.log("Issues loaded in ISSUES are ", this.allIssues)
+          //console.log("Issues loaded in ISSUES are ", this.allIssues)
         },
         error: (error) => console.warn("Error", error),
         complete: () => {
@@ -211,7 +211,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     else {
       this.displayedIssues = this.allIssues.filter((oneIssue) => oneIssue.state.includes(valueToFilter))
     }
-    console.log('@ Issue to display (filtered) :', valueToFilter, this.displayedIssues)
+    console.log('@applyFilterbytext (filtered) :', valueToFilter)
     // Update info in Marekerlist service
     this.refreshMarkersList(this.displayedIssues);
   }

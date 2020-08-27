@@ -53,8 +53,7 @@ export class ManageissueComponent implements OnInit {
     this.geolocation
       .getCurrentPosition()
       .then((position) => {
-        console.log('User located!', position);
-        // Set selected location point wiht current user location
+        //console.log('User located!', position);
         this.selectedLocationLat = position.coords.latitude;
         this.selectedLocationLong = position.coords.longitude;
       })
@@ -71,13 +70,12 @@ export class ManageissueComponent implements OnInit {
     // Load defaut values  
     this.loadNewIssueDefaultValues();
 
-    // Subscribe to new Marker Position
+    // // Subscribe to new Marker Position
     this.markerPosition.currentPosition.subscribe(position => {
       this.newMarkerPosition = (position)
       console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
       this.issue.location.coordinates[0] = position[0];
       this.issue.location.coordinates[1] = position[1];
-      //console.log('Change in selectedLocationLat : ', this.selectedLocationLat);
     });
 
     // Check if Add or Edit Issue operation (based on the current route)
