@@ -10,6 +10,7 @@ import { AlertService } from '../../alerts/alerts.service';
 import { environment } from "../../../environments/environment";
 import { GeolocationService } from '../../shared/services/geolocation.service';
 import { MarkerPositionService } from '../../shared/services/markerposition.service';
+//import { MarkersListService } from '../../shared/services/markerslist.service';
 import * as _ from 'lodash';
 @Component({
   selector: 'app-manageissue',
@@ -27,9 +28,9 @@ export class ManageissueComponent implements OnInit {
   issueTypes: IssueType[];
   issueError: boolean;
   selectedIssueTypeDescription: string;
-  // Renan coordinates
-  currentLocationLat: number = 47.125058;
-  currentLocationLong: number = 6.932254;
+  // Default City center location
+  selectedLocationLat: number = environment.defaultCityCenterPointLat;
+  selectedLocationLong: number = environment.defaultCityCenterPointLng;
   newMarkerPosition: number[];
   isNewIssue: boolean;
   // Indicate if component used to create new issue or to modifiy current issue
@@ -41,6 +42,7 @@ export class ManageissueComponent implements OnInit {
     private alertService: AlertService,
     private geolocation: GeolocationService,
     private markerPosition: MarkerPositionService,
+    //private markersList: MarkersListService,
     private route: ActivatedRoute) {
 
     // Defined to retrieve id in route patch for edit issue purpose
@@ -52,9 +54,9 @@ export class ManageissueComponent implements OnInit {
       .getCurrentPosition()
       .then((position) => {
         console.log('User located!', position);
-        // Set current location point
-        this.currentLocationLat = position.coords.latitude;
-        this.currentLocationLong = position.coords.longitude;
+        // Set selected location point wiht current user location
+        this.selectedLocationLat = position.coords.latitude;
+        this.selectedLocationLong = position.coords.longitude;
       })
       .catch((error) => {
         console.warn('Failed to locate user because', error);
@@ -69,13 +71,13 @@ export class ManageissueComponent implements OnInit {
     // Load defaut values  
     this.loadNewIssueDefaultValues();
 
-    // Subrscibe to new Marker Position
+    // Subscribe to new Marker Position
     this.markerPosition.currentPosition.subscribe(position => {
       this.newMarkerPosition = (position)
       console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
       this.issue.location.coordinates[0] = position[0];
       this.issue.location.coordinates[1] = position[1];
-      console.log('cChange in CurrentlocationLat : ', this.currentLocationLat);
+      //console.log('Change in selectedLocationLat : ', this.selectedLocationLat);
     });
 
     // Check if Add or Edit Issue operation (based on the current route)
@@ -88,11 +90,6 @@ export class ManageissueComponent implements OnInit {
       this.isNewIssue = false;
       this.loadIssueToEditValues();
     }
-
-    // if (!this.isNewIssue) {
-    //   // Load information of the issue to edit
-    //   this.loadIssueToEditValues();
-    // }
   }
 
   // For a new issue
@@ -144,11 +141,7 @@ export class ManageissueComponent implements OnInit {
     // this.selectedIssueTypeDescription = value;
     console.log("The selected value is : " + value);
   }
-  // Search for href of select issuetype
-  getIssueTypeHrefFromDescription(searchDescription: string): string {
-    console.log('Description used : ', searchDescription);
-    return (this.issueTypes.find(issueType => issueType.description === searchDescription)).href;
-  }
+
 
   getTypesOfIssue() {
     // Ask service for the list of current type of issues defined

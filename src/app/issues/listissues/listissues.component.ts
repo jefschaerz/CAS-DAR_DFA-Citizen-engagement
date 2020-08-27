@@ -8,6 +8,7 @@ import { IssueType } from "src/app/models/issue-type";
 import { IssueComment } from 'src/app/models/issue-comment';
 import { filter, map } from 'rxjs/operators';
 import { Router } from "@angular/router";
+import { MarkersListService } from 'src/app/shared/services/markerslist.service';
 
 @Component({
   selector: 'app-listissues',
@@ -68,6 +69,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     public alertService: AlertService,
     public issueCommentService: IssueCommentService,
     public issueTypeService: IssueTypeService,
+    private markersList: MarkersListService,
     private router: Router) {
 
     console.log('*** End constructor: ', this.allIssues);
@@ -76,12 +78,16 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getIssuesList();
     this.getIssueTypeList();
-    console.log('*** End ngOnInit: ', this.allIssues);
+    console.log('*** End ngOnInit - ListissuesCompo ', this.allIssues);
   }
   ngAfterViewInit(): void {
     console.log('*** Start ngAfterViewInit: ', this.allIssues);
-    this.applyFilterByText(this.selectedState.href);
-    console.log('*** End ngAfterViewInit: ', this.allIssues);
+    console.log('*** End ngAfterViewInit - ListissuesCompo ', this.allIssues);
+  }
+
+  // Update newMarker List in shared service for other components
+  refreshMarkersList(NewMarkersList) {
+    this.markersList.changeStdMarkersList(NewMarkersList);
   }
 
   changeSelection() {
@@ -90,7 +96,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   }
 
   changeItemsSelection(value) {
-
     console.log('Selected radio :', value);
   }
 
@@ -121,6 +126,8 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
         complete: () => {
           console.log('GetIssuesList completed!')
           this.displayedIssues = this.allIssues;
+          // Apply filter only after loading completed
+          this.applyFilterByText(this.selectedState.href);
         }
       });
   }
@@ -197,13 +204,15 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   }
 
   applyFilterByText(valueToFilter) {
-    console.log('Value to filter:', valueToFilter);
+    // console.log('Value to filter:', valueToFilter);
     if (valueToFilter === '' || valueToFilter === 'all') {
       this.displayedIssues = this.allIssues;
     }
     else {
       this.displayedIssues = this.allIssues.filter((oneIssue) => oneIssue.state.includes(valueToFilter))
     }
-    console.log('Issue to display (filtered) :', valueToFilter, this.displayedIssues)
+    console.log('@ Issue to display (filtered) :', valueToFilter, this.displayedIssues)
+    // Update info in Marekerlist service
+    this.refreshMarkersList(this.displayedIssues);
   }
 }

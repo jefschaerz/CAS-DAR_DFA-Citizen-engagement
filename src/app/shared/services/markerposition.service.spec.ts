@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { MarkerPositionService } from './markerposition.service';
 
 describe('MarkerPositionService', () => {

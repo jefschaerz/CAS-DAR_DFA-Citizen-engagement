@@ -6,5 +6,6 @@
           [leafletLayers]="mapMarkers"
           (leafletMapReady)="initializeMap($event)"
           (leafletClick)="onMapClick($event)">
+          [leafletFitBounds]="mapFitToBounds"
      </div>
 </div>

@@ -4,17 +4,18 @@ import { latLng, MapOptions, marker, Marker, Map, tileLayer, LeafletMouseEvent }
 import { IssueService } from '../api/services/issue.service';
 import { Issue } from 'src/app/models/issue';
 import { MarkerPositionService } from 'src/app/shared/services/markerposition.service';
+import { MarkersListService } from 'src/app/shared/services/markerslist.service';
 import { registerEscClick } from 'ngx-bootstrap/utils';
 import { MapCoordinates } from 'src/app/models/map-coordinates.model';
-
+import { environment } from "src/environments/environment";
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-  @Input() addNewMarkerAllowed: boolean;
-  @Input() issuesToDisplay: Issue[];
+  @Input() addNewMarkerOnMapAllowed: boolean;
+  // Array for issues to display (search or filter)
 
   map: Map;
   mapPoint: MapCoordinates;
@@ -22,18 +23,17 @@ export class MapComponent implements OnInit {
   mapOptions: MapOptions;
   lastLayer: any;
   // Array for ALL issues defined
-  issuesList: Issue[];
-  // Array for issues to display (search or filter)
-  issuesListtoDipsplay: Issue[];
+  stdMarkers: Issue[];
   newMarker: Marker;
   newMarkerPosition: number[];
 
   constructor(
     private issueService: IssueService,
-    private markerPosition: MarkerPositionService) {
-    this.issuesList = [];
+    private markerPosition: MarkerPositionService,
+    private markersList: MarkersListService) {
+    this.stdMarkers = [];
     this.mapMarkers = [];
-    this.addNewMarkerAllowed = false;
+    this.addNewMarkerOnMapAllowed = false;
     console.log('End of MapComponent constructor....');
   }
 
@@ -41,11 +41,18 @@ export class MapComponent implements OnInit {
     this.initializeDefaultMapPoint();
     this.initializeMapOptions();
 
-    // Update marker position on change
+    // Subscribe to update marker position on click
     this.markerPosition.currentPosition.subscribe(position => {
       this.newMarkerPosition = (position)
     });
-    console.log('** ngONInit : AddNewMarkerAllowed : ', this.addNewMarkerAllowed);
+
+    // Subscribe to update marker to display
+    this.markersList.currentStdMarkers.subscribe(marker => {
+      this.stdMarkers = marker;
+      this.refreshMarkers(this.map, this.stdMarkers);
+      console.log('New markers list', this.stdMarkers)
+    });
+    console.log('** End of ngONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
   }
 
   onMarkedDragEnd(event: DragEvent) {
@@ -56,29 +63,14 @@ export class MapComponent implements OnInit {
     // Called automatically when map is ready 
     console.log('------ initalizeMap called ------');
     this.map = map;
-    this.getListOfAllIssues();
-    this.refreshMarkers(this.map, this.issuesList);
+    //this.getListOfAllIssues();
+    this.refreshMarkers(this.map, this.stdMarkers);
     // If necessary... (not possible with leaftlMoveEnd in html)
     // this.map.on('moveend', () => {
     //   const center = this.map.getCenter();
     //   console.log(`Map moved to ${center.lng}, ${center.lat}`);
     // });
   };
-
-  getListOfAllIssues() {
-    // Subscribe to get list of all issues
-    this.issueService.loadAllIssues().subscribe({
-      next: (result) => {
-        this.issuesList = result;
-        console.log("Issues loaded : ", this.issuesList);
-      },
-      error: (error) => console.warn("Error during issues loading", error),
-      complete: () => {
-        //console.log('Number or Issues in completed:', this.issuesList.length)
-        this.refreshMarkers(this.map, this.issuesList);
-      }
-    });
-  }
 
   refreshMarkers(map: L.Map, selectedIssueList: Issue[]) {
     console.log('Number of Issues in refreshMarkers:', selectedIssueList.length);
@@ -98,16 +90,18 @@ export class MapComponent implements OnInit {
     return oneMarker;
   }
 
-  // Updte newMarker position in sahred service for other components
+  // Update newMarker position in shared service for other components
   refreshNewMarkerPosition(NewLat: number, NewLong: number) {
     this.markerPosition.changeValues([NewLat, NewLong]);
   }
 
   onMapClick(e: LeafletMouseEvent) {
     console.log('OnMapClick...')
+    console.log('List of issues to display', this.stdMarkers);
+    this.refreshMarkers(this.map, this.stdMarkers);
     // Click allowed on ly in Add Issue mode
-    if (this.addNewMarkerAllowed) {
-      console.log('Add mode because addnNewMarkedAllowed: ', this.addNewMarkerAllowed);
+    if (this.addNewMarkerOnMapAllowed) {
+      console.log('Add mode because addnNewMarkedAllowed: ', this.addNewMarkerOnMapAllowed);
       this.clearMap();
       this.updateMapPoint(e.latlng.lat, e.latlng.lng);
       this.createNewMarker();
@@ -149,9 +143,8 @@ export class MapComponent implements OnInit {
   private initializeDefaultMapPoint() {
     this.mapPoint = {
       name: 'Default',
-      latitude: 47.126058,
-      longitude: 6.942254
-      // Renan BE
+      latitude: environment.defaultCityCenterPointLat,
+      longitude: environment.defaultCityCenterPointLng
     };
   }
   private initializeMapOptions() {
@@ -163,8 +156,9 @@ export class MapComponent implements OnInit {
         )
       ],
       zoom: 13,
-      // Renan BE
-      center: latLng(47.126058, 6.942254)
+      // City defined in enviromment
+      center: latLng(environment.defaultCityCenterPointLat, environment.defaultCityCenterPointLng),
+
     };
   }
 

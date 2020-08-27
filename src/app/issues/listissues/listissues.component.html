@@ -4,7 +4,7 @@
         <div class="container-fluid col-lg-4 my-container"
              col-4>
             <!-- Container for the Map-->
-            <app-map [addNewMarkerAllowed]=addNewMarkerAllowed>">Map</app-map>
+            <app-map [addNewMarkerOnMapAllowed]=addNewMarkerAllowed>Map</app-map>
         </div>
         <div class="container-fluid col-lg-8 my-container">
             <div class="row my-row mt-2">
@@ -73,18 +73,23 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row my-row card-text">
-                                <div class="col-3"><img src="{{issue.imageUrl}}"
-                                         alt=""
-                                         width="100">
+
+                            <div class="card-text">
+                                <div class="container-fuid">
+                                    <div class="row my-row">
+                                        <div class="col-3"><img src="{{issue.imageUrl}}"
+                                                 alt=""
+                                                 width="70">
+                                        </div>
+                                        <div class="col">
+                                            <h5>{{issue.description}}</h5>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <h5>{{issue.description}}</h5>
-                                </div>
+
 
                             </div>
                             <hr>
-
                             <div class="float-left">
                                 <p>Tags:
                                     <span *ngFor="let tag of issue.tags; let i = index;"

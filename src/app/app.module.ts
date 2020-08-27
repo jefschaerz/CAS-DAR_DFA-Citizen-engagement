@@ -24,6 +24,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { FilterissuesComponent } from './issues/filterissues/filterissues.component';
 import { FilterPipe } from './shared/tools/filter.pipe';
+// import { environment } from "../environments/environment";
 
 // Import dans notre module
 @NgModule({
