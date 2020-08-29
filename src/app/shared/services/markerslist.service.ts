@@ -17,6 +17,6 @@ export class MarkersListService {
 
   changeStdMarkersList(newStdMarkersList) {
     this.markersListSource.next(newStdMarkersList)
-    //console.log('List of Markers updated in service', newStdMarkersList);
+    console.log('List of Markers updated in service', newStdMarkersList);
   }
 }

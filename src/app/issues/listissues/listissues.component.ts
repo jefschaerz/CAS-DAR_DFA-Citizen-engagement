@@ -17,8 +17,10 @@ import { MarkersListService } from 'src/app/shared/services/markerslist.service'
 })
 export class ListissuesComponent implements OnInit, AfterViewInit {
   allIssues: Issue[] = [];
-  issueTypes: IssueType[];
+  filteredIssues: Issue[] = [];
+  searchedIssues: Issue[] = [];
   displayedIssues: Issue[] = [];
+  issueTypes: IssueType[];
   selectedIssue: Issue;
   searchText: string = '';
   addNewMarkerAllowed = false;
@@ -127,7 +129,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
           console.log('GetIssuesList completed!')
           this.displayedIssues = this.allIssues;
           // Apply filter only after loading completed
-          this.applyFilterByText(this.selectedState.href);
+          this.applyFilterByState(this.selectedState.href);
         }
       });
   }
@@ -199,20 +201,36 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
       });
   }
 
-  updateFilter() {
-
+  refreshFilterAndSearch() {
+    this.applyFilterByState(this.selectedState.href);
+    this.applySearchByDescription(this.searchText);
+    console.log('Issue to display : OK', this.displayedIssues);
   }
 
-  applyFilterByText(valueToFilter) {
-    // console.log('Value to filter:', valueToFilter);
-    if (valueToFilter === '' || valueToFilter === 'all') {
-      this.displayedIssues = this.allIssues;
+  applyFilterByState(stateToFilter) {
+    if (stateToFilter === '' || stateToFilter === 'all') {
+      this.filteredIssues = this.allIssues;
     }
     else {
-      this.displayedIssues = this.allIssues.filter((oneIssue) => oneIssue.state.includes(valueToFilter))
+      this.filteredIssues = this.allIssues.filter((oneIssue) => oneIssue.state.includes(stateToFilter))
     }
-    console.log('@applyFilterbytext (filtered) :', valueToFilter)
+    //console.log('@applyFilterByText (filtered) :', stateToFilter)
+    // Update info in Markerlist service
+    this.displayedIssues = this.filteredIssues;
+    this.refreshMarkersList(this.displayedIssues);
+  }
+
+  applySearchByDescription(valueToSearch) {
+    console.log('Value to search:', valueToSearch);
+    if (valueToSearch === '') {
+      this.searchedIssues = this.displayedIssues;
+    }
+    else {
+      this.searchedIssues = this.displayedIssues.filter((oneIssue) => oneIssue.description.includes(valueToSearch))
+    }
+    console.log('@applySearchByDescription (filtered) :', valueToSearch)
     // Update info in Marekerlist service
+    this.displayedIssues = this.searchedIssues;
     this.refreshMarkersList(this.displayedIssues);
   }
 }

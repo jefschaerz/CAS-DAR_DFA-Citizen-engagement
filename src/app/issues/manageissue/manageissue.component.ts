@@ -12,6 +12,7 @@ import { GeolocationService } from '../../shared/services/geolocation.service';
 import { MarkerPositionService } from '../../shared/services/markerposition.service';
 //import { MarkersListService } from '../../shared/services/markerslist.service';
 import * as _ from 'lodash';
+import { stringify } from 'querystring';
 @Component({
   selector: 'app-manageissue',
   templateUrl: './manageissue.component.html',
@@ -193,15 +194,19 @@ export class ManageissueComponent implements OnInit {
   }
 
   addFakeImageURL() {
-    //Debug
-    this.issue.imageUrl = 'https://picsum.photos/id/1/200/300.jpg';
+    this.issue.imageUrl = this.getRandomPictureURL();
   }
 
-  addFakeaAdditionalImageURL() {
+  getRandomPictureURL(): string {
     // Debug to add fake image
     let randomNb: number;
     randomNb = Math.floor((Math.random() * 100) + 1);
-    this.newAdditionalPictureURL = 'https://picsum.photos/id/' + randomNb + '/200.jpg';
+    return 'https://picsum.photos/id/' + randomNb + '/200.jpg';
+
+  }
+
+  addFakeaAdditionalImageURL() {
+    this.newAdditionalPictureURL = this.getRandomPictureURL();
   }
 
   removeTag(i: number) {

@@ -1,24 +1,29 @@
 <div class="container-fluid my-container">
     <div class="row my-row">
         <!-- Main row -->
-        <div class="container-fluid col-lg-4 my-container"
+        <div class="container-fluid col-lg-4 mb-4 my-container"
              col-4>
             <!-- Container for the Map-->
             <app-map [addNewMarkerOnMapAllowed]=addNewMarkerAllowed>Map</app-map>
         </div>
         <div class="container-fluid col-lg-8 my-container">
+            <div>
+                <h4>See issues</h4>
+            </div>
+            <hr>
             <div class="row my-row mt-2">
                 <div class="col-lg-6">
-                    <h4 class="">Search</h4>
+                    <h5 class="">Search</h5>
                     <div class="form-group mb-4">
                         <input class="form-control"
                                type="text"
                                [(ngModel)]="searchText"
+                               (ngModelChange)="refreshFilterAndSearch()"
                                placeholder="keyword">
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <h4 class="">Filter by state</h4>
+                    <h5 class="">Filter by state</h5>
                     <div class="form-group mb-4">
                         <label class="mr-4"
                                *ngFor="let state of checkboxesDataList; let i = index">
@@ -27,7 +32,7 @@
                                    type="radio"
                                    [(value)]="state.href"
                                    [(ngModel)]="selectedState.href"
-                                   (change)="applyFilterByText(selectedState.href)">
+                                   (ngModelChange)="refreshFilterAndSearch()">
                             {{state.label}}</label>
                         <!-- <div>Selected : {{selectedState.href}}</div> -->
                         <!-- <input class="
@@ -56,7 +61,7 @@
 
             <div class="row my-row">
                 <div class="col-lg-6"
-                     *ngFor="let issue of displayedIssues | filter : searchText ; let index = index;"
+                     *ngFor="let issue of displayedIssues ; let index = index;"
                      scope="row">
                     <div class="card border-secondary mb-3">
                         <!-- Card Header -->
@@ -86,8 +91,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                             <hr>
                             <div class="float-left">
