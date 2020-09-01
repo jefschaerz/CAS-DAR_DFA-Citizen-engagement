@@ -33,7 +33,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   stateIDs = stateIDs;
   stateLabels = stateLabels;
   selectedState = { href: 'all' };
-  selectOnlyOwnIssue: string = "Yes";
+  selectOnlyOwnIssue: string;;
   commentText: string;
   // For State handling : https://www.freakyjolly.com/how-to-get-multiple-checkbox-value-in-angular/#.X0T5lcgzZaQ
   selectedItemsList = [];
@@ -85,6 +85,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getIssuesList();
     this.getIssueTypeList();
+    this.selectOnlyOwnIssue = "No";
 
     console.log('*** End ngOnInit - ListissuesCompo ', this.allIssues);
 
@@ -222,6 +223,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.applySearchByDescription(this.searchText);
     this.applySearchByAuthorHref(this.selectOnlyOwnIssue);
     console.log('Issue to display : OK', this.displayedIssues);
+    this.refreshMarkersList(this.displayedIssues);
   }
 
   applyFilterByState(stateToFilter) {
@@ -234,7 +236,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     //console.log('@applyFilterByText (filtered) :', stateToFilter)
     // Update info in Markerlist service
     this.displayedIssues = this.filteredIssues;
-    this.refreshMarkersList(this.displayedIssues);
+
   }
 
   applySearchByDescription(valueToSearch) {
@@ -248,7 +250,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     console.log('@applySearchByDescription (filtered) :', valueToSearch)
     // Update info in Marekerlist service
     this.displayedIssues = this.searchedIssues;
-    this.refreshMarkersList(this.displayedIssues);
+
   }
 
   applySearchByAuthorHref(FilterOwnIssue) {
@@ -264,6 +266,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     console.log('@applySearchByAuthorHref (filtered) :', FilterOwnIssue)
     // Update info in Marekerlist service
     this.displayedIssues = this.searchedIssues;
-    this.refreshMarkersList(this.displayedIssues);
+
   }
 }
