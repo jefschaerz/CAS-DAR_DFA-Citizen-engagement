@@ -24,6 +24,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { FilterissuesComponent } from './issues/filterissues/filterissues.component';
 import { FilterPipe } from './shared/tools/filter.pipe';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
 // import { environment } from "../environments/environment";
 
 // Import dans notre module
@@ -38,7 +40,7 @@ import { FilterPipe } from './shared/tools/filter.pipe';
     ManageissueComponent,
     ManageissuecommentsComponent,
     FilterPipe,
-    ListissuesComponent, MapComponent, FilterissuesComponent
+    ListissuesComponent, MapComponent, FilterissuesComponent, FooterComponent, HeaderComponent
   ],
   // Import other Angular MODULES
   imports: [
