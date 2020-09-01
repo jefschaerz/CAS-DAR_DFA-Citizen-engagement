@@ -4,7 +4,7 @@ import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { AlertService } from '../../alerts/alerts.service';
-
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-login-page",
@@ -23,6 +23,7 @@ export class LoginPageComponent {
    * (probably because the name or password is incorrect).
    */
   loginError: boolean;
+  REGEXP_AlphaNumeric = environment.alphaNumericPattern;
 
   constructor(private auth: AuthService,
     private router: Router,
@@ -54,7 +55,7 @@ export class LoginPageComponent {
         error: (err) => {
           this.loginError = true;
           console.warn(`Authentication failed: ${err.message}`);
-          this.alertService.error('An error occurs during the login. Try again',);
+          this.alertService.error('An error occurs during the login. Try again', [true, false]);
         },
       });
     }

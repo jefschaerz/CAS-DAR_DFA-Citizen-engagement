@@ -1,129 +1,167 @@
-<h2>New user registration</h2>
-<!-- Template-driven method-->
-<form #newRegForm="ngForm"
-      (submit)="onSubmit(newRegForm)">
-  <div class="container col-12">
-    <div class="form-group col-4">
-      <!-- DONE : Limit size and char allowed in API-->
-      <label for="username">Username</label>
-      <input class="form-control"
-             type="text"
-             name="username"
-             id="username"
-             #usernameField="ngModel"
-             required
-             [(ngModel)]="newUser.name"
-             maxlength="25"
-             pattern=`${environment.alphaNumericPattern}`
-             ng-pattern />
-      <p *ngIf="usernameField.hasError('required') && usernameField.touched">
-        Username is required
-      </p>
-      <p *ngIf="usernameField.hasError('pattern') && usernameField.touched">
-        Username must be in [a-zA-Z0-9]
-      </p>
-    </div>
-    <div class="form-group col-4">
-      <label for="password">Password</label>
-      <!-- TODO Define pattern -->
-      <input class="form-control"
-             type="password"
-             name="password"
-             id="password"
-             #passwordField="ngModel"
-             required
-             [(ngModel)]="newUser.password"
-             maxlength="25"
-             minlength="4" />
-      <p *ngIf="passwordField.hasError('required') && passwordField.touched">
-        Password is required
-      </p>
-      <p *ngIf="passwordField.hasError('minlength') || passwordField.hasError('maxlength') && passwordField.touched">
-        PAssword must be at least 4 characters and max 25 characters long.
-      </p>
-    </div>
-    <!-- Add confirmation password -->
-    <div class="form-group col-4">
-      <label for="firstname">First name</label>
-      <input class="form-control"
-             type="text"
-             name="firstname"
-             id="firstname"
-             #firstnameField="ngModel"
-             required
-             [(ngModel)]="newUser.firstname"
-             minlength="2"
-             maxlength="25" />
-      <p *ngIf="firstnameField.hasError('required') && firstnameField.touched">
-        Firstname is required
-      </p>
-      <p *ngIf="firstnameField.hasError('minlength') || firstnameField.hasError('maxlength') && firstnameField.touched">
-        Firstname must be at least 2 characters and max 25 characters long.
-      </p>
-    </div>
-    <div class="form-group col-4">
-      <label for="lastname">Last name</label>
-      <input class="form-control"
-             type="text"
-             name="lastname"
-             id="lastname"
-             #lastnameField="ngModel"
-             required
-             [(ngModel)]="newUser.lastname"
-             minlength="2"
-             maxlength="25" />
-      <p *ngIf="lastnameField.hasError('required') && lastnameField.touched">
-        Lastname is required
-      </p>
-      <p *ngIf="lastnameField.hasError('minlength') || lastnameField.hasError('maxlength') && lastnameField.touched">
-        Lastname must be at least 4 characters and max 25 characters long.
-      </p>
-
-    </div>
-    <div class="form-group col-4">
-      <label for="phone">Phone</label>
-      <!-- TODO : Define better pattern for phone -->
-      <input class="form-control"
-             type="text"
-             name="phone"
-             id="phone"
-             #phoneField="ngModel"
-             [(ngModel)]="newUser.phone"
-             maxlength="20"
-             pattern="^[0-9]+$"
-             ng-pattern />
-      <p *ngIf="phoneField.hasError('pattern') && phoneField.touched">
-        Phone must be in [-\s\./0-9]*$]
-      </p>
-    </div>
-    <!-- TODO provide choice and hide if not staff user -->
-    <div class="form-group col-8">
-      <label for="roles">Roles</label>
-      <div class="row">
-        <label for="Citizen">Citizen</label>
-        <input class="form-control col-4"
-               type="checkbox"
-               name="Citizen"
-               [(ngModel)]="newUserIsCitizen">
-        <label for="Staff">Staff</label>
-        <input class="form-control col-4"
-               type="checkbox"
-               name="Staff"
-               [(ngModel)]="newUserIsStaff">
+<div class="container-fluid my-container">
+  <div class="row">
+    <div class="col-lg-4">
+      <div>
+        <h4>New user registration</h4>
       </div>
     </div>
-    <div class="form-group col-4">
-      <div class="row">
-        <button class="form-control btn btn-success col-4"
-                type="submit"
-                [disabled]="newRegForm.invalid">Create</button>
-        <p *ngIf="newRegError">
-          Unable to create the new user. See the log for more information.
-        </p>
-        <button class="form-control btn btn-warning col-4 offset-4"
-                type="button"
-                (click)="goToLogin()">Cancel</button>
-      </div>
+    <div class="col-lg-8">
+      <app-alert></app-alert>
     </div>
   </div>
-</form>
+  <hr>
+  <div class="row my-row">
+    <!-- Main row -->
+    <div class="col-sm-8 col-lg-4">
+      <!-- Template-driven method-->
+      <form #newRegForm="ngForm"
+            (submit)="onSubmit(newRegForm)">
+        <div class="form-group ">
+          <!-- DONE : Limit size and char allowed in API-->
+          <label for="username">Username</label>
+          <input class="form-control"
+                 type="text"
+                 name="username"
+                 id="username"
+                 #usernameField="ngModel"
+                 required
+                 [(ngModel)]="newUser.name"
+                 maxlength="25"
+                 pattern={{REGEXP_AlphaNumeric}}
+                 ng-pattern />
+          <p *ngIf="usernameField.hasError('required') && usernameField.touched">
+            Username is required
+          </p>
+          <p *ngIf="usernameField.hasError('pattern') && usernameField.touched">
+            Username must be in [a-zA-Z0-9]
+          </p>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <!-- TODO Define pattern -->
+          <input class="form-control"
+                 type="password"
+                 name="password"
+                 id="password"
+                 #passwordField="ngModel"
+                 required
+                 [(ngModel)]="newUser.password"
+                 maxlength="25"
+                 minlength="4" />
+          <p *ngIf="passwordField.hasError('required') && passwordField.touched">
+            Password is required
+          </p>
+          <p
+             *ngIf="passwordField.hasError('minlength') || passwordField.hasError('maxlength') && passwordField.touched">
+            Password must be at least 4 characters and max 25 characters long.
+          </p>
+        </div>
+        <!-- Add confirmation password -->
+        <div class="form-group">
+          <label for="firstname">First name</label>
+          <input class="form-control"
+                 type="text"
+                 name="firstname"
+                 id="firstname"
+                 #firstnameField="ngModel"
+                 required
+                 [(ngModel)]="newUser.firstname"
+                 minlength="2"
+                 maxlength="25" />
+          <p *ngIf="firstnameField.hasError('required') && firstnameField.touched">
+            Firstname is required
+          </p>
+          <p
+             *ngIf="firstnameField.hasError('minlength') || firstnameField.hasError('maxlength') && firstnameField.touched">
+            Firstname must be at least 2 characters and max 25 characters long.
+          </p>
+        </div>
+        <div class="form-group">
+          <label for="lastname">Last name</label>
+          <input class="form-control"
+                 type="text"
+                 name="lastname"
+                 id="lastname"
+                 #lastnameField="ngModel"
+                 required
+                 [(ngModel)]="newUser.lastname"
+                 minlength="2"
+                 maxlength="25" />
+          <p *ngIf="lastnameField.hasError('required') && lastnameField.touched">
+            Lastname is required
+          </p>
+          <p
+             *ngIf="lastnameField.hasError('minlength') || lastnameField.hasError('maxlength') && lastnameField.touched">
+            Lastname must be at least 4 characters and max 25 characters long.
+          </p>
+
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input class="form-control"
+                 type="text"
+                 name="phone"
+                 id="phone"
+                 #phoneField="ngModel"
+                 [(ngModel)]="newUser.phone"
+                 maxlength="20"
+                 pattern="^[0-9]+$"
+                 ng-pattern />
+          <p *ngIf="phoneField.hasError('pattern') && phoneField.touched">
+            Phone must be in [-\s\./0-9]*$]
+          </p>
+        </div>
+
+        <label for="roles">Roles</label>
+        <div class="form-group">
+          <div class="col">
+            <label class="checkbox-inline mr-3">
+              <input type="checkbox"
+                     name="roles"
+                     [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="newUserIsCitizen"
+                     (change)="CheckboxCitizenChange()"> Citizen
+
+            </label>
+          </div>
+          <div class="col">
+            <label class="checkbox-inline">
+              <input type="checkbox"
+                     name="roles"
+                     [ngModelOptions]="{standalone: true}"
+                     [(ngModel)]="newUserIsStaff"
+                     (change)="CheckboxCitizenChange()"> Staff
+            </label>
+          </div>
+          <!-- Hidden field to validate one check bbox checked at leat -->
+          <p *ngIf="!atLeastOneRole">
+            At least one role must be selected !
+          </p>
+          <input *ngIf="false"
+                 type="text"
+                 ngModel
+                 requiredTrue
+                 [(ngModel)]="atLeastOneRole"
+                 [ngModelOptions]="{standalone: true}">
+
+        </div>
+        <div class="
+                 form-group">
+          <button class="form-control btn btn-success col-4"
+                  type="submit"
+                  [disabled]="newRegForm.invalid">Create</button>
+          <p *ngIf="newRegError">
+            Unable to create the new user. See the log for more information.
+          </p>
+          <button class="form-control btn btn-warning col-4 offset-4"
+                  type="button"
+                  (click)="goToLogin()">Cancel</button>
+        </div>
+      </form>
+      <p>
+        Valid from state : {{newRegForm.valid}}
+      </p>
+    </div>
+
+  </div>
+</div>
