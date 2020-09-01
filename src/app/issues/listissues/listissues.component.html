@@ -16,7 +16,6 @@
             <app-map [addNewMarkerOnMapAllowed]=addNewMarkerAllowed>Map</app-map>
         </div>
         <div class="container-fluid col-lg-8 my-container">
-
             <div class="row my-row mt-2">
                 <div class="col-lg-6">
                     <h5 class="">Search</h5>
@@ -134,7 +133,7 @@
                 <th scope="col">#</th>
                 <!-- <th scope="col">AssignedHref</th> -->
                 <th scope="col">CreatedAt</th>
-                <!-- <th scope="col">CreatorHref</th> -->
+                <th scope="col">CreatorHref</th>
                 <th scope="col">Description</th>
                 <!-- <th scope="col">Href</th> -->
                 <th scope="col">Id</th>
@@ -161,7 +160,7 @@
                 <td (click)="onSelect(issue)">{{index+1}}</td>
                 <!-- <td (click)="onSelect(issue)">{{issue.assigneeHref}}</td> -->
                 <td (click)="onSelect(issue)">{{issue.createdAt}}</td>
-                <!-- <td (click)="onSelect(issue)">{{issue.creatorHref}}</td> -->
+                <td (click)="onSelect(issue)">{{issue.creatorHref}}</td>
                 <td (click)="onSelect(issue)">{{issue.description}}</td>
                 <!-- <td (click)="onSelect(issue)">{{issue.href}}</td> -->
                 <td (click)="onSelect(issue)">{{issue.id}}</td>
