@@ -56,8 +56,6 @@
                     </div>
                 </div>
             </div>
-            <p><button class="btn btn-info m-1"
-                        (click)="alertService.info('Some info....', [true, false])">Info</button></p>
             <hr>
             <p *ngIf="(allIssues.length >0); else noResults"> All :
                 {{allIssues.length}} / Displayed : {{displayedIssues.length}}</p>

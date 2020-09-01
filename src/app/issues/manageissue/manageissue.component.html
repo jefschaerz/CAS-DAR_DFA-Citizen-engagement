@@ -1,7 +1,14 @@
 <div class="container-fluid my-container">
-    <div>
-        <h4 *ngIf=(isNewIssue)>Add an issue</h4>
-        <h4 *ngIf=(!isNewIssue)>Edit issue with ID : {{ issueId }}</h4>
+    <div class="row">
+        <div class="col-lg-4">
+            <div>
+                <h4 *ngIf=(isNewIssue)>Add an issue</h4>
+                <h4 *ngIf=(!isNewIssue)>Edit issue with ID : {{ issueId }}</h4>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <app-alert>Alert :</app-alert>
+        </div>
     </div>
     <hr>
     <!-- Main row -->
@@ -36,6 +43,8 @@
                 </div>
 
             </div>
+            <p><button class="btn btn-info m-1"
+                        (click)="alertService.info('Some info....', [true, false])">Info</button></p>
 
             <!-- Template-driven method-->
             <form #IssueForm="ngForm"

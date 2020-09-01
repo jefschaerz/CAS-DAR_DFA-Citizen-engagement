@@ -40,7 +40,7 @@ export class ManageissueComponent implements OnInit {
   constructor(private issueTypeService: IssueTypeService,
     private router: Router,
     private issueService: IssueService,
-    private alertService: AlertService,
+    public alertService: AlertService,
     private geolocation: GeolocationService,
     private markerPosition: MarkerPositionService,
     //private markersList: MarkersListService,
