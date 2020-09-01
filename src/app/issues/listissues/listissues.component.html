@@ -39,21 +39,22 @@
                                    [(ngModel)]="selectedState.href"
                                    (ngModelChange)="refreshFilterAndSearch()">
                             {{state.label}}</label>
-                        <!-- <div>Selected : {{selectedState.href}}</div> -->
-                        <!-- <input class="
-                           form-control"
-                       type="text"
-                       [(ngModel)]="searchState"
-                       placeholder="keyword">
-                <button type="button"
-                        class="btn btn-primary"
-                        (click)="applyFilterByText(searchState)">Apply
-                </button> -->
-                        <!-- <code>
-                    {{selectedItemsList | json}}
-                </code> -->
                     </div>
                 </div>
+            </div>
+            <div class="form-group mb-4">
+                <label class="mr-4"><input name="FilterAuthorHref"
+                           type="radio"
+                           value="Yes"
+                           [(ngModel)]="selectOnlyOwnIssue"
+                           (ngModelChange)="refreshFilterAndSearch()" />
+                    Show only my issues</label>
+                <label class="mr-4"><input name="FilterAuthorHref"
+                           type="radio"
+                           value="No"
+                           [(ngModel)]="selectOnlyOwnIssue"
+                           (ngModelChange)="refreshFilterAndSearch()" />
+                    Show all issues</label>
             </div>
             <hr>
             <p *ngIf="(allIssues.length >0); else noResults"> All :

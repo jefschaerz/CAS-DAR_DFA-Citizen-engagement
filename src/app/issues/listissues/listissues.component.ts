@@ -33,6 +33,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   stateIDs = stateIDs;
   stateLabels = stateLabels;
   selectedState = { href: 'all' };
+  selectOnlyOwnIssue: string = "Yes";
   commentText: string;
   // For State handling : https://www.freakyjolly.com/how-to-get-multiple-checkbox-value-in-angular/#.X0T5lcgzZaQ
   selectedItemsList = [];
@@ -84,6 +85,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getIssuesList();
     this.getIssueTypeList();
+
     console.log('*** End ngOnInit - ListissuesCompo ', this.allIssues);
 
     // Get logged user name info
@@ -214,17 +216,20 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   }
 
   refreshFilterAndSearch() {
+    console.log('Refresh filters wiht slectOnwissue', this.selectOnlyOwnIssue);
+    this.displayedIssues = this.allIssues;
     this.applyFilterByState(this.selectedState.href);
     this.applySearchByDescription(this.searchText);
+    this.applySearchByAuthorHref(this.selectOnlyOwnIssue);
     console.log('Issue to display : OK', this.displayedIssues);
   }
 
   applyFilterByState(stateToFilter) {
     if (stateToFilter === '' || stateToFilter === 'all') {
-      this.filteredIssues = this.allIssues;
+      this.filteredIssues = this.displayedIssues;
     }
     else {
-      this.filteredIssues = this.allIssues.filter((oneIssue) => oneIssue.state.includes(stateToFilter))
+      this.filteredIssues = this.displayedIssues.filter((oneIssue) => oneIssue.state.includes(stateToFilter))
     }
     //console.log('@applyFilterByText (filtered) :', stateToFilter)
     // Update info in Markerlist service
@@ -241,6 +246,22 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
       this.searchedIssues = this.displayedIssues.filter((oneIssue) => oneIssue.description.includes(valueToSearch))
     }
     console.log('@applySearchByDescription (filtered) :', valueToSearch)
+    // Update info in Marekerlist service
+    this.displayedIssues = this.searchedIssues;
+    this.refreshMarkersList(this.displayedIssues);
+  }
+
+  applySearchByAuthorHref(FilterOwnIssue) {
+    console.log('Search only own issue status:', FilterOwnIssue);
+    if (FilterOwnIssue === "No") {
+      this.searchedIssues = this.displayedIssues;
+      console.log('Show all', this.displayedIssues);
+    }
+    else {
+      console.log('Show only own issue');
+      this.searchedIssues = this.displayedIssues.filter((oneIssue) => oneIssue.creatorHref === this.loggedUser.href);
+    }
+    console.log('@applySearchByAuthorHref (filtered) :', FilterOwnIssue)
     // Update info in Marekerlist service
     this.displayedIssues = this.searchedIssues;
     this.refreshMarkersList(this.displayedIssues);
