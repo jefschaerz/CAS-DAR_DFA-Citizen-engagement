@@ -4,11 +4,13 @@ import { IssueService } from 'src/app/api/services/issue.service';
 import { IssueTypeService } from 'src/app/api/services/issue-type.service';
 import { IssueCommentService } from 'src/app/api/services/issue-comment.service';
 import { Issue, stateLabels, stateIDs } from 'src/app/models/issue';
+import { User } from 'src/app/models/user';
 import { IssueType } from "src/app/models/issue-type";
 import { IssueComment } from 'src/app/models/issue-comment';
 import { filter, map } from 'rxjs/operators';
 import { Router } from "@angular/router";
 import { MarkersListService } from 'src/app/shared/services/markerslist.service';
+import { AuthService } from 'src/app/security/auth.service';
 
 @Component({
   selector: 'app-listissues',
@@ -26,6 +28,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   addNewMarkerAllowed = false;
   issueComment: IssueComment;
   issueComments: IssueComment[];
+  loggedUser: User;
   // To retreive list of States
   stateIDs = stateIDs;
   stateLabels = stateLabels;
@@ -71,6 +74,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     public alertService: AlertService,
     public issueCommentService: IssueCommentService,
     public issueTypeService: IssueTypeService,
+    public authService: AuthService,
     private markersList: MarkersListService,
     private router: Router) {
 
@@ -81,6 +85,14 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.getIssuesList();
     this.getIssueTypeList();
     console.log('*** End ngOnInit - ListissuesCompo ', this.allIssues);
+
+    // Get logged user name info
+    this.authService.getUser().subscribe(user => {
+      // Add ? to check before if it is defined user (in case of not logged)
+      this.loggedUser = user;
+      console.log(' @@@ Changes : Logged user is ', this.loggedUser);
+
+    });
   }
   ngAfterViewInit(): void {
     // console.log('*** Start ngAfterViewInit: ', this.allIssues);

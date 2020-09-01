@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { setTheme } from 'ngx-bootstrap/utils';
 import { AuthService } from './security/auth.service';
+import { User } from "./models/user";
 
 @Component({
   selector: 'app-root',
@@ -10,9 +11,10 @@ import { AuthService } from './security/auth.service';
 export class AppComponent {
   title = 'citizen-engagement';
   isUserLogged: boolean;
-  loggedUserName: string;
-  loggedUserHref: string;
-  loggedUserRoles: any;
+  loggedUser: User;
+  // loggedUserName: string;
+  // loggedUserHref: string;
+  // loggedUserRoles: any;
   isMenuCollapsed = true;
   isLoggedUserStaff: boolean
 
@@ -32,13 +34,14 @@ export class AppComponent {
     // Get logged user name info
     this.authService.getUser().subscribe(user => {
       // Add ? to check before if it is defined user (in case of not logged)
-      this.loggedUserName = user?.name;
-      this.loggedUserHref = user?.href;
-      this.loggedUserRoles = user?.roles;
-      console.log(' @@@ Changes : Logged user is ', user);
-      console.log('Logged role ', this.loggedUserRoles);
+      this.loggedUser = user;
+      // this.loggedUserName = user?.name;
+      // this.loggedUserHref = user?.href;
+      // this.loggedUserRoles = user?.roles;
+      console.log(' @@@ Changes : Logged user is ', this.loggedUser);
+      console.log('Logged role ', this.loggedUser?.roles);
       // Check if user is staff or citizen
-      this.isLoggedUserStaff = (this.loggedUserRoles?.indexOf('staff') > -1);
+      this.isLoggedUserStaff = (this.loggedUser?.roles?.indexOf('staff') > -1);
       console.log('Logged user is staff ? ', this.isLoggedUserStaff);
     });
 

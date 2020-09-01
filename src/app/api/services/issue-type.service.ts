@@ -32,6 +32,6 @@ export class IssueTypeService {
   getIssueDescriptionFromTypeHref(myIssuesTypes: IssueType[], searchHref: string): string {
     //TODO called to often : find why
     //console.log('Href used : ', searchHref);
-    return (myIssuesTypes.find(issueType => issueType.href === searchHref)).description;
+    return (myIssuesTypes.find(issueType => issueType.href === searchHref))?.description;
   }
 }
