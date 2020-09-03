@@ -131,6 +131,11 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     });
   }
 
+  clearSearchField() {
+    this.searchText = '';
+    this.refreshFilterAndSearch();
+  }
+
   getIssuesList(): void {
     // Subscribe to get list of all issues
     this.issueService.loadAllIssues()

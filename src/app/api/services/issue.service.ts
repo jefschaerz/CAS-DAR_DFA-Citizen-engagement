@@ -14,6 +14,9 @@ export class IssueService {
 
   constructor(private http: HttpClient, public alertService: AlertService) { }
 
+  //Info : tap : return same Obeservable
+  //       map : do action swith every value of the observable and do stuff. Return value as Observable.
+
   loadAllActions() {
     throw new Error("Method not implemented.");
   }
@@ -41,7 +44,7 @@ export class IssueService {
     )
   }
 
-  /** DELTE: delete an issue by the API */
+  /** DELETE: delete an issue by the API */
   deleteIssue(issue: Issue): Observable<Issue> {
     console.log(`Success : Delete issue w / id=${issue.description}`);
     return this.http.delete<any>(`${environment.apiUrl}/issues/${issue.id}`);
