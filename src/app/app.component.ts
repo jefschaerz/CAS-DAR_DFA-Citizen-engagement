@@ -12,11 +12,39 @@ export class AppComponent {
   title = 'citizen-engagement';
   isUserLogged: boolean;
   loggedUser: User;
-  // loggedUserName: string;
-  // loggedUserHref: string;
-  // loggedUserRoles: any;
   isMenuCollapsed = true;
   isLoggedUserStaff: boolean
+
+  /**
+  * Array for spinner size
+  *
+  * @type {Array<string>}
+  * @memberof AppComponent
+  */
+  sizeArray: Array<string> = ['small', 'default', 'medium', 'large'];
+
+  /**
+   * Loading Text for spinner
+   *
+   * @type {string}
+   * @memberof AppComponent
+   */
+  loadingText = 'Loading...';
+
+  /**
+   * Spinner configuration
+   *
+   * @type {object}
+   * @memberof AppComponent
+   */
+  spinnerConfig: object = {
+    bdColor: 'rgba(0, 0, 0, 0.8)',
+    size: 'medium',
+    color: '#fff',
+    type: 'square-jelly-box',
+    fullScreen: true,
+    template: null,
+  };
 
   constructor(public authService: AuthService) {
     // Could be necessary to set the version or boostrap used
@@ -35,9 +63,6 @@ export class AppComponent {
     this.authService.getUser().subscribe(user => {
       // Add ? to check before if it is defined user (in case of not logged)
       this.loggedUser = user;
-      // this.loggedUserName = user?.name;
-      // this.loggedUserHref = user?.href;
-      // this.loggedUserRoles = user?.roles;
       console.log(' @@@ Changes : Logged user is ', this.loggedUser);
       console.log('Logged role ', this.loggedUser?.roles);
       // Check if user is staff or citizen

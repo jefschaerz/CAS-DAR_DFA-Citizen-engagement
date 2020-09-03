@@ -1,7 +1,7 @@
 // Importation de modules Javascript
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AlertsModule } from './alerts/alerts.module'
@@ -26,6 +26,8 @@ import { FilterissuesComponent } from './issues/filterissues/filterissues.compon
 import { FilterPipe } from './shared/tools/filter.pipe';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 // import { environment } from "../environments/environment";
 
 // Import dans notre module
@@ -49,8 +51,15 @@ import { HeaderComponent } from './header/header.component';
     CommonModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule, SecurityModule, BrowserAnimationsModule, AlertsModule, BsDropdownModule.forRoot(), CollapseModule.forRoot(), AlertModule.forRoot()
+    FormsModule,
+    SecurityModule,
+    BrowserAnimationsModule,
+    AlertsModule,
+    NgxSpinnerModule,
+    BsDropdownModule.forRoot(), CollapseModule.forRoot(), AlertModule.forRoot()
   ],
+  //For ngx-spinner
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: ApiTokenInterceptorService,
