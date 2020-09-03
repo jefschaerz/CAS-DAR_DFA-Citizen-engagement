@@ -101,7 +101,14 @@
    </nav>
 </div>
 <p>Space</p>
-<ngx-spinner>Spinner</ngx-spinner>
+<!-- Configurtion of the spinner to display while loading by API -->
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)"
+             size="medium"
+             color="#fff"
+             type="ball-spin-clockwise"
+             [fullScreen]="true">
+   <p style="color: white"> Loading... </p>
+</ngx-spinner>
 <div class="container-fluid mt-5">
    <!-- <app-header>Header</app-header> -->
    <router-outlet></router-outlet>

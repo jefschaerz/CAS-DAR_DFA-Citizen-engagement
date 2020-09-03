@@ -7,4 +7,15 @@
 
 <button class="btn btn-info m-1"
         (click)="loadIssueComments()">Load Issue comment</button>
+
+<div class="row">
+        <div class="col-xs-12 col-12">
+                <pagination [totalItems]="totalItems"
+                            [(ngModel)]="currentPage"></pagination>
+        </div>
+</div>
+
+<button type="button"
+        class="btn btn-info"
+        (click)="setPage(3)">Set current page to: 3</button>
 <app-logout-button></app-logout-button>

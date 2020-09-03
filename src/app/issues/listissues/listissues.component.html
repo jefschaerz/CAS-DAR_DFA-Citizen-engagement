@@ -62,68 +62,73 @@
             </div>
             <hr>
             <p *ngIf="(allIssues.length >0); else noResults"> All :
-                {{allIssues.length}} / Displayed : {{displayedIssues.length}}</p>
+                {{allIssues.length}} / Displayed : {{displayedIssues.length}} <pagination [totalItems]="30">
+                </pagination>
+            </p>
             <ng-template #noResults>
                 <p>No results found for "{{searchText}}".</p>
             </ng-template>
             <!-- One Card -->
 
-            <div class="row my-row">
-                <div class="col-lg-6"
-                     *ngFor="let issue of displayedIssues ; let index = index;"
-                     scope="row">
-                    <div class="card border-secondary mb-3">
-                        <!-- Card Header -->
-                        <div class="card-header border-1">
-                            <div class="row my-row">
-                                <div class="col my-col">
-                                    <span class="badge badge-pill badge-success float-right">{{issue.state}}
-                                    </span>
-                                    <span class="badge badge-secondary float-left mr-2">
-                                        {{this.issueTypeService.getIssueDescriptionFromTypeHref(issueTypes, issue.issueTypeHref)}}
-                                    </span>
+            <div class="content-wrapper">
+                <div class="row my-row">
+                    <div class="col-lg-6"
+                         *ngFor="let issue of displayedIssues ; let index = index;"
+                         scope="row">
+                        <div class="card border-secondary mb-3">
+                            <!-- Card Header -->
+                            <div class="card-header border-1">
+                                <div class="row my-row">
+                                    <div class="col my-col">
+                                        <span class="badge badge-pill badge-success float-right">{{issue.state}}
+                                        </span>
+                                        <span class="badge badge-secondary float-left mr-2">
+                                            {{this.issueTypeService.getIssueDescriptionFromTypeHref(issueTypes, issue.issueTypeHref)}}
+                                        </span>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-
-                            <div class="card-text">
-                                <div class="container-fuid">
-                                    <div class="row my-row">
-                                        <div class="col-3"><img src="{{issue.imageUrl}}"
-                                                 alt=""
-                                                 width="70">
-                                        </div>
-                                        <div class="col">
-                                            <h5>{{issue.description}}</h5>
-                                            <p>Href : {{issue.creatorHref}} </p>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-7 col-lg-7">
-                                    <p>Tags:
-                                        <br>
-                                        <span *ngFor="let tag of issue.tags; let i = index;"
-                                              class="badge badge-warning ml-1 ">{{tag}}</span>
-                                    </p>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <div class="container-fuid">
+                                        <div class="row my-row">
+                                            <div class="col-3"><img src="{{issue.imageUrl}}"
+                                                     alt=""
+                                                     width="70">
+                                            </div>
+                                            <div class="col">
+                                                <h6><strong>{{issue.description}}</strong></h6>
+                                                <p>Href : {{issue.creatorHref}} </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-5 col-lg-5">
-                                    <button type="button"
-                                            class="btn btn-primary mr-1"
-                                            (click)="onEditIssue(issue.id)">Edit</button>
-                                    <button type="button"
-                                            class="btn btn-primary"
-                                            (click)="onEditComments(issue.id)">See comments
-                                    </button>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-7 col-lg-7">
+                                        <p>Tags:
+                                            <br>
+                                            <span *ngFor="let tag of issue.tags; let i = index;"
+                                                  class="badge badge-warning ml-1">{{tag}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-5 col-lg-5">
+                                        <button type="button"
+                                                class="btn btn-primary mr-1"
+                                                (click)="onEditIssue(issue.id)">Edit</button>
+                                        <button type="button"
+                                                class="btn btn-primary"
+                                                (click)="onEditComments(issue.id)">See comments
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </div>

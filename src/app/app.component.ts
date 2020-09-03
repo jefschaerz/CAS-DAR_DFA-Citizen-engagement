@@ -15,37 +15,6 @@ export class AppComponent {
   isMenuCollapsed = true;
   isLoggedUserStaff: boolean
 
-  /**
-  * Array for spinner size
-  *
-  * @type {Array<string>}
-  * @memberof AppComponent
-  */
-  sizeArray: Array<string> = ['small', 'default', 'medium', 'large'];
-
-  /**
-   * Loading Text for spinner
-   *
-   * @type {string}
-   * @memberof AppComponent
-   */
-  loadingText = 'Loading...';
-
-  /**
-   * Spinner configuration
-   *
-   * @type {object}
-   * @memberof AppComponent
-   */
-  spinnerConfig: object = {
-    bdColor: 'rgba(0, 0, 0, 0.8)',
-    size: 'medium',
-    color: '#fff',
-    type: 'square-jelly-box',
-    fullScreen: true,
-    template: null,
-  };
-
   constructor(public authService: AuthService) {
     // Could be necessary to set the version or boostrap used
     setTheme('bs4');

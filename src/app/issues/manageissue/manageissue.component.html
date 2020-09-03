@@ -130,7 +130,7 @@
                 <div class="form-group form-inline my-form-group">
                     <label class="col-3 justify-content-start"
                            for="tag">Tags</label>
-                    <input class="form-control"
+                    <input class="form-control col-5"
                            type="text"
                            name="tag"
                            id="tag"
@@ -148,17 +148,17 @@
                                class="ml-3"
                                for="currenttag">Current tags</label>
                     </div>
-                    <div *ngFor="let tag of issue.tags; let i = index;"
-                         class="card text-center"
-                         style="width: 7rem;">
-                        <div class="card-body">
-                            <h4><span class="badge badge-info ml-1 ">{{tag}}</span></h4>
-                            <button class="btn btn-xs btn-warning"
-                                    (click)="removeTag(i)">
-                                Delete
-                            </button>
-                        </div>
+                    <div *ngFor="let tag of issue.tags; let i = index;">
+                        <h5><span class="badge badge-light ml-1 ">{{tag}}</span>
+                            <!-- <button class="btn btn-xs btn-danger"
+                                (click)="removeTag(i)"><i class="fa fa-trash"></i>
+                        </button> -->
+                            <span class="badge badge-danger"
+                                  (click)="removeTag(i)"><i class="fa fa-trash"></i>
+                            </span>
+                        </h5>
                     </div>
+
                 </div>
 
                 <div class="form-group form-inline my-form-group">
@@ -223,13 +223,10 @@
                              card-img-top"
                              src="{{picture}}"
                              alt="Card image cap">
-                        <div class="card-body">
-                            <button class="btn btn-xs btn-warning"
-                                    (click)="removePicture(pic)">Delete
-                            </button>
-                        </div>
+                        <span class="badge badge-danger"
+                              (click)="removePicture(pic)"><i class="fa fa-trash"></i>
+                        </span>
                     </div>
-
                 </div>
                 <!-- Bottom with buttons -->
                 <div class="form-group">

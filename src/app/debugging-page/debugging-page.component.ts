@@ -12,12 +12,22 @@ import { Router } from "@angular/router";
   styleUrls: ["./debugging-page.component.scss"],
 })
 export class DebuggingPageComponent implements OnInit {
-
   issueNb = '5f297015659f4400165b68c6';
   options = {
     autoClose: true,
     keepAfterRouteChange: false
   };
+
+
+  // For pagination tests :
+  totalItems = 64;
+  currentPage = 4;
+
+  setPage(pageNo: number): void {
+    this.currentPage = pageNo;
+  }
+  //-------------------------------------
+
   // Inject the UserService
   constructor(private issueTypeService: IssueTypeService,
     private issueService: IssueService,

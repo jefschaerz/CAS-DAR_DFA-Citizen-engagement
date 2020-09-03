@@ -27,6 +27,7 @@ import { FilterPipe } from './shared/tools/filter.pipe';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 // import { environment } from "../environments/environment";
 
@@ -56,7 +57,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     BrowserAnimationsModule,
     AlertsModule,
     NgxSpinnerModule,
-    BsDropdownModule.forRoot(), CollapseModule.forRoot(), AlertModule.forRoot()
+    BsDropdownModule.forRoot(), PaginationModule.forRoot(), CollapseModule.forRoot(), AlertModule.forRoot()
   ],
   //For ngx-spinner
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

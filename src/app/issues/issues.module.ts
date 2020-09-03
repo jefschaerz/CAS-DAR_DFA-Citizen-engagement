@@ -10,6 +10,7 @@ import { FilterissuesComponent } from './filterissues/filterissues.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ManageissuecommentsComponent } from './manageissuecomments/manageissuecomments.component';
 import { AlertsModule } from '../alerts/alerts.module'
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [ManageissueComponent, ListissuesComponent, MapComponent, FilterissuesComponent, ManageissuecommentsComponent],
@@ -17,7 +18,7 @@ import { AlertsModule } from '../alerts/alerts.module'
     CommonModule,
     LeafletModule,
     IssuesRoutingModule,
-    FormsModule, AlertsModule, CollapseModule.forRoot()
+    FormsModule, AlertsModule, CollapseModule.forRoot(), PaginationModule.forRoot()
   ],
   exports: [ManageissueComponent, ListissuesComponent, MapComponent]
 })
