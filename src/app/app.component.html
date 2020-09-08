@@ -18,83 +18,71 @@
            id="navbarCollapse">
          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li *ngIf="isUserLogged"
-                class="nav-item">
+                class="nav-item mt-1">
                <a class="nav-link"
                   routerLink="/seeissues"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">See issues</a>
             </li>
             <li *ngIf="isUserLogged"
-                class="nav-item">
+                class="nav-item mt-1">
                <a class="nav-link"
                   routerLink="/addissue"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">Add an issue</a>
             </li>
-            <li *ngIf="isUserLogged"
-                class="nav-item">
+            <!-- <li *ngIf="isUserLogged"
+                class="nav-item mt-1">
                <a class="nav-link"
                   routerLink="/editissue/5f297015659f4400165b68c6/comments"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">Edit issue comments</a>
-            </li>
-            <li *ngIf="isUserLogged"
-                class="nav-item">
+            </li> -->
+            <!-- <li *ngIf="isUserLogged"
+                class="nav-item mt-1">
                <a class="nav-link"
                   routerLink="/editissue/5f297015659f4400165b68c6"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">Edit issue 1</a>
-            </li>
+            </li> -->
             <li *ngIf="isLoggedUserStaff && isUserLogged"
-                class="nav-item">
+                class="nav-item mt-1">
                <a class="nav-link"
                   routerLink="/editissue/5f286ad44916cb0016592c9b"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">Staff ONLY</a>
             </li>
             <li *ngIf="isUserLogged"
-                class="nav-item">
-               <a class="nav-link"
-                  routerLink="/map"
-                  routerLinkActive="active"
-                  (click)="isMenuCollapsed = true">Map</a>
-            </li>
-            <li *ngIf="isUserLogged"
-                class="nav-item">
+                class="nav-item mt-1">
                <a class="nav-link"
                   routerLink="/debugging"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">Debugging</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mt-1">
                <a class="nav-link"
                   routerLink="/newregistration"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">New registration</a>
             </li>
-            <li *ngIf="isUserLogged"
-                class="nav-item">
-               <a class="nav-link disabled"
-                  href="#"
-                  tabindex="-1"
-                  aria-disabled="true"
-                  (click)="isMenuCollapsed = true">Disabled</a>
-            </li>
-            <li class="nav-item">
+            <li class="nav-item mt-1">
                <a class="nav-link"
                   *ngIf="!isUserLogged"
                   routerLink="/login"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">Login</a>
             </li>
-            <li class="nav-item">
-               <app-logout-button class="nav-link"
-                                  *ngIf="isUserLogged"></app-logout-button>
-            </li>
+
+         </ul>
+         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item">
                <app-user-menu class="nav-link"
                               *ngIf="isUserLogged"
                               [displayUserName]="loggedUser.name"></app-user-menu>
+            </li>
+            <li class="nav-item">
+               <app-logout-button class="nav-link"
+                                  *ngIf="isUserLogged"></app-logout-button>
             </li>
          </ul>
       </div>

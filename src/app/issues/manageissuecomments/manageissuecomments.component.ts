@@ -42,7 +42,7 @@ export class ManageissuecommentsComponent implements OnInit {
     // For debug (random string)
     let randomNb: number;
     randomNb = Math.floor((Math.random() * 1000) + 1);
-    this.newComment = 'Random comments [' + randomNb + ']';
+    this.newComment = 'This is a new random comment [' + randomNb + ']';
   }
 
   getIssueInfo(): void {
