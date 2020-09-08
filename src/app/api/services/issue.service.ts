@@ -33,7 +33,6 @@ export class IssueService {
   addIssue(issue: Issue): Observable<Issue> {
     return this.http.post<any>(`${environment.apiUrl}/issues`, issue).pipe(
       tap((issue: Issue) => console.log(`Success : Added issue w/ id=${issue.description}`)),
-
     )
   }
 

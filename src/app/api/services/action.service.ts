@@ -15,6 +15,5 @@ export class ActionService {
     return this.http.get<Action[]>(`${environment.apiUrl}/Actions`);
   }
 
-  //TODO : Handle Errors PI
-  //See
+
 }

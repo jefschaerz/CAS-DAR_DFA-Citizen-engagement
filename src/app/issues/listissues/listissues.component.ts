@@ -87,19 +87,17 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.getIssueTypeList();
     this.selectOnlyOwnIssue = "No";
 
-    console.log('*** End ngOnInit - ListissuesCompo ', this.allIssues);
-
     // Get logged user name info
     this.authService.getUser().subscribe(user => {
       // Add ? to check before if it is defined user (in case of not logged)
       this.loggedUser = user;
       console.log(' @@@ Changes : Logged user is ', this.loggedUser);
-
     });
+    console.log('*** End ngOnInit - ListissuesCompo ', this.allIssues);
   }
   ngAfterViewInit(): void {
     // console.log('*** Start ngAfterViewInit: ', this.allIssues);
-    //console.log('*** End ngAfterViewInit - ListissuesCompo ', this.allIssues);
+    // console.log('*** End ngAfterViewInit - ListissuesCompo ', this.allIssues);
   }
 
   // Update newMarker List in shared service for other components
@@ -148,8 +146,9 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
         complete: () => {
           console.log('GetIssuesList completed!')
           this.displayedIssues = this.allIssues;
-          // Apply filter only after loading completed
-          this.applyFilterByState(this.selectedState.href);
+          // Refresh filter and serach filter only after loading completed
+          //this.applyFilterByState(this.selectedState.href);
+          this.refreshFilterAndSearch();
         }
       });
   }
@@ -222,7 +221,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   }
 
   refreshFilterAndSearch() {
-    console.log('Refresh filters wiht slectOnwissue', this.selectOnlyOwnIssue);
+    console.log('Refresh filters with selectOwnIssue', this.selectOnlyOwnIssue);
     this.displayedIssues = this.allIssues;
     this.applyFilterByState(this.selectedState.href);
     this.applySearchByDescription(this.searchText);
