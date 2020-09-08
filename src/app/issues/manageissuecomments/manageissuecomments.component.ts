@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertService } from 'src/app/alerts/alerts.service';
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { IssueCommentService } from 'src/app/api/services/issue-comment.service';
+import { IssueService } from 'src/app/api/services/issue.service';
 import { IssueComment } from 'src/app/models/issue-comment';
 import { Issue } from 'src/app/models/issue';
 import { filter } from 'rxjs/operators';
@@ -23,6 +24,7 @@ export class ManageissuecommentsComponent implements OnInit {
 
   constructor(public alertService: AlertService,
     public issueCommentService: IssueCommentService,
+    private issueService: IssueService,
     private router: Router,
     private route: ActivatedRoute) {
 
@@ -34,12 +36,29 @@ export class ManageissuecommentsComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('IssueId :', this.issueId);
+    this.getIssueInfo();
     this.getIssueComments();
 
     // For debug (random string)
     let randomNb: number;
     randomNb = Math.floor((Math.random() * 1000) + 1);
     this.newComment = 'Random comments [' + randomNb + ']';
+  }
+
+  getIssueInfo(): void {
+    // Subscribe to get info of one issue
+    this.issueService.loadOneIssue(this.issueId)
+      .subscribe({
+        next: (result) => {
+          this.issue = result;
+          console.log("Issue loaded by the service : ", this.issue)
+        },
+        error: (error) => {
+          console.warn(["Error during load of issue with ID", this.issueId], error);
+          this.router.navigate(['/seeissues']);
+        },
+        complete: () => console.log('Load issue in getIssueInfo completed!')
+      });
   }
 
   getIssueComments(): void {
@@ -55,6 +74,10 @@ export class ManageissuecommentsComponent implements OnInit {
         error: (error) => console.warn("Error", error),
         complete: () => console.log('getIssueComment completed!')
       });
+  }
+
+  goBackToIssues() {
+    this.router.navigate(['/seeissues']);
   }
 
   addNewComment() {
