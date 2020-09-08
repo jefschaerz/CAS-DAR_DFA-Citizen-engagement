@@ -33,7 +33,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   stateIDs = stateIDs;
   stateLabels = stateLabels;
   selectedState = { href: 'all' };
-  selectOnlyOwnIssue: string;;
+  selectOnlyOwnIssue: string;
   commentText: string;
   // For State handling : https://www.freakyjolly.com/how-to-get-multiple-checkbox-value-in-angular/#.X0T5lcgzZaQ
   selectedItemsList = [];
@@ -271,5 +271,11 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     // Update info in Marekerlist service
     this.displayedIssues = this.searchedIssues;
 
+  }
+
+  isThisIssueMine(issueHref: string) {
+    console.log("issueHref = ", issueHref);
+    console.log("this.loggedUser.href = ", this.loggedUser.href);
+    return (issueHref === this.loggedUser.href);
   }
 }

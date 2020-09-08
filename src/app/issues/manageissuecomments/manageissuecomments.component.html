@@ -1,11 +1,11 @@
 <div class="container-fluid my-container">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-5">
             <div>
                 <h4>Manage issue comments</h4>
             </div>
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-7">
             <app-alert>Alert :</app-alert>
         </div>
     </div>
@@ -17,10 +17,33 @@
             <app-map [addNewMarkerOnMapAllowed]=addNewMarkerAllowed>Map</app-map>
         </div>
         <div class="container-fluid col-md-7 my-container">
-            <!-- Container for the data collect or display -->
+            <button class="btn btn-info"
+                    (click)="goBackToIssues()">Back to the issues</button>
+            <p></p>
+            <div class="row">
+                <div class="col-1"><img src="{{issue.imageUrl}}"
+                         alt=""
+                         width="70">
+
+                </div>
+                <div class="col align-middle">
+                    <h5><strong>{{issue.description}}</strong></h5>
+                </div>
+
+            </div>
+            <br>
+            <!--
+                  Container
+                  for
+                  the
+                  data
+                  collect
+                  or
+                  display
+                  -->
             <!-- Template-driven method-->
             <!-- Form to add a new comment-->
-            <h5 class="">Add a new comment</h5>
+            <h5>Add a new comment</h5>
             <form #AddCommentForm="ngForm">
                 <div class="form-group form-inline my-form-group">
                     <input class="form-control col-5"

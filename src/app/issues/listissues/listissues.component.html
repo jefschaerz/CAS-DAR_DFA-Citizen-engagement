@@ -120,19 +120,20 @@
                                     <div class="col-sm-5 col-lg-5">
                                         <button type="button"
                                                 class="btn btn-primary mr-1"
-                                                (click)="onEditIssue(issue.id)">Edit</button>
-                                        <button type="button"
+                                                (click)="onEditComments(issue.id)">Comments
+                                        </button>
+                                        <button *ngIf="isThisIssueMine(issue.creatorHref)"
+                                                type="
+                                                button"
                                                 class="btn btn-primary"
-                                                (click)="onEditComments(issue.id)">See comments
+                                                (click)="onEditIssue(issue.id)">Edit
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
