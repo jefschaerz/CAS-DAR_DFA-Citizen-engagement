@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { AlertService } from 'src/app/alerts/alerts.service';
 import { IssueService } from 'src/app/api/services/issue.service';
 import { IssueTypeService } from 'src/app/api/services/issue-type.service';
@@ -11,6 +11,7 @@ import { filter, map } from 'rxjs/operators';
 import { Router } from "@angular/router";
 import { MarkersListService } from 'src/app/shared/services/markerslist.service';
 import { AuthService } from 'src/app/security/auth.service';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-listissues',
@@ -22,6 +23,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   filteredIssues: Issue[] = [];
   searchedIssues: Issue[] = [];
   displayedIssues: Issue[] = [];
+  currentPageIssues: Issue[] = [];
   issueTypes: IssueType[];
   selectedIssue: Issue;
   searchText: string = '';
@@ -37,6 +39,10 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   commentText: string;
   // For State handling : https://www.freakyjolly.com/how-to-get-multiple-checkbox-value-in-angular/#.X0T5lcgzZaQ
   selectedItemsList = [];
+  // For pagination of issues (https://valor-software.com/ngx-bootstrap/#/pagination)
+  issueCurrentPage: number = 1;
+  issuePerPage = 4;  // Constant
+  // For issue state
   checkedIDs = [];
   checkboxesDataList = [
     {
@@ -147,10 +153,17 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
           console.log('GetIssuesList completed!')
           this.displayedIssues = this.allIssues;
           // Refresh filter and serach filter only after loading completed
-          //this.applyFilterByState(this.selectedState.href);
           this.refreshFilterAndSearch();
         }
       });
+  }
+
+  getIssuesByPage() {
+    console.log("Load page : ", this.issueCurrentPage);
+    this.issueService.loadIssuesByPage(this.issueCurrentPage, this.issuePerPage).subscribe({
+      next: (result) => console.log("Issues by Page", result),
+      error: (error) => console.warn("Error", error),
+    });
   }
 
   getIssueTypeList(): void {
@@ -227,7 +240,9 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.applySearchByDescription(this.searchText);
     this.applySearchByAuthorHref(this.selectOnlyOwnIssue);
     console.log('Issue to display : OK', this.displayedIssues);
+    // Markers will sho displayIssues 
     this.refreshMarkersList(this.displayedIssues);
+    this.setCurrentPage(1);
   }
 
   applyFilterByState(stateToFilter) {
@@ -270,12 +285,29 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     console.log('@applySearchByAuthorHref (filtered) :', FilterOwnIssue)
     // Update info in Marekerlist service
     this.displayedIssues = this.searchedIssues;
+  }
 
+  // Change current page selected
+  setCurrentPage(newPageNb: number): void {
+    console.log("Set current page", newPageNb);
+    this.issueCurrentPage = newPageNb;
+    // Emit evetn to set back page 1 - No besser solution yet found 
+    this.pageChanged({
+      itemsPerPage: 4,
+      page: newPageNb
+    })
+  }
+
+  // Action on page change done by user
+  pageChanged(event: PageChangedEvent): void {
+    console.log("Page changed", event)
+    const startItem = (event.page - 1) * event.itemsPerPage;
+    const endItem = event.page * event.itemsPerPage;
+    // Extract issues to display
+    this.currentPageIssues = this.displayedIssues.slice(startItem, endItem);
   }
 
   isThisIssueMine(issueHref: string) {
-    console.log("issueHref = ", issueHref);
-    console.log("this.loggedUser.href = ", this.loggedUser.href);
     return (issueHref === this.loggedUser.href);
   }
 }

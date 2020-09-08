@@ -15,7 +15,15 @@
         </div>
 </div>
 
+
 <button type="button"
         class="btn btn-info"
         (click)="setPage(3)">Set current page to: 3</button>
-<app-logout-button></app-logout-button>
+<br>
+<button type="button"
+        class="btn btn-info"
+        (click)="loadIssuesByPage()">Load issue by Page</button>
+<br>
+<div>
+        <app-logout-button></app-logout-button>
+</div>

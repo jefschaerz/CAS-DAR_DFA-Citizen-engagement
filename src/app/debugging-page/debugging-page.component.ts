@@ -18,7 +18,6 @@ export class DebuggingPageComponent implements OnInit {
     keepAfterRouteChange: false
   };
 
-
   // For pagination tests :
   totalItems = 64;
   currentPage = 4;
@@ -49,6 +48,8 @@ export class DebuggingPageComponent implements OnInit {
       error: (error) => console.warn("Error", error),
     });
 
+
+
     // Subscribe to get list of all actions. Only posible for STAFF users ! 
     // this.actionService.loadAllActions().subscribe({
     //   next: (result) => console.log("Actions", result),
@@ -64,6 +65,14 @@ export class DebuggingPageComponent implements OnInit {
     this.issueCommentService.loadIssueComments('5f286ad44916cb0016592c9b').subscribe({
       next: (result) => console.log("Issue comments", result),
       error: (error) => console.warn("Error to get issue comments", error),
+    });
+  }
+
+  loadIssuesByPage() {
+    console.log("Load page : ", this.currentPage);
+    this.issueService.loadIssuesByPage(this.currentPage, 2).subscribe({
+      next: (result) => console.log("Issues by Page", result),
+      error: (error) => console.warn("Error", error),
     });
   }
 }

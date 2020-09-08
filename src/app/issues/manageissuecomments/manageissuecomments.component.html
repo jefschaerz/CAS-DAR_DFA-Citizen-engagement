@@ -74,7 +74,7 @@
 
             <h5 class="">List of comments</h5>
             <table class="table table-hover table-bordered"
-                   *ngIf="(issueComments | filter: searchTextInComment).length > 0; else noResults">
+                   *ngIf="(issueComments.length) > 0; else noResults">
                 <thead>
                     <tr>
                         <th scope="col-md-8">Comments</th>
@@ -83,7 +83,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let comment of issueComments | filter: searchTextInComment; let index = index; "
+                    <tr *ngFor="let comment of issueComments; let index = index; "
                         scope="row">
                         <td>{{comment.text}}</td>
                         <td>{{comment.createdAt | date}} </td>
@@ -93,7 +93,7 @@
                 </tbody>
             </table>
             <ng-template #noResults>
-                <p>No results found for "{{searchTextInComment}}".</p>
+                <p>No comments available found this issue.</p>
             </ng-template>
         </div>
         <br>

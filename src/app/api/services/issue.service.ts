@@ -25,6 +25,10 @@ export class IssueService {
     return this.http.get<Issue[]>(`${environment.apiUrl}/issues`);
   }
 
+  loadIssuesByPage(reqPage: number, pageSize: number): Observable<Issue[]> {
+    return this.http.get<Issue[]>(`${environment.apiUrl}/issues?page=${reqPage}&pageSize=${pageSize}`);
+  }
+
   loadOneIssue(issueId): Observable<Issue> {
     return this.http.get<Issue>(`${environment.apiUrl}/issues/${issueId}`);
   }
