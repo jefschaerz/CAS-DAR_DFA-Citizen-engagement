@@ -3,7 +3,7 @@
         <div class="col-lg-5">
             <div>
                 <h4 *ngIf=(isNewIssue)>Add an issue</h4>
-                <h4 *ngIf=(!isNewIssue)>Edit issue with ID : {{ issueId }}</h4>
+                <h4 *ngIf=(!isNewIssue)>Edit an issue</h4>
             </div>
         </div>
         <div class="col-lg-7">
@@ -20,7 +20,10 @@
         </div>
         <div class="container-fluid col-md-7 my-container">
             <!-- Container for the data collect or display -->
-
+            <button *ngIf=(!isNewIssue)
+                    class="btn btn-info"
+                    (click)="goToAllIssues()">Back to the issues</button>
+            <p></p>
             <div class="row my-row"
                  *ngIf=(!isNewIssue)>
                 <div class="col">
@@ -45,7 +48,6 @@
             <!-- Template-driven method-->
             <form #IssueForm="ngForm"
                   (submit)="onSubmit(IssueForm)">
-                <!-- Styles OK -->
                 <div class="row my-ow">
                     <div class="col">
                         <div class="form-group form-inline my-form-group">
@@ -53,11 +55,13 @@
                                    for="issueTypes">Type of issues</label>
                             <select class="custom-select"
                                     #mySelect
-                                    [(ngModel)]="issue.issueTypeHref"
                                     (change)='onIssueTypeSelected(mySelect.value)'
+                                    [(ngModel)]="issue.issueTypeHref"
+                                    required
                                     name="selectIssueType">
                                 <option disabled
-                                        selected> - Select one - </option>
+                                        selected
+                                        [ngValue]="null"> - Select one - </option>
                                 <!-- Save href value in issueTypeHref but display issueType.description -->
                                 <option [(ngValue)]="issueType.href"
                                         *ngFor="let issueType of issueTypes">
@@ -94,7 +98,7 @@
                     <div class="col">
                         <div class="form-group form-inline my-form-group">
                             <label class="col-3 justify-content-start"
-                                   for="location">Location</label>
+                                   for="location">Location (click on map)</label>
                             <div class="form-group form-inline">
                                 <label for="latitude"
                                        class="justify-content-start ml-2 mr-2">Latitude</label>
@@ -140,7 +144,7 @@
                 </div>
                 <div class="row my-row ml-10 mb-2">
                     <div class="col-3">
-                        <label *ngIf="(issue.tags.length > 0)"
+                        <label *ngIf="(issue.tags !== null && issue.tags.length > 0)"
                                class="ml-5"
                                for="currenttag">Current tags</label>
                     </div>
@@ -168,7 +172,7 @@
                            [(ngModel)]="this.issue.imageUrl"
                            maxlength="500"
                            ng-pattern />
-                    <img *ngIf="(issue.imageUrl.length > 0)"
+                    <img *ngIf="(issue.imageUrl !== null && issue.imageUrl.length > 0)"
                          src="{{this.issue.imageUrl}}"
                          alt="this.issue.imageUrl"
                          width="30" />
@@ -190,7 +194,7 @@
                            [(ngModel)]="newAdditionalPictureURL"
                            maxlength="500"
                            ng-pattern />
-                    <img *ngIf="(newAdditionalPictureURL.length > 0)"
+                    <img *ngIf="(newAdditionalPictureURL !== null && newAdditionalPictureURL.length > 0)"
                          src="{{newAdditionalPictureURL}}"
                          alt="this.issue.imageUrl"
                          width="30" />
@@ -204,10 +208,9 @@
                     </span>
                 </div>
 
-
                 <div class="row my-row ml-10 mb-2">
                     <div class="col-3 ml-2">
-                        <label *ngIf="(issue.additionalImageUrls.length > 0)"
+                        <label *ngIf="(issue.additionalImageUrls !== null && issue.additionalImageUrls.length > 0)"
                                class="ml-5"
                                for="
                         currenttag">Current pictures</label>
@@ -248,6 +251,7 @@
                                 (click)="goToAllIssues()">Cancel</button>
                     </div>
                 </div>
+                <p> Form.valid {{IssueForm.valid}}</p>
             </form>
             <p> Current issue: {{issue | json}}</p>
         </div>

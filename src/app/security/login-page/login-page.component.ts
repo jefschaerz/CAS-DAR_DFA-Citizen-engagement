@@ -33,9 +33,10 @@ export class LoginPageComponent {
   }
 
   goToNewRegistration() {
-    console.log('Move to new registration called')
+    // console.log('Move to new registration called')
     this.router.navigate(['/newregistration']);
   }
+
   /**
    * Called when the login form is submitted.
    */
@@ -44,7 +45,7 @@ export class LoginPageComponent {
     if (form.valid) {
       // Hide any previous login error.
       this.loginError = false;
-
+      this.alertService.clear();
       // Perform the authentication request to the API.
       this.auth.login(this.authRequest).subscribe({
         // In case of success

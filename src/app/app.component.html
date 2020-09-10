@@ -61,6 +61,7 @@
             </li>
             <li class="nav-item mt-1">
                <a class="nav-link"
+                  *ngIf="!isUserLogged"
                   routerLink="/newregistration"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">New registration</a>
@@ -72,9 +73,8 @@
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">Login</a>
             </li>
-
          </ul>
-         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+         <ul class="navbar-nav">
             <li class="nav-item">
                <app-user-menu class="nav-link"
                               *ngIf="isUserLogged"

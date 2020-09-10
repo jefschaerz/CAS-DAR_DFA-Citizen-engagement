@@ -100,12 +100,13 @@ export class ManageissueComponent implements OnInit {
     this.newLocation = new Location();
     this.issue.location = this.newLocation;
     this.issue.tags = [];
-    this.issue.issueTypeHref = '';
+    this.issue.issueTypeHref = null;
     this.newLocation.coordinates = [];
     this.newTag = 'Default - New tag';
     // Default values : TODO : to adapt
     this.newFirstPictureURL = 'https://picsum.photos/id/200/200.jpg';
     this.newAdditionalPictureURL = 'https://picsum.photos/id/201/200.jpg';
+    console.log("loadNewIssueDefaultValues", this.issue);
   }
 
   // For an issue to edit
@@ -135,9 +136,8 @@ export class ManageissueComponent implements OnInit {
     });
   }
 
-  // No more necessary
+  // TODO : No more necessary with Two way binding.
   onIssueTypeSelected(value: string) {
-    // this.selectedIssueTypeDescription = value;
     console.log("The selected value is : " + value);
   }
 
@@ -252,21 +252,31 @@ export class ManageissueComponent implements OnInit {
     console.log('Current additional pictures : ', this.issue.additionalImageUrls);
   }
 
+  clearFormAndLoadDefaultValue(myFrom: NgForm) {
+    console.log("Issue", this.issue);
+    myFrom.reset();
+    this.loadNewIssueDefaultValues();
+  }
+
   onSubmit(form: NgForm) {
-    // Only do something if the form is valid
     if (form.valid) {
+      // Clear previous alert
+      this.alertService.clear();
       // Create the new issue with all required information
       console.log(`Issue will be added/updated with the API ;`, this.issue);
-
       // Perform the ADD issue request to the API.
       if (this.isNewIssue) {
         console.log('Add a new issue', this.issue);
         this.issueService.addIssue(this.issue as Issue).subscribe({
           error: (error) => this.alertService.error('An error occurs during the add of the issue. ', error),
-          complete: () => this.alertService.success('The issue has been correctly added', {
-            autoClose: true,
-            keepAfterRouteChange: false
-          })
+          complete: () => {
+            this.alertService.success('The issue has been correctly added', {
+              autoClose: true,
+              keepAfterRouteChange: false
+            })
+            // Clear form for a new issue
+            this.clearFormAndLoadDefaultValue(form);
+          }
         });
       }
       else {
@@ -284,7 +294,6 @@ export class ManageissueComponent implements OnInit {
     }
     else {
       console.warn(`Submit failed :`);
-
     }
   }
 }
