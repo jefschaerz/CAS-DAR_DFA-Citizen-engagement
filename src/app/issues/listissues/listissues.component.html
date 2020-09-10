@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="row my-row mt-2">
-                <div class="col-lg-6">
+                <div class="col-lg-6 my-col">
                     <h5 class="">Search in description</h5>
                     <div class="form-group form-inline mb-4">
                         <input class="form-control"
@@ -61,24 +61,30 @@
                                 (click)="clearSearchField()"><i class="fa fa-times-circle"></i>
                         </button>
                     </div>
-
                 </div>
             </div>
-            <hr>
-            <p *ngIf="(allIssues.length >0); else noResults"> All :
-                {{allIssues.length}} / Displayed : {{displayedIssues.length}}
-                <pagination id="paginationIssue"
-                            [totalItems]="allIssues.length"
-                            [(ngModel)]="issueCurrentPage"
-                            [itemsPerPage]="issuePerPage"
-                            (pageChanged)="pageChanged($event)"></pagination>
-            </p>
-            <ng-template #noResults>
-                <p>No results found for "{{searchText}}".</p>
-            </ng-template>
+            <div class="row my-row">
+                <div class="col-lg-6 my-col">
+                    <pagination id="paginationIssue"
+                                [totalItems]="displayedIssues.length"
+                                [(ngModel)]="issueCurrentPage"
+                                [itemsPerPage]="issuePerPage"
+                                (pageChanged)="pageChanged($event)"></pagination>
+                </div>
+                <div class="col-lg-6 my-col">
+                    <h5>
+                        <p *ngIf="(displayedIssues.length >0); else noResults"> Currently displayed:
+                            {{displayedIssues.length}} / Total of issues:
+                            {{allIssues.length}}</p>
+                        <ng-template #noResults>
+                            <p>No issues found with your current filter "{{searchText}}".</p>
+                        </ng-template>
+                    </h5>
+                </div>
 
-            <!-- One Card -->
-            <div class="content-wrapper">
+            </div>
+            <div class="content-wrapper mt-2">
+                <!-- One Card -->
                 <div class="row my-row">
                     <div class="col-lg-6"
                          *ngFor="let issue of currentPageIssues ; let index = index;"
