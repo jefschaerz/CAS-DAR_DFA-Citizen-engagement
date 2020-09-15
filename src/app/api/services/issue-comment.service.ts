@@ -18,9 +18,11 @@ export class IssueCommentService {
 
   constructor(private http: HttpClient) {
   }
-
-  loadIssueComments(id: string): Observable<IssueComment[]> {
+  // Load issue comments WITH author info (to display author name)
+  loadIssueComments(id: string, page: number = 1, pageSize: number = 5): Observable<IssueComment[]> {
     this.httpOptions.params = this.httpOptions.params.set('include', 'author');
+    this.httpOptions.params = this.httpOptions.params.set('page', page.toString());
+    this.httpOptions.params = this.httpOptions.params.set('pageSize', pageSize.toString());
     return this.http.get<IssueComment[]>(`${environment.apiUrl}/issues/${id}/Comments`, this.httpOptions);
   }
 

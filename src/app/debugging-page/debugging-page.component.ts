@@ -60,14 +60,6 @@ export class DebuggingPageComponent implements OnInit {
     this.router.navigate(['/editissue', this.issueNb]);
   }
 
-  loadIssueComments() {
-    // Subscribe to get list of all comments of a issue
-    this.issueCommentService.loadIssueComments('5f286ad44916cb0016592c9b').subscribe({
-      next: (result) => console.log("Issue comments", result),
-      error: (error) => console.warn("Error to get issue comments", error),
-    });
-  }
-
   loadIssuesByPage() {
     console.log("Load page : ", this.currentPage);
     this.issueService.loadIssuesByPage(this.currentPage, 2).subscribe({

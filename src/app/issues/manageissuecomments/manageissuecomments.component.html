@@ -18,7 +18,7 @@
         </div>
         <div class="container-fluid col-md-7 my-container">
             <button class="btn btn-info"
-                    (click)="goBackToIssues()">Back to the issues</button>
+                    (click)="goBackToIssues()"><i class="fa fa-arrow-left"></i> Back to the issues</button>
             <p></p>
             <div class="row">
                 <div class="col-1"><img src="{{issue.imageUrl}}"
@@ -38,7 +38,7 @@
             <h5>Add a new comment</h5>
             <form #AddCommentForm="ngForm">
                 <div class="form-group form-inline my-form-group">
-                    <input class="form-control col-5"
+                    <input class="form-control col-6"
                            type="text"
                            name="comment"
                            id="comment"
@@ -54,29 +54,36 @@
                             (click)="addNewComment()">Add</button>
                 </div>
             </form>
-
-            <h5 class="">List of comments</h5>
-            <table class="table table-hover table-bordered"
-                   *ngIf="(issueComments.length) > 0; else noResults">
-                <thead>
-                    <tr>
-                        <th scope="col-md-8">Comments</th>
-                        <th scope="col">Created at</th>
-                        <th scope="col">Author</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let comment of issueComments; let index = index; "
-                        scope="row">
-                        <td>{{comment.text}}</td>
-                        <td>{{comment.createdAt | date:'short'}} </td>
-                        <td>{{comment.author.name }} </td>
-                    </tr>
-                </tbody>
-            </table>
+            <br>
+            <h5 class="">List of comments ({{issueComments.length}})</h5>
+            <div *ngIf="(issueComments.length >0); else noResults">
+                <pagination classid="paginationIssue"
+                            [totalItems]="issueComments.length"
+                            [(ngModel)]="issueCommentsCurrentPage"
+                            [itemsPerPage]="issueCommentsPerPage"
+                            (pageChanged)="pageChanged($event)"></pagination>
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col-md-8">Comments</th>
+                            <th scope="col">Created at</th>
+                            <th scope="col">Author</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let comment of currentIssueCommentsPage; "
+                            scope="row">
+                            <td>{{comment.text}}</td>
+                            <td>{{comment.createdAt | date:'short'}} </td>
+                            <td>{{comment.author.name }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <ng-template #noResults>
-                <p>No comments available found this issue.</p>
+                <p>No comments available for this issue.</p>
             </ng-template>
+
         </div>
         <br>
         <!-- DEBUG : <p> Current comments: {{issueComments | json}}</p> -->
