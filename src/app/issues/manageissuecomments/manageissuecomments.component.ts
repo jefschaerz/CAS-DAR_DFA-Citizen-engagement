@@ -5,7 +5,7 @@ import { IssueCommentService } from 'src/app/api/services/issue-comment.service'
 import { IssueService } from 'src/app/api/services/issue.service';
 import { IssueComment } from 'src/app/models/issue-comment';
 import { Issue } from 'src/app/models/issue';
-import { filter } from 'rxjs/operators';
+import { UserService } from 'src/app/api/services/user.service';
 
 @Component({
   selector: 'app-manageissuecomments',
@@ -16,6 +16,7 @@ export class ManageissuecommentsComponent implements OnInit {
   issueId: any;
   newComment: string;
   issueComment: IssueComment;
+  issueCommentUsername: string;
   issue: Issue;
   issueComments: IssueComment[];
   searchTextInComment: string;
@@ -26,7 +27,8 @@ export class ManageissuecommentsComponent implements OnInit {
     public issueCommentService: IssueCommentService,
     private issueService: IssueService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private userService: UserService) {
 
     // Defined to retrieve id in route patch for edit issue purpose
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -62,9 +64,8 @@ export class ManageissuecommentsComponent implements OnInit {
   }
 
   getIssueComments(): void {
-    // Subscribe to get list of comments for this issue
+    // Subscribe to get list of comments for this issue (with author)
     this.issueComments = [];
-    // TODO : Sort by date
     this.issueCommentService.loadIssueComments(this.issueId)
       .subscribe({
         next: (result) => {
@@ -105,6 +106,5 @@ export class ManageissuecommentsComponent implements OnInit {
           this.getIssueComments();
         }
       });
-
   }
 }

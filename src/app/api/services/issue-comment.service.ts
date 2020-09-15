@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IssueComment } from "src/app/models/issue-comment";
 import { tap } from 'rxjs/operators';
@@ -10,10 +10,18 @@ import { environment } from "../../../environments/environment";
   providedIn: 'root'
 })
 export class IssueCommentService {
-  constructor(private http: HttpClient) { }
+  httpOptions = {
+    headers: new HttpHeaders({
+    }),
+    params: new HttpParams
+  };
+
+  constructor(private http: HttpClient) {
+  }
 
   loadIssueComments(id: string): Observable<IssueComment[]> {
-    return this.http.get<IssueComment[]>(`${environment.apiUrl}/issues/${id}/Comments`);
+    this.httpOptions.params = this.httpOptions.params.set('include', 'author');
+    return this.http.get<IssueComment[]>(`${environment.apiUrl}/issues/${id}/Comments`, this.httpOptions);
   }
 
   // Add a new comment object to the issue.

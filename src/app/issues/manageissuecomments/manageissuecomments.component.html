@@ -32,15 +32,7 @@
 
             </div>
             <br>
-            <!--
-                  Container
-                  for
-                  the
-                  data
-                  collect
-                  or
-                  display
-                  -->
+            <!-- Container for the data collect or display -->
             <!-- Template-driven method-->
             <!-- Form to add a new comment-->
             <h5>Add a new comment</h5>
@@ -63,32 +55,22 @@
                 </div>
             </form>
 
-            <!-- Not usefule but working <h5 class="">Search in comments</h5>
-            <div class="form-group mb-4">
-                <input class="form-control"
-                       type="text"
-                       [(ngModel)]="searchTextInComment"
-                       placeholder="Keyword...">
-            </div> -->
-            <hr>
-
             <h5 class="">List of comments</h5>
             <table class="table table-hover table-bordered"
                    *ngIf="(issueComments.length) > 0; else noResults">
                 <thead>
                     <tr>
                         <th scope="col-md-8">Comments</th>
-                        <th scope="col">CreatedAt</th>
-                        <th scope="col">CreatorHref</th>
+                        <th scope="col">Created at</th>
+                        <th scope="col">Author</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let comment of issueComments; let index = index; "
                         scope="row">
                         <td>{{comment.text}}</td>
-                        <td>{{comment.createdAt | date}} </td>
-                        <td>{{comment.id}}</td>
-
+                        <td>{{comment.createdAt | date:'short'}} </td>
+                        <td>{{comment.author.name }} </td>
                     </tr>
                 </tbody>
             </table>
@@ -97,6 +79,6 @@
             </ng-template>
         </div>
         <br>
-        <p> Current comments: {{issueComments | json}}</p>
+        <!-- DEBUG : <p> Current comments: {{issueComments | json}}</p> -->
     </div>
 </div>

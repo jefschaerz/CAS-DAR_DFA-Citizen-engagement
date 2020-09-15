@@ -40,7 +40,7 @@ export class MapComponent implements OnInit {
     console.log('End of MapComponent constructor....');
   }
 
-  // Workaround to navigate in the zone and avoir warning
+  // Workaround to navigate in the zone and avoid warning
   public navigate(commands: any[]): void {
     console.log("ngZone.run..")
     this.ngZone.run(() => this.router.navigate(commands)).then();
@@ -67,6 +67,29 @@ export class MapComponent implements OnInit {
       console.log('Markers updated ', this.stdMarkers, this.map);
     });
     console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
+  }
+
+
+  private initializeDefaultMapPoint() {
+    this.mapPoint = {
+      name: 'Default',
+      latitude: environment.defaultCityCenterPointLat,
+      longitude: environment.defaultCityCenterPointLng
+    };
+  }
+  private initializeMapOptions() {
+    this.mapOptions = {
+      layers: [
+        tileLayer(
+          'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          { maxZoom: 18 }
+        )
+      ],
+      zoom: 13,
+      // City defined in enviromment
+      center: latLng(environment.defaultCityCenterPointLat, environment.defaultCityCenterPointLng),
+
+    };
   }
 
   onMarkedDragEnd(event: DragEvent) {
@@ -153,31 +176,11 @@ export class MapComponent implements OnInit {
     // JFS ?? this.newMarker.on({ click: this.onMarkerClicked });
     // Refresh newMarker position in shared service 
     this.refreshNewMarkerPosition(this.newMarker.getLatLng().lat, this.newMarker.getLatLng().lng);
-    // Center map on the new marker
-    this.map.setView(coordinates, this.map.getZoom());
+
+    // Center map on the new marker and zoom on it 
+    this.map.setView(coordinates, 20);
     console.log('createNewMarker at position : Lat : ', coordinates.lat, '/ Lng: ', coordinates.lng);
   }
 
-  private initializeDefaultMapPoint() {
-    this.mapPoint = {
-      name: 'Default',
-      latitude: environment.defaultCityCenterPointLat,
-      longitude: environment.defaultCityCenterPointLng
-    };
-  }
-  private initializeMapOptions() {
-    this.mapOptions = {
-      layers: [
-        tileLayer(
-          'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          { maxZoom: 18 }
-        )
-      ],
-      zoom: 13,
-      // City defined in enviromment
-      center: latLng(environment.defaultCityCenterPointLat, environment.defaultCityCenterPointLng),
-
-    };
-  }
 
 }

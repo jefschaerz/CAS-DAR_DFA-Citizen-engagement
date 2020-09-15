@@ -71,7 +71,7 @@ export class ManageissueComponent implements OnInit {
     // Load defaut values  
     this.loadNewIssueDefaultValues();
 
-    // // Subscribe to new Marker Position
+    // Subscribe to new Marker Position
     this.markerPosition.currentPosition.subscribe(position => {
       this.newMarkerPosition = (position)
       console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
@@ -276,6 +276,7 @@ export class ManageissueComponent implements OnInit {
             })
             // Clear form for a new issue
             this.clearFormAndLoadDefaultValue(form);
+            // TODO : remove Marker on Map
           }
         });
       }

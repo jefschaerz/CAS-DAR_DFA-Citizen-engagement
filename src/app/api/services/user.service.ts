@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from "src/app/models/user";
@@ -18,7 +18,8 @@ export class UserService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'my-auth-token'
-    })
+    }),
+    params: new HttpParams
   };
 
   constructor(private http: HttpClient,
@@ -39,6 +40,14 @@ export class UserService {
     );
   }
 
+  /** POST: load user info from the API */
+  loadUserInfo(userId: string): Observable<User> {
+    this.httpOptions.params = this.httpOptions.params.set('include', 'author');
+    return this.http.get<any>(`${environment.apiUrl}/users/${userId}`, this.httpOptions).pipe(
+      tap((User: User) => this.log(`Success : Read user info w/ id=${User.id} , ${User.name}`)),
+      catchError(this.handleError<User>('loadUserInfo'))
+    );
+  }
   /**
     * Handle Http operation that failed.
     * Let the app continue.

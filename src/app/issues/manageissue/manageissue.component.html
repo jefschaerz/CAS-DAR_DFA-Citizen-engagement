@@ -20,10 +20,11 @@
         </div>
         <div class="container-fluid col-md-7 my-container">
             <!-- Container for the data collect or display -->
-            <button *ngIf=(!isNewIssue)
-                    class="btn btn-info"
-                    (click)="goToAllIssues()">Back to the issues</button>
-            <p></p>
+            <div *ngIf=(!isNewIssue)><button class="btn btn-info"
+                        (click)="goToAllIssues()">Back to the issues</button>
+                <p></p>
+                <hr>
+            </div>
             <div class="row my-row"
                  *ngIf=(!isNewIssue)>
                 <div class="col">
@@ -97,7 +98,8 @@
                 <div class="row my-row">
                     <div class="col-3 my-col">
                         <label class="ml-3 justify-content-start "
-                               for="location">Location (click on map)</label>
+                               for="location">Location</label>
+                        <p class="ml-3"> (click on map to change)</p>
                     </div>
                     <div class="col-lg-9 my-col form-group form-inline my-form-group">
                         <div Class="row my-row">
@@ -112,6 +114,7 @@
                                        required
                                        [(ngModel)]="issue.location.coordinates[0]"
                                        ng-pattern />
+
                             </div>
                             <div class="col-lg-6 my-col">
                                 <div class="form-group form-inline">
@@ -186,9 +189,9 @@
                          alt="this.issue.imageUrl"
                          width="30" />
 
-                    <button class="form-control ml-2 mr-2 col-md-2 btn btn-primary float-right"
+                    <button class="form-control ml-2 mr-2 btn btn-primary pull-right"
                             type="button"
-                            (click)="addFakeImageURL()">Browse (NA)</button>
+                            (click)="addFakeImageURL()">Random</button>
 
                 </div>
 
@@ -208,12 +211,13 @@
                          alt="this.issue.imageUrl"
                          width="30" />
                     <span>
-                        <button class="form-control ml-2 mr-2 col-md-6 btn btn-primary pull-right"
-                                type="button"
-                                (click)="addFakeaAdditionalImageURL()">Browse (NA)</button>
-                        <button class="form-control ml-2 mr-2 col-md-6 btn btn-primary pull-right"
+                        <button class="form-control ml-2 mr-2 btn btn-primary pull-right"
                                 type="button"
                                 (click)="addAdditionalPictureToIssue()">Add this</button>
+                        <button class="form-control ml-2 mr-2 btn btn-primary pull-right"
+                                type="button"
+                                (click)="addFakeaAdditionalImageURL()">Random</button>
+
                     </span>
                 </div>
 
@@ -242,6 +246,7 @@
                 </div>
                 <!-- Bottom with buttons -->
                 <div class="form-group">
+                    <hr>
                     <div class="row my-row">
                         <button class="form-control btn btn-success col-3"
                                 type="submit"
@@ -263,9 +268,8 @@
                                 (click)="goToAllIssues()">Cancel</button>
                     </div>
                 </div>
-                <p> Form.valid {{IssueForm.valid}}</p>
             </form>
-            <p> Current issue: {{issue | json}}</p>
+            <!-- DEBUG : <p> Current issue: {{issue | json}}</p> -->
         </div>
     </div>
 </div>
