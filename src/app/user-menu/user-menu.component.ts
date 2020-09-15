@@ -9,4 +9,5 @@ import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 })
 export class UserMenuComponent {
   @Input() displayUserName: string;
+
 }

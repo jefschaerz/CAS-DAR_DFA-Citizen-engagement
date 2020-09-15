@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { defaultIcon, greenIcon } from './default-marker';
 import { latLng, MapOptions, marker, Marker, Map, tileLayer, LeafletMouseEvent } from 'leaflet';
 import { IssueService } from '../api/services/issue.service';
@@ -8,6 +8,7 @@ import { MarkersListService } from 'src/app/shared/services/markerslist.service'
 import { registerEscClick } from 'ngx-bootstrap/utils';
 import { MapCoordinates } from 'src/app/models/map-coordinates.model';
 import { environment } from "src/environments/environment";
+import { Router } from "@angular/router";
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -18,10 +19,11 @@ export class MapComponent implements OnInit {
 
   map: Map;
   mapPoint: MapCoordinates;
+  // Array for issues to dispay on map
   mapMarkers: Marker[];
   mapOptions: MapOptions;
   lastLayer: any;
-  // Array for ALL issues to display std
+  // Array for ALL issues to display std (updated by the service)
   stdMarkers: Issue[];
   newMarker: Marker;
   newMarkerPosition: number[];
@@ -29,11 +31,19 @@ export class MapComponent implements OnInit {
   constructor(
     private issueService: IssueService,
     private markerPosition: MarkerPositionService,
-    private markersList: MarkersListService) {
+    private markersList: MarkersListService,
+    private router: Router,
+    private ngZone: NgZone) {
     this.stdMarkers = [];
     this.mapMarkers = [];
     this.addNewMarkerOnMapAllowed = false;
     console.log('End of MapComponent constructor....');
+  }
+
+  // Workaround to navigate in the zone and avoir warning
+  public navigate(commands: any[]): void {
+    console.log("ngZone.run..")
+    this.ngZone.run(() => this.router.navigate(commands)).then();
   }
 
   ngOnInit(): void {
@@ -78,30 +88,30 @@ export class MapComponent implements OnInit {
   refreshMarkers(map: L.Map, selectedIssueList: Issue[]) {
     this.mapMarkers = [];
     for (var i = 0; i < selectedIssueList.length; i++) {
-      this.mapMarkers.push(this.addNewMarkerFromIssue(selectedIssueList[i], map));
+      this.mapMarkers.push(this.addMarkerFromIssue(selectedIssueList[i], map));
     }
     console.log('Number of Markers to display:', this.mapMarkers);
   }
 
-  addNewMarkerFromIssue(oneIssue: Issue, map: L.Map): L.Marker {
-    //console.log('Issue received :', oneIssue.location.coordinates, '-', oneIssue.description);
+  addMarkerFromIssue(oneIssue: Issue, map: L.Map): L.Marker {
     let oneMarker = marker(<L.LatLngExpression>(oneIssue.location.coordinates), { icon: defaultIcon, alt: oneIssue.description }).bindTooltip(oneIssue.description);
     oneMarker.addTo(map);
-    oneMarker.on('click', function (e) {
-      // e = event
-      console.log('Id of the issue', oneIssue.id);
-    })
+    oneMarker.on('click', e => this.onMarkerClicked(oneIssue.id));
+    //     {
+    //       console.log('Id of the issue', oneIssue.id);
+    // //      this.router.navigate(['/editissue', oneIssue.id]);
+    //     })
     return oneMarker;
   }
 
-  // Update newMarker position in shared service for other components
+  // Update new marker position in shared service for other components
   refreshNewMarkerPosition(NewLat: number, NewLong: number) {
     this.markerPosition.changeValues([NewLat, NewLong]);
   }
 
   onMapClick(e: LeafletMouseEvent) {
-    console.log('OnMapClick...')
-    console.log('List of issues to display', this.stdMarkers);
+    //console.log('OnMapClick...')
+    //console.log('List of issues to display', this.stdMarkers);
     this.refreshMarkers(this.map, this.stdMarkers);
     // Update marker only in Add Issue mode
     if (this.addNewMarkerOnMapAllowed) {
@@ -112,7 +122,6 @@ export class MapComponent implements OnInit {
     // Select issue in See issues
     else {
       console.log('Marker : ', e.target);
-
     }
   }
 
@@ -130,8 +139,9 @@ export class MapComponent implements OnInit {
     };
   }
 
-  onMarkerClicked(e) {
-    console.log('Maker clicked', e);
+  onMarkerClicked(IssueId: string) {
+    console.log('Marker clicked', IssueId);
+    this.navigate(['/editissue', IssueId]);
   }
 
   private createNewMarker() {
@@ -140,7 +150,7 @@ export class MapComponent implements OnInit {
     const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
     this.newMarker = marker([coordinates.lat, coordinates.lng], { icon: greenIcon, draggable: false }).addTo(this.map);
     this.newMarker.bindTooltip("New issue");
-    this.newMarker.on({ click: this.onMarkerClicked });
+    // JFS ?? this.newMarker.on({ click: this.onMarkerClicked });
     // Refresh newMarker position in shared service 
     this.refreshNewMarkerPosition(this.newMarker.getLatLng().lat, this.newMarker.getLatLng().lng);
     // Center map on the new marker
@@ -169,6 +179,5 @@ export class MapComponent implements OnInit {
 
     };
   }
-
 
 }
