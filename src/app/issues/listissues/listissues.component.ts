@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular
 import { AlertService } from 'src/app/alerts/alerts.service';
 import { IssueService } from 'src/app/api/services/issue.service';
 import { IssueTypeService } from 'src/app/api/services/issue-type.service';
-import { IssueCommentService } from 'src/app/api/services/issue-comment.service';
 import { Issue, stateLabels, stateIDs } from 'src/app/models/issue';
 import { User } from 'src/app/models/user';
 import { IssueType } from "src/app/models/issue-type";
@@ -28,10 +27,8 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   selectedIssue: Issue;
   searchText: string = '';
   addNewMarkerAllowed = false;
-  issueComment: IssueComment;
-  issueComments: IssueComment[];
   loggedUser: User;
-  // To retreive list of States
+  // To retreive list of states
   stateIDs = stateIDs;
   stateLabels = stateLabels;
   selectedState = { href: 'all' };
@@ -79,7 +76,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
 
   constructor(private issueService: IssueService,
     public alertService: AlertService,
-    public issueCommentService: IssueCommentService,
     public issueTypeService: IssueTypeService,
     public authService: AuthService,
     private markersList: MarkersListService,
@@ -180,20 +176,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
       });
   }
 
-  getIssueComments(issueId: string): void {
-    // Subscribe to get list of comments for this issue
-    this.issueComments = [];
-    this.issueCommentService.loadIssueComments(issueId)
-      .subscribe({
-        next: (result) => {
-          this.issueComments = result;
-          console.log("Comments loaded are:", this.issueComments)
-        },
-        error: (error) => console.warn("Error", error),
-        complete: () => console.log('getIssueComment completed!')
-      });
-  }
-
   onSelect(myIssue: Issue): void {
     this.selectedIssue = myIssue;
     console.log('Issue selected : ', this.selectedIssue.description);
@@ -210,29 +192,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/editissue', id, 'comments']);
   }
 
-  addOneComment(id: string): void {
-    // Subscribe to add a comment
-    this.issueComment = new IssueComment;
-    this.issueComment.text = '';
-
-    console.log()
-    this.issueCommentService.addCommentToIssue(id, this.issueComment)
-      .subscribe({
-        next: (result) => {
-          this.alertService.success('Your comment has been correctly added', {
-            autoClose: true,
-            keepAfterRouteChange: false
-          });
-        },
-        error: (error) => {
-          this.alertService.error('En error occurs when adding your comment', {
-            autoClose: true,
-            keepAfterRouteChange: false
-          });
-        },
-      });
-  }
-
   refreshFilterAndSearch() {
     console.log('Refresh filters with selectOwnIssue', this.selectOnlyOwnIssue);
     this.displayedIssues = this.allIssues;
@@ -240,7 +199,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.applySearchByDescription(this.searchText);
     this.applySearchByAuthorHref(this.selectOnlyOwnIssue);
     console.log('Issue to display : OK', this.displayedIssues);
-    // Markers will sho displayIssues 
+    // Markers will show displayIssues 
     this.refreshMarkersList(this.displayedIssues);
     this.setCurrentPage(1);
   }
@@ -307,7 +266,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.currentPageIssues = this.displayedIssues.slice(startItem, endItem);
   }
 
-  isThisIssueMine(issueHref: string) {
+  isThisIssueOwnIssue(issueHref: string) {
     return (issueHref === this.loggedUser.href);
   }
 }

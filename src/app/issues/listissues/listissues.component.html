@@ -132,7 +132,7 @@
                                                 class="btn btn-primary mr-1"
                                                 (click)="onEditComments(issue.id)">Comments
                                         </button>
-                                        <button *ngIf="isThisIssueMine(issue.creatorHref)"
+                                        <button *ngIf="isThisIssueOwnIssue(issue.creatorHref)"
                                                 type="
                                                 button"
                                                 class="btn btn-primary"
@@ -182,9 +182,6 @@
                 <td>
                     <button (click)="onEditIssue(issue.id)">Edit</button>
                     <button (click)="onEditComments(issue.id)">Edit comments</button>
-                </td>
-                <td>
-                    <button (click)="getIssueComments(issue.id)">Load Comments</button>
                 </td>
                 <td (click)="onSelect(issue)">{{index+1}}</td>
                 <!-- <td (click)="onSelect(issue)">{{issue.assigneeHref}}</td> -->

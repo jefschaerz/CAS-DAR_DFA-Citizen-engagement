@@ -14,21 +14,24 @@ export class IssueService {
 
   constructor(private http: HttpClient, public alertService: AlertService) { }
 
-  //Info : tap : return same Obeservable
+  //Info : tap : return same Observable
   //       map : do action swith every value of the observable and do stuff. Return value as Observable.
 
   loadAllActions() {
     throw new Error("Method not implemented.");
   }
 
+  /** Get: get all issues the API */
   loadAllIssues(): Observable<Issue[]> {
     return this.http.get<Issue[]>(`${environment.apiUrl}/issues`);
   }
 
+  /** Get: get issues by page and pagesize by the API */
   loadIssuesByPage(reqPage: number, pageSize: number): Observable<Issue[]> {
     return this.http.get<Issue[]>(`${environment.apiUrl}/issues?page=${reqPage}&pageSize=${pageSize}`);
   }
 
+  /** Get: get one issue by the API */
   loadOneIssue(issueId): Observable<Issue> {
     return this.http.get<Issue>(`${environment.apiUrl}/issues/${issueId}`);
   }
