@@ -88,7 +88,6 @@ export class MapComponent implements OnInit {
       zoom: 13,
       // City defined in enviromment
       center: latLng(environment.defaultCityCenterPointLat, environment.defaultCityCenterPointLng),
-
     };
   }
 
@@ -164,7 +163,8 @@ export class MapComponent implements OnInit {
 
   onMarkerClicked(IssueId: string) {
     console.log('Marker clicked', IssueId);
-    this.navigate(['/editissue', IssueId]);
+    // Only allwow to view issue info (not edit)
+    this.navigate(['/viewissue', IssueId]);
   }
 
   private createNewMarker() {

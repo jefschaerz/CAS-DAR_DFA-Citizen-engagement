@@ -3,7 +3,8 @@
         <div class="col-lg-5">
             <div>
                 <h4 *ngIf=(isNewIssue)>Add an issue</h4>
-                <h4 *ngIf=(!isNewIssue)>Edit an issue</h4>
+                <h4 *ngIf="!isNewIssue && isEditableIssue">Edit an issue</h4>
+                <h4 *ngIf="!isNewIssue && !isEditableIssue">View details of an issue</h4>
             </div>
         </div>
         <div class="col-lg-7">
@@ -59,7 +60,8 @@
                                     (change)='onIssueTypeSelected(mySelect.value)'
                                     [(ngModel)]="issue.issueTypeHref"
                                     required
-                                    name="selectIssueType">
+                                    name="selectIssueType"
+                                    [disabled]="!isEditableIssue">
                                 <option disabled
                                         selected
                                         [ngValue]="null"> - Select one - </option>
@@ -87,7 +89,8 @@
                                    [(ngModel)]="issue.description"
                                    maxlength="1000"
                                    ng-pattern
-                                   placeholder="Provide a description" />
+                                   placeholder="Provide a description"
+                                   [disabled]="!isEditableIssue" />
                             <p *ngIf="descriptionField.hasError('required') && descriptionField.touched">
                                 Description is required
                             </p>
@@ -113,7 +116,8 @@
                                        #latitudeField="ngModel"
                                        required
                                        [(ngModel)]="issue.location.coordinates[0]"
-                                       ng-pattern />
+                                       ng-pattern
+                                       [disabled]="!isEditableIssue" />
 
                             </div>
                             <div class="col-lg-6 my-col">
@@ -127,13 +131,13 @@
                                            #longitudeField="ngModel"
                                            required
                                            [(ngModel)]="issue.location.coordinates[1]"
-                                           ng-pattern />
+                                           ng-pattern
+                                           [disabled]="!isEditableIssue" />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="form-group form-inline my-form-group">
                     <label class="col-3 justify-content-start"
@@ -145,10 +149,12 @@
                            #descriptionField="ngModel"
                            [(ngModel)]="newTag"
                            maxlength="20"
-                           ng-pattern />
+                           ng-pattern
+                           [disabled]="!isEditableIssue" />
                     <button class="form-control btn btn-primary ml-2"
                             type="button"
-                            (click)="addTagToIssue()">Add this tag</button>
+                            (click)="addTagToIssue()"
+                            [hidden]="!isEditableIssue">Add this tag</button>
                 </div>
                 <div class="row my-row ml-10 mb-2">
                     <div class="col-3 my-col">
@@ -163,7 +169,8 @@
                                     <!-- <button class="btn btn-xs btn-danger"
                                 (click)="removeTag(i)"><i class="fa fa-trash"></i>
                         </button> -->
-                                    <span class="badge badge-danger"
+                                    <span *ngIf="isEditableIssue"
+                                          class="badge badge-danger"
                                           (click)="removeTag(i)"><i class="fa fa-trash"></i>
                                     </span>
                                 </h5>
@@ -183,7 +190,8 @@
                            #descriptionField="ngModel"
                            [(ngModel)]="this.issue.imageUrl"
                            maxlength="500"
-                           ng-pattern />
+                           ng-pattern
+                           [disabled]="!isEditableIssue" />
                     <img *ngIf="(issue.imageUrl !== null && issue.imageUrl.length > 0)"
                          src="{{this.issue.imageUrl}}"
                          alt="this.issue.imageUrl"
@@ -191,6 +199,7 @@
 
                     <button class="form-control ml-2 mr-2 btn btn-primary pull-right"
                             type="button"
+                            [hidden]="!isEditableIssue"
                             (click)="addFakeImageURL()">Random</button>
 
                 </div>
@@ -205,7 +214,8 @@
                            #descriptionField="ngModel"
                            [(ngModel)]="newAdditionalPictureURL"
                            maxlength="500"
-                           ng-pattern />
+                           ng-pattern
+                           [disabled]="!isEditableIssue" />
                     <img *ngIf="(newAdditionalPictureURL !== null && newAdditionalPictureURL.length > 0)"
                          src="{{newAdditionalPictureURL}}"
                          alt="this.issue.imageUrl"
@@ -213,11 +223,12 @@
                     <span>
                         <button class="form-control ml-2 mr-2 btn btn-primary pull-right"
                                 type="button"
+                                [hidden]="!isEditableIssue"
                                 (click)="addAdditionalPictureToIssue()">Add this</button>
                         <button class="form-control ml-2 mr-2 btn btn-primary pull-right"
                                 type="button"
+                                [hidden]="!isEditableIssue"
                                 (click)="addFakeaAdditionalImageURL()">Random</button>
-
                     </span>
                 </div>
 
@@ -236,7 +247,8 @@
                                 <img class="card-img-top"
                                      src="{{picture}}"
                                      alt="Card image cap">
-                                <span class="badge badge-danger"
+                                <span *ngIf="isEditableIssue"
+                                      class="badge badge-danger"
                                       (click)="removePicture(pic)"><i class="fa fa-trash"></i>
                                 </span>
                             </div>
@@ -247,7 +259,8 @@
                 <!-- Bottom with buttons -->
                 <div class="form-group">
                     <hr>
-                    <div class="row my-row">
+                    <div *ngIf="isEditableIssue"
+                         class="row my-row">
                         <button class="form-control btn btn-success col-3"
                                 type="submit"
                                 [disabled]="IssueForm.invalid">

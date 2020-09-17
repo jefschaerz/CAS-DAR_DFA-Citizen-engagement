@@ -42,8 +42,7 @@ export class UserService {
 
   /** POST: load user info from the API */
   loadUserInfo(userId: string): Observable<User> {
-    this.httpOptions.params = this.httpOptions.params.set('include', 'author');
-    return this.http.get<any>(`${environment.apiUrl}/users/${userId}`, this.httpOptions).pipe(
+    return this.http.get<any>(`${environment.apiUrl}/users/${userId}`).pipe(
       tap((User: User) => this.log(`Success : Read user info w/ id=${User.id} , ${User.name}`)),
       catchError(this.handleError<User>('loadUserInfo'))
     );

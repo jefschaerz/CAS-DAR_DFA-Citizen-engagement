@@ -34,6 +34,7 @@ export class ManageissueComponent implements OnInit {
   selectedLocationLong: number = environment.defaultCityCenterPointLng;
   newMarkerPosition: number[];
   isNewIssue: boolean;
+  isEditableIssue: boolean;
   // Indicate if component used to create new issue or to modifiy current issue
   addNewMarkerAllowed = true;
 
@@ -79,15 +80,27 @@ export class ManageissueComponent implements OnInit {
       this.issue.location.coordinates[1] = position[1];
     });
 
+    console.log("Router link is : ", this.route.url);
     // Check if Add or Edit Issue operation (based on the current route)
-    if (this.router.url === '/addissue') {
+    if (this.router.url.indexOf('/addissue') > -1) {
       // *** Add Issue action
       this.isNewIssue = true;
+      this.isEditableIssue = true;
+      console.log("Router link is /addissue");
     }
-    else {
-      // *** Add Issue action
+    if (this.router.url.indexOf('/editissue') > -1) {
+      // *** Edit Issue action
       this.isNewIssue = false;
       this.loadIssueToEditValues();
+      // Improvment possible: allow only if logged user issue
+      this.isEditableIssue = true;
+      console.log("Router link is /editissue");
+    }
+    if (this.router.url.indexOf('/viewissue') > -1) {
+      // Allowed to change marker position only if issue is editable
+      this.isEditableIssue = false;
+      this.addNewMarkerAllowed = this.isEditableIssue;
+      console.log("Router link is /viewissue");
     }
   }
 
@@ -140,7 +153,6 @@ export class ManageissueComponent implements OnInit {
   onIssueTypeSelected(value: string) {
     console.log("The selected value is : " + value);
   }
-
 
   getTypesOfIssue() {
     // Ask service for the list of current type of issues defined
@@ -276,7 +288,7 @@ export class ManageissueComponent implements OnInit {
             })
             // Clear form for a new issue
             this.clearFormAndLoadDefaultValue(form);
-            // TODO : remove Marker on Map
+            this.goToAllIssues();
           }
         });
       }

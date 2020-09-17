@@ -33,6 +33,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: "viewissue/:id", component: ManageissueComponent,
+    // Prevent access to this page to unauthenticated users
+    canActivate: [AuthGuard],
+  },
+  {
     path: "editissue/:id/comments", component: ManageissuecommentsComponent,
     // Prevent access to this page to unauthenticated users
     canActivate: [AuthGuard],

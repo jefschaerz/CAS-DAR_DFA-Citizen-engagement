@@ -187,6 +187,12 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/editissue', id]);
   }
 
+  onViewIssue(id: string) {
+    console.log('Issue to view : ', id);
+    this.router.navigate(['/viewissue', id]);
+  }
+
+
   onEditComments(id: string) {
     console.log('Issue Comments to edit : ', id);
     this.router.navigate(['/editissue', id, 'comments']);

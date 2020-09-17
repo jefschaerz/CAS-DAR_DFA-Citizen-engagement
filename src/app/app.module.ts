@@ -43,7 +43,11 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     ManageissueComponent,
     ManageissuecommentsComponent,
     FilterPipe,
-    ListissuesComponent, MapComponent, FilterissuesComponent, FooterComponent, HeaderComponent
+    ListissuesComponent,
+    MapComponent,
+    FilterissuesComponent,
+    FooterComponent,
+    HeaderComponent
   ],
   // Import other Angular MODULES
   imports: [

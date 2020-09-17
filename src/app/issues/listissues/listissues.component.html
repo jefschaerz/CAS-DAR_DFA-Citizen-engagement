@@ -1,21 +1,21 @@
 <div class="container-fluid my-container">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-5">
             <h4>See issues</h4>
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-7">
             <app-alert>Alert :</app-alert>
         </div>
     </div>
     <hr>
     <div class="row my-row">
         <!-- Main row -->
-        <div class="container-fluid col-lg-4 mb-4 my-container"
+        <div class="container-fluid col-lg-5 mb-4 my-container"
              col-4>
             <!-- Container for the Map-->
             <app-map [addNewMarkerOnMapAllowed]=addNewMarkerAllowed>Map</app-map>
         </div>
-        <div class="container-fluid col-lg-8 my-container">
+        <div class="container-fluid col-lg-7 my-container">
             <div class="row my-row mt-2">
                 <div class="col-lg-6">
                     <h5 class="">Filter by state</h5>
@@ -120,24 +120,32 @@
                                 </div>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-sm-7 col-lg-7">
+                                    <div class="col-sm-6 col-lg-6">
                                         <p>Tags:
                                             <br>
                                             <span *ngFor="let tag of issue.tags; let i = index;"
                                                   class="badge badge-warning ml-1">{{tag}}</span>
                                         </p>
                                     </div>
-                                    <div class="col-sm-5 col-lg-5">
+                                    <div class="col-sm-6 col-lg-6">
                                         <button type="button"
                                                 class="btn btn-primary mr-1"
                                                 (click)="onEditComments(issue.id)">Comments
                                         </button>
-                                        <button *ngIf="isThisIssueOwnIssue(issue.creatorHref)"
+                                        <button *ngIf="isThisIssueOwnIssue(issue.creatorHref) else viewIssue "
                                                 type="
                                                 button"
                                                 class="btn btn-primary"
                                                 (click)="onEditIssue(issue.id)">Edit
                                         </button>
+                                        <ng-template #viewIssue>
+                                            <button type="
+                                            button"
+                                                    class="btn btn-primary"
+                                                    (click)="onViewIssue(issue.id)">Details
+                                            </button>
+                                        </ng-template>
+
                                     </div>
                                 </div>
                             </div>
