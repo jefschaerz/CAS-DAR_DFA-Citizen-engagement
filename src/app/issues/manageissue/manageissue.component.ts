@@ -89,16 +89,19 @@ export class ManageissueComponent implements OnInit {
       console.log("Router link is /addissue");
     }
     if (this.router.url.indexOf('/editissue') > -1) {
+      this.loadIssueToEditValues();
       // *** Edit Issue action
       this.isNewIssue = false;
-      this.loadIssueToEditValues();
       // Improvment possible: allow only if logged user issue
       this.isEditableIssue = true;
       console.log("Router link is /editissue");
     }
     if (this.router.url.indexOf('/viewissue') > -1) {
+      // *** View Issue action
+      this.loadIssueToEditValues();
       // Allowed to change marker position only if issue is editable
       this.isEditableIssue = false;
+      this.isNewIssue = false;
       this.addNewMarkerAllowed = this.isEditableIssue;
       console.log("Router link is /viewissue");
     }

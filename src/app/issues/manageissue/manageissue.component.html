@@ -37,6 +37,7 @@
                                 class="btn mr-2">New</button>
 
                         <button [ngClass]="{'btn-info': issue.state === 'inProgress'}"
+                                [disabled]="true"
                                 class="btn  mr-2">In progress</button>
 
                         <button [ngClass]="{'btn-danger': issue.state === 'rejected'}"
@@ -282,7 +283,8 @@
                     </div>
                 </div>
             </form>
-            <!-- DEBUG : <p> Current issue: {{issue | json}}</p> -->
+            <!-- DEBUG : -->
+            <p> Current issue: {{issue | json}}</p>
         </div>
     </div>
 </div>
