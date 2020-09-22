@@ -49,12 +49,6 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.initializeDefaultMapPoint();
     this.initializeMapOptions();
-
-    // Subscribe to update marker position on click
-    this.markerPosition.currentPosition.subscribe(position => {
-      this.newMarkerPosition = (position)
-    });
-
     console.log('** End of ngONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
   }
 
@@ -64,7 +58,15 @@ export class MapComponent implements OnInit {
     this.markersList.currentStdMarkers.subscribe(marker => {
       this.stdMarkers = marker;
       this.refreshMarkers(this.map, this.stdMarkers);
-      console.log('Markers updated ', this.stdMarkers, this.map);
+      // console.log('Markers updated ', this.stdMarkers, this.map);
+    });
+
+    // Subscribe to the markerPosition service to be informed on marker position change
+    this.markerPosition.currentPosition.subscribe(position => {
+      this.newMarkerPosition = (position)
+      // Update marker position
+      this.updateThisIssueMapPoint(position[0], position[1]);
+      this.updateThisIssueMarker();
     });
     console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
   }
@@ -127,23 +129,18 @@ export class MapComponent implements OnInit {
   }
 
   // Update new marker position in shared service for other components
-  refreshNewMarkerPosition(NewLat: number, NewLong: number) {
+  updateNewMarkerPosition(NewLat: number, NewLong: number) {
     this.markerPosition.changeValues([NewLat, NewLong]);
   }
 
   onMapClick(e: LeafletMouseEvent) {
-    //console.log('OnMapClick...')
-    //console.log('List of issues to display', this.stdMarkers);
-    this.refreshMarkers(this.map, this.stdMarkers);
-    // Update marker only in Add Issue mode
+    // JFS Necessary ?? this.refreshMarkers(this.map, this.stdMarkers);
+    // Update this issue marker only in Add Issue mode
     if (this.addNewMarkerOnMapAllowed) {
-      console.log('Add mode because addnNewMarkedAllowed: ', this.addNewMarkerOnMapAllowed);
-      this.updateMapPoint(e.latlng.lat, e.latlng.lng);
-      this.createNewMarker();
-    }
-    // Select issue in See issues
-    else {
-      console.log('Marker : ', e.target);
+      this.updateThisIssueMapPoint(e.latlng.lat, e.latlng.lng);
+      this.updateThisIssueMarker();
+      // Refresh newMarker position in shared service 
+      this.updateNewMarkerPosition(e.latlng.lat, e.latlng.lng);
     }
   }
 
@@ -153,7 +150,7 @@ export class MapComponent implements OnInit {
     console.log(`Map moved to ${center.lng}, ${center.lat}`);
   }
 
-  private updateMapPoint(latitude: number, longitude: number, name?: string) {
+  private updateThisIssueMapPoint(latitude: number, longitude: number, name?: string) {
     this.mapPoint = {
       latitude: latitude,
       longitude: longitude,
@@ -167,20 +164,16 @@ export class MapComponent implements OnInit {
     this.navigate(['/viewissue', IssueId]);
   }
 
-  private createNewMarker() {
+  private updateThisIssueMarker() {
     // Remove current marker
     if (this.map.hasLayer(this.newMarker)) this.map.removeLayer(this.newMarker);
+    // Update marker with mapPoint position
     const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
     this.newMarker = marker([coordinates.lat, coordinates.lng], { icon: greenIcon, draggable: false }).addTo(this.map);
-    this.newMarker.bindTooltip("New issue");
-    // JFS ?? this.newMarker.on({ click: this.onMarkerClicked });
-    // Refresh newMarker position in shared service 
-    this.refreshNewMarkerPosition(this.newMarker.getLatLng().lat, this.newMarker.getLatLng().lng);
+    this.newMarker.bindTooltip("New issue ***");
 
     // Center map on the new marker and zoom on it 
-    this.map.setView(coordinates, 20);
-    console.log('createNewMarker at position : Lat : ', coordinates.lat, '/ Lng: ', coordinates.lng);
+    this.map.setView(coordinates, 16);
+    console.log('updateThisIssueMarker at position : Lat : ', coordinates.lat, '/ Lng: ', coordinates.lng);
   }
-
-
 }

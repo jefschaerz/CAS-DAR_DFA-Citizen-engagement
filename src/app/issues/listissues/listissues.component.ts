@@ -99,11 +99,12 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     // console.log('*** Start ngAfterViewInit: ', this.allIssues);
+    this.updatehMarkersListInService(this.displayedIssues);
     // console.log('*** End ngAfterViewInit - ListissuesCompo ', this.allIssues);
   }
 
   // Update newMarker List in shared service for other components
-  refreshMarkersList(NewMarkersList) {
+  updatehMarkersListInService(NewMarkersList) {
     this.markersList.changeStdMarkersList(NewMarkersList);
   }
 
@@ -192,7 +193,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/viewissue', id]);
   }
 
-
   onEditComments(id: string) {
     console.log('Issue Comments to edit : ', id);
     this.router.navigate(['/editissue', id, 'comments']);
@@ -206,7 +206,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.applySearchByAuthorHref(this.selectOnlyOwnIssue);
     console.log('Issue to display : OK', this.displayedIssues);
     // Markers will show displayIssues 
-    this.refreshMarkersList(this.displayedIssues);
+    this.updatehMarkersListInService(this.displayedIssues);
     this.setCurrentPage(1);
   }
 

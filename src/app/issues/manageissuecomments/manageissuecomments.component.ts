@@ -73,7 +73,7 @@ export class ManageissuecommentsComponent implements OnInit {
   getIssueComments(): void {
     // Subscribe to get list of comments for this issue (with author)
     this.issueComments = [];
-    // TODO : Get Pagination total from Header response to know how many comments avaiable.
+    // TODO : Get Pagination total from Header response to know how many comments available.
     // Here load max 100
     this.issueCommentService.loadIssueComments(this.issueId, 1, 100)
       .subscribe({

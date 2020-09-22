@@ -14,7 +14,7 @@ import { Router } from "@angular/router";
 export class DebuggingPageComponent implements OnInit {
   issueNb = '5f297015659f4400165b68c6';
   options = {
-    autoClose: true,
+    autoClose: false,
     keepAfterRouteChange: false
   };
 
@@ -47,14 +47,6 @@ export class DebuggingPageComponent implements OnInit {
       next: (result) => console.log("Issues", result),
       error: (error) => console.warn("Error", error),
     });
-
-
-
-    // Subscribe to get list of all actions. Only posible for STAFF users ! 
-    // this.actionService.loadAllActions().subscribe({
-    //   next: (result) => console.log("Actions", result),
-    //   error: (error) => console.warn("Error", error),
-    // });
   }
   goToIssueNbRoute() {
     this.router.navigate(['/editissue', this.issueNb]);

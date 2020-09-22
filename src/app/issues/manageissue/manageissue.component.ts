@@ -72,14 +72,6 @@ export class ManageissueComponent implements OnInit {
     // Load defaut values  
     this.loadNewIssueDefaultValues();
 
-    // Subscribe to new Marker Position
-    this.markerPosition.currentPosition.subscribe(position => {
-      this.newMarkerPosition = (position)
-      console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
-      this.issue.location.coordinates[0] = position[0];
-      this.issue.location.coordinates[1] = position[1];
-    });
-
     console.log("Router link is : ", this.route.url);
     // Check if Add or Edit Issue operation (based on the current route)
     if (this.router.url.indexOf('/addissue') > -1) {
@@ -105,7 +97,21 @@ export class ManageissueComponent implements OnInit {
       this.addNewMarkerAllowed = this.isEditableIssue;
       console.log("Router link is /viewissue");
     }
+
+    // Subscribe to marker position change
+    this.markerPosition.currentPosition.subscribe(position => {
+      this.newMarkerPosition = (position)
+      console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
+      this.issue.location.coordinates[0] = position[0];
+      this.issue.location.coordinates[1] = position[1];
+    });
   }
+
+  ngAfterViewInit() {
+    // Update current issue position in the service from loaded values
+    this.markerPosition.changeValues([this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
+    console.log("Position at ngOnInit : ", [this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
+  };
 
   // For a new issue
   loadNewIssueDefaultValues() {
@@ -183,13 +189,6 @@ export class ManageissueComponent implements OnInit {
         complete: () => console.log('Load completed!')
       });
   }
-  // getOneIssue(searchedId: string) {
-  //   // Search in the issues list the searched one and load info in Edit issue to display
-  //   console.log('this.issues', this.issues);
-  //   let index = (this.issues.findIndex(x => x.id === searchedId));
-  //   console.log('Index', index);
-  //   return this.issues[index];
-  // }
 
   addTagToIssue() {
     // Check if provided tag already exists and add only if not
@@ -217,7 +216,6 @@ export class ManageissueComponent implements OnInit {
     let randomNb: number;
     randomNb = Math.floor((Math.random() * 100) + 1);
     return 'https://picsum.photos/id/' + randomNb + '/200.jpg';
-
   }
 
   addFakeaAdditionalImageURL() {
@@ -287,7 +285,7 @@ export class ManageissueComponent implements OnInit {
           complete: () => {
             this.alertService.success('The issue has been correctly added', {
               autoClose: true,
-              keepAfterRouteChange: false
+              keepAfterRouteChange: true
             })
             // Clear form for a new issue
             this.clearFormAndLoadDefaultValue(form);
