@@ -98,19 +98,20 @@ export class ManageissueComponent implements OnInit {
       console.log("Router link is /viewissue");
     }
 
-    // Subscribe to marker position change
+    // Update current issue position in the service from loaded values
+    this.markerPosition.changeValues([this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
+    console.log("Position at ngOnInit : ", [this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
+  }
+
+  ngAfterViewInit() {
+
+    // Subscribe to marker position change 
     this.markerPosition.currentPosition.subscribe(position => {
       this.newMarkerPosition = (position)
       console.log('NewPosition in ManageIssue /  NewMarker : ', this.newMarkerPosition)
       this.issue.location.coordinates[0] = position[0];
       this.issue.location.coordinates[1] = position[1];
     });
-  }
-
-  ngAfterViewInit() {
-    // Update current issue position in the service from loaded values
-    this.markerPosition.changeValues([this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
-    console.log("Position at ngOnInit : ", [this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
   };
 
   // For a new issue

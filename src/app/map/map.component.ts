@@ -53,24 +53,21 @@ export class MapComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // Subscribe to update marker to display
+    // Subscribe to the markerlist service to be informed on markers to display
     // Not in ngOnInit --> generate a ExpressionChangedAfterItHasBeenCheckedError ! 
     this.markersList.currentStdMarkers.subscribe(marker => {
       this.stdMarkers = marker;
       this.refreshMarkers(this.map, this.stdMarkers);
-      // console.log('Markers updated ', this.stdMarkers, this.map);
+      console.log('Markers updated in ngAfterViewInit ', this.stdMarkers, this.map);
     });
 
-    // Subscribe to the markerPosition service to be informed on marker position change
+    // Subscribe to the markerPosition service to be informed on current issue marker position change
     this.markerPosition.currentPosition.subscribe(position => {
       this.newMarkerPosition = (position)
-      // Update marker position
-      this.updateThisIssueMapPoint(position[0], position[1]);
-      this.updateThisIssueMarker();
+
     });
     console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
   }
-
 
   private initializeDefaultMapPoint() {
     this.mapPoint = {
