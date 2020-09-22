@@ -119,7 +119,10 @@
                                        [(ngModel)]="issue.location.coordinates[0]"
                                        ng-pattern
                                        [disabled]="true" />
-
+                                <button *ngIf="isNewIssue || isEditableIssue"
+                                        class="form-control btn btn-primary ml-2"
+                                        type="button"
+                                        (click)="useCurrentUserlocation()"><i class="fa fa-street-view"></i></button>
                             </div>
                             <div class="col-lg-6 my-col">
                                 <div class="form-group form-inline">

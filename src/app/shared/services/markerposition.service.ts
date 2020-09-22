@@ -16,8 +16,10 @@ export class MarkerPositionService {
 
   constructor() { }
 
+  // Change the current value of the marker position
   changeValues(LatLong = []) {
     this.positionSource.next(LatLong)
+    console.log("Marker position changed in service !")
   }
 
 }

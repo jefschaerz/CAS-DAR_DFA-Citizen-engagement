@@ -97,6 +97,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     });
     console.log('*** End ngOnInit - ListissuesCompo ', this.allIssues);
   }
+  
   ngAfterViewInit(): void {
     // console.log('*** Start ngAfterViewInit: ', this.allIssues);
     this.updatehMarkersListInService(this.displayedIssues);

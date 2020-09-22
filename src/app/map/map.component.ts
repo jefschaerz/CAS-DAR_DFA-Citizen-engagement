@@ -49,6 +49,17 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.initializeDefaultMapPoint();
     this.initializeMapOptions();
+
+    // Subscribe to the markerPosition service to be informed on current issue marker position change
+    this.markerPosition.currentPosition.subscribe(position => {
+      console.log("Change Marker position detected !", position);
+      this.newMarkerPosition = (position)
+      // Warning not defined !!
+      this.updateThisIssueMapPoint(position[0], position[1]);
+      this.updateThisIssueMarker();
+    });
+
+
     console.log('** End of ngONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
   }
 
@@ -61,11 +72,7 @@ export class MapComponent implements OnInit {
       console.log('Markers updated in ngAfterViewInit ', this.stdMarkers, this.map);
     });
 
-    // Subscribe to the markerPosition service to be informed on current issue marker position change
-    this.markerPosition.currentPosition.subscribe(position => {
-      this.newMarkerPosition = (position)
 
-    });
     console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
   }
 
@@ -98,12 +105,6 @@ export class MapComponent implements OnInit {
     // Called automatically when map is ready 
     console.log('------ initalizeMap called ------');
     this.map = map;
-    //this.refreshMarkers(this.map, this.stdMarkers);
-    // If necessary... (not possible with leaftlMoveEnd in html)
-    // this.map.on('moveend', () => {
-    //   const center = this.map.getCenter();
-    //   console.log(`Map moved to ${center.lng}, ${center.lat}`);
-    // });
   };
 
   refreshMarkers(map: L.Map, selectedIssueList: Issue[]) {
@@ -118,34 +119,27 @@ export class MapComponent implements OnInit {
     let oneMarker = marker(<L.LatLngExpression>(oneIssue.location.coordinates), { icon: defaultIcon, alt: oneIssue.description }).bindTooltip(oneIssue.description);
     oneMarker.addTo(map);
     oneMarker.on('click', e => this.onMarkerClicked(oneIssue.id));
-    //     {
-    //       console.log('Id of the issue', oneIssue.id);
-    // //      this.router.navigate(['/editissue', oneIssue.id]);
-    //     })
     return oneMarker;
   }
 
   // Update new marker position in shared service for other components
-  updateNewMarkerPosition(NewLat: number, NewLong: number) {
+  updateServiceWithCurrentIssueNewPosition(NewLat: number, NewLong: number) {
     this.markerPosition.changeValues([NewLat, NewLong]);
   }
 
   onMapClick(e: LeafletMouseEvent) {
-    // JFS Necessary ?? this.refreshMarkers(this.map, this.stdMarkers);
     // Update this issue marker only in Add Issue mode
     if (this.addNewMarkerOnMapAllowed) {
-      this.updateThisIssueMapPoint(e.latlng.lat, e.latlng.lng);
-      this.updateThisIssueMarker();
-      // Refresh newMarker position in shared service 
-      this.updateNewMarkerPosition(e.latlng.lat, e.latlng.lng);
+      this.updatethisIssueMarkerOnMap(e.latlng.lat, e.latlng.lng)
     }
   }
 
-  onMapMove(e: LeafletMouseEvent) {
-    console.log('OnMapMove...')
-    const center = this.map.getCenter();
-    console.log(`Map moved to ${center.lng}, ${center.lat}`);
+  updatethisIssueMarkerOnMap(lat: number, lng: number) {
+    this.updateThisIssueMapPoint(lat, lng);
+    this.updateThisIssueMarker();
+    this.updateServiceWithCurrentIssueNewPosition(lat, lng);
   }
+
 
   private updateThisIssueMapPoint(latitude: number, longitude: number, name?: string) {
     this.mapPoint = {
@@ -167,7 +161,7 @@ export class MapComponent implements OnInit {
     // Update marker with mapPoint position
     const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
     this.newMarker = marker([coordinates.lat, coordinates.lng], { icon: greenIcon, draggable: false }).addTo(this.map);
-    this.newMarker.bindTooltip("New issue ***");
+    this.newMarker.bindTooltip("Your new issue");
 
     // Center map on the new marker and zoom on it 
     this.map.setView(coordinates, 16);
