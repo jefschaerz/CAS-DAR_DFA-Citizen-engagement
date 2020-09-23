@@ -10,7 +10,7 @@ import { AlertService } from '../../alerts/alerts.service';
 import { environment } from "../../../environments/environment";
 import { GeolocationService } from '../../shared/services/geolocation.service';
 import { MarkerPositionService } from '../../shared/services/markerposition.service';
-//import { MarkersListService } from '../../shared/services/markerslist.service';
+
 import * as _ from 'lodash';
 import { stringify } from 'querystring';
 @Component({
@@ -98,6 +98,7 @@ export class ManageissueComponent implements OnInit {
     }
 
     // Update current issue position in the service from loaded values
+
     this.markerPosition.changeValues([this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
     console.log("Position at ngOnInit : ", [this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
   }
@@ -113,6 +114,10 @@ export class ManageissueComponent implements OnInit {
       this.issue.location.coordinates[1] = position[1];
     });
   };
+
+  ngOnDestroy() {
+    // should : this.markerPosition.unsubscribe();
+  }
 
   // For a new issue
   loadNewIssueDefaultValues() {
@@ -274,6 +279,7 @@ export class ManageissueComponent implements OnInit {
 
   useCurrentUserlocation() {
     this.markerPosition.changeValues([this.userCurrentLocationLat, this.userCurrentLocationLong])
+    //Debug this.markerPosition.editUser('jeF');
   }
 
   onSubmit(form: NgForm) {

@@ -50,16 +50,16 @@ export class MapComponent implements OnInit {
     this.initializeDefaultMapPoint();
     this.initializeMapOptions();
 
+    // Debug
+
     // Subscribe to the markerPosition service to be informed on current issue marker position change
     this.markerPosition.currentPosition.subscribe(position => {
       console.log("Change Marker position detected !", position);
-      this.newMarkerPosition = (position)
+      this.newMarkerPosition = position;
       // Warning not defined !!
       this.updateThisIssueMapPoint(position[0], position[1]);
       this.updateThisIssueMarker();
     });
-
-
     console.log('** End of ngONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
   }
 
@@ -125,6 +125,7 @@ export class MapComponent implements OnInit {
   // Update new marker position in shared service for other components
   updateServiceWithCurrentIssueNewPosition(NewLat: number, NewLong: number) {
     this.markerPosition.changeValues([NewLat, NewLong]);
+
   }
 
   onMapClick(e: LeafletMouseEvent) {

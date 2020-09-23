@@ -5,6 +5,7 @@ import { IssueCommentService } from '../api/services/issue-comment.service';
 import { ActionService } from '../api/services/action.service';
 import { AlertService } from '../alerts/alerts.service';
 import { Router } from "@angular/router";
+import { MarkerPositionService } from 'src/app/shared/services/markerposition.service';
 
 @Component({
   selector: "app-debuggin-page",
@@ -30,6 +31,7 @@ export class DebuggingPageComponent implements OnInit {
   // Inject the UserService
   constructor(private issueTypeService: IssueTypeService,
     private issueService: IssueService,
+    private markerPosition: MarkerPositionService,
     private actionService: ActionService,
     private issueCommentService: IssueCommentService,
     public alertService: AlertService,
@@ -47,6 +49,12 @@ export class DebuggingPageComponent implements OnInit {
       next: (result) => console.log("Issues", result),
       error: (error) => console.warn("Error", error),
     });
+    console.log("Set Behavior not working..");
+
+    this.markerPosition.currentPosition.subscribe(newPos => console.log("New Position", newPos));
+    // this.markerPosition.castUser.subscribe(user => console.log("User in Debug: ", user));
+    // this.markerPosition.castUser.subscribe(user => console.log("User : ", user));
+
   }
   goToIssueNbRoute() {
     this.router.navigate(['/editissue', this.issueNb]);
