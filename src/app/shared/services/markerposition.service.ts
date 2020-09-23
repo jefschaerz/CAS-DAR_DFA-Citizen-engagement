@@ -11,16 +11,8 @@ export class MarkerPositionService {
   private latitude = 47.12466270666165;
   private longitude = 6.925011754915126;
 
-  // private user = new BehaviorSubject<string>('john');
-  // castUser = this.user.asObservable();
-
   constructor() {
-
   }
-
-  // editUser(newUser) {
-  //   this.user.next(newUser);
-  // }
 
   // Voir  : https://stackblitz.com/edit/angular-behaviorsubject-example?file=src%2Fapp%2Fservices%2Fuser.service.ts
 
@@ -29,7 +21,7 @@ export class MarkerPositionService {
   currentPosition = this.positionSource.asObservable();
 
   //Change the current value of the marker position
-  changeValues(LatLong = []) {
+  setNewPosition(LatLong = []) {
     this.positionSource.next(LatLong)
     console.log("Marker position changed in service !")
   }

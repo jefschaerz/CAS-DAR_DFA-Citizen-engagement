@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { defaultIcon, greenIcon } from './default-marker';
-import { latLng, MapOptions, marker, Marker, Map, tileLayer, LeafletMouseEvent } from 'leaflet';
+import { latLng, MapOptions, marker, Marker, Map, tileLayer, LeafletMouseEvent, LatLngBounds } from 'leaflet';
 import { IssueService } from '../api/services/issue.service';
 import { Issue } from 'src/app/models/issue';
 import { MarkerPositionService } from 'src/app/shared/services/markerposition.service';
@@ -9,6 +9,7 @@ import { registerEscClick } from 'ngx-bootstrap/utils';
 import { MapCoordinates } from 'src/app/models/map-coordinates.model';
 import { environment } from "src/environments/environment";
 import { Router } from "@angular/router";
+import { GeolocationService } from '../shared/services/geolocation.service';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -27,17 +28,31 @@ export class MapComponent implements OnInit {
   stdMarkers: Issue[];
   newMarker: Marker;
   newMarkerPosition: number[];
+  userCurrentLocationLat: number = environment.defaultCityCenterPointLat;
+  userCurrentLocationLong: number = environment.defaultCityCenterPointLng;
 
   constructor(
     private issueService: IssueService,
     private markerPosition: MarkerPositionService,
     private markersList: MarkersListService,
     private router: Router,
+    private geolocation: GeolocationService,
     private ngZone: NgZone) {
     this.stdMarkers = [];
     this.mapMarkers = [];
     this.addNewMarkerOnMapAllowed = false;
     console.log('End of MapComponent constructor....');
+
+    this.geolocation
+      .getCurrentPosition()
+      .then((position) => {
+        //console.log('User located!', position);
+        this.userCurrentLocationLat = position.coords.latitude;
+        this.userCurrentLocationLong = position.coords.longitude;
+      })
+      .catch((error) => {
+        console.warn('Failed to locate user because', error);
+      });
   }
 
   // Workaround to navigate in the zone and avoid warning
@@ -53,13 +68,14 @@ export class MapComponent implements OnInit {
     // Debug
 
     // Subscribe to the markerPosition service to be informed on current issue marker position change
-    this.markerPosition.currentPosition.subscribe(position => {
-      console.log("Change Marker position detected !", position);
-      this.newMarkerPosition = position;
-      // Warning not defined !!
-      this.updateThisIssueMapPoint(position[0], position[1]);
-      this.updateThisIssueMarker();
-    });
+    // TODO : NOT WORKING : Why not updated received !!
+    // this.markerPosition.currentPosition.subscribe(position => {
+    //   console.log("Change Marker position detected !", position);
+    //   this.newMarkerPosition = position;
+    //   // Warning not defined !!
+    //   this.updateThisIssueMapPoint(position[0], position[1]);
+    //   this.updateThisIssueMarker();
+    //});
     console.log('** End of ngONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
   }
 
@@ -72,8 +88,13 @@ export class MapComponent implements OnInit {
       console.log('Markers updated in ngAfterViewInit ', this.stdMarkers, this.map);
     });
 
-
     console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
+  }
+
+  useCurrentUserlocation() {
+    this.markerPosition.setNewPosition([this.userCurrentLocationLat, this.userCurrentLocationLong])
+    this.updateThisIssueMapPoint(this.userCurrentLocationLat, this.userCurrentLocationLong);
+    this.updateThisIssueMarker();
   }
 
   private initializeDefaultMapPoint() {
@@ -124,7 +145,7 @@ export class MapComponent implements OnInit {
 
   // Update new marker position in shared service for other components
   updateServiceWithCurrentIssueNewPosition(NewLat: number, NewLong: number) {
-    this.markerPosition.changeValues([NewLat, NewLong]);
+    this.markerPosition.setNewPosition([NewLat, NewLong]);
 
   }
 

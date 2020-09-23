@@ -1,5 +1,8 @@
 <!-- <button (click)="addIssuesMarkers()">Display markers</button> -->
 <div class="container-fluid">
+     <button *ngIf="addNewMarkerOnMapAllowed"
+             type="button"
+             (click)="useCurrentUserlocation()"><i class="fa fa-street-view"></i></button>
      <div class="map"
           leaflet
           [leafletOptions]="mapOptions"

@@ -98,8 +98,7 @@ export class ManageissueComponent implements OnInit {
     }
 
     // Update current issue position in the service from loaded values
-
-    this.markerPosition.changeValues([this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
+    this.markerPosition.setNewPosition([this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
     console.log("Position at ngOnInit : ", [this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
   }
 
@@ -278,7 +277,7 @@ export class ManageissueComponent implements OnInit {
   }
 
   useCurrentUserlocation() {
-    this.markerPosition.changeValues([this.userCurrentLocationLat, this.userCurrentLocationLong])
+    this.markerPosition.setNewPosition([this.userCurrentLocationLat, this.userCurrentLocationLong])
     //Debug this.markerPosition.editUser('jeF');
   }
 

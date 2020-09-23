@@ -23,17 +23,11 @@ import { DebuggingPageComponent } from './debugging-page/debugging-page.componen
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ApiTokenInterceptorService } from "./api/api-token-interceptor.service";
 import { NewregistrationPageComponent } from './newregistration-page/newregistration-page.component';
-//import { MessagesComponent } from './messages/messages.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
-//import { ManageissueComponent } from './issues/manageissue/manageissue.component';
-//import { ListissuesComponent } from './issues/listissues/listissues.component';
-//import { ManageissuecommentsComponent } from './issues/manageissuecomments/manageissuecomments.component';
 import { MapComponent } from './map/map.component';
-//import { FilterissuesComponent } from './issues/filterissues/filterissues.component';
 import { FilterPipe } from './shared/tools/filter.pipe';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
-
 import { MarkerPositionService } from './shared/services/markerposition.service';
 
 // Import in our module
@@ -45,7 +39,6 @@ import { MarkerPositionService } from './shared/services/markerposition.service'
     NewregistrationPageComponent,
     UserMenuComponent,
     FilterPipe,
-    //MapComponent,
     FooterComponent,
     HeaderComponent
   ],
