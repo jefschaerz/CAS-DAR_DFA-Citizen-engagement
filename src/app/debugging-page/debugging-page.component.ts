@@ -16,7 +16,7 @@ export class DebuggingPageComponent implements OnInit {
   issueNb = '5f297015659f4400165b68c6';
   options = {
     autoClose: false,
-    keepAfterRouteChange: false
+    keepAfterRouteChange: true
   };
 
   // For pagination tests :

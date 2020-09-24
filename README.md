@@ -1,8 +1,6 @@
 Markdown sheet :
 https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf
 
-
-
 # Utilisation de l'application
 Quelques explications sur les choix et comment utiliser l'application
 
@@ -74,4 +72,16 @@ Pagination help : https://dimitr.im/pagination-component-angular-2
 # Améliorations possibles
 
 * Mémorisation de la naviguation pour faciliter les retours en arrière et revenir à l'état d'avant (surtout lors du retour à "See issues")
+
+# CitizenEngagement - Default infos
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
+
+## Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 

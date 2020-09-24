@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
+import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { IssueTypeService } from '../../api/services/issue-type.service';
 import { IssueService } from '../../api/services/issue.service';
@@ -37,6 +38,7 @@ export class ManageissueComponent implements OnInit {
   isEditableIssue: boolean;
   // Indicate if component used to create new issue or to modifiy current issue
   addNewMarkerAllowed = true;
+  markerSubscription: Subscription;
 
   constructor(private issueTypeService: IssueTypeService,
     private router: Router,
@@ -105,7 +107,7 @@ export class ManageissueComponent implements OnInit {
   ngAfterViewInit() {
 
     // Subscribe to marker position change 
-    this.markerPosition.currentPosition.subscribe(position => {
+    this.markerSubscription = this.markerPosition.currentPosition.subscribe(position => {
       this.currentIssueMarkerPosition = (position)
       console.log('NewPosition in ManageIssue /  NewMarker : ', position)
       // Update location values
@@ -115,7 +117,7 @@ export class ManageissueComponent implements OnInit {
   };
 
   ngOnDestroy() {
-    // should : this.markerPosition.unsubscribe();
+    this.markerSubscription.unsubscribe();
   }
 
   // For a new issue
@@ -144,7 +146,6 @@ export class ManageissueComponent implements OnInit {
   }
 
   goToAllIssues() {
-    console.log('Move to see all issues')
     this.router.navigate(['/seeissues']);
   }
 
@@ -282,42 +283,50 @@ export class ManageissueComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if (form.valid) {
-      // Clear previous alert
-      this.alertService.clear();
-      // Create the new issue with all required information
-      console.log(`Issue will be added/updated with the API ;`, this.issue);
-      // Perform the ADD issue request to the API.
-      if (this.isNewIssue) {
-        console.log('Add a new issue', this.issue);
-        this.issueService.addIssue(this.issue as Issue).subscribe({
-          error: (error) => this.alertService.error('An error occurs during the add of the issue. ', error),
-          complete: () => {
-            this.alertService.success('The issue has been correctly added', {
-              autoClose: true,
-              keepAfterRouteChange: true
-            })
-            // Clear form for a new issue
-            this.clearFormAndLoadDefaultValue(form);
-            this.goToAllIssues();
-          }
-        });
-      }
-      else {
-        // Perform the UPDATE issue request to the API.
-        console.log('Update an issue', this.issue);
-        this.issueService.updateIssue(this.issue as Issue).subscribe({
-          error: (error) => this.alertService.error('An error occurs during the update of the issue. ', error),
-          complete: () => this.alertService.success('The issue has been correctly updated', {
-            autoClose: true,
-            keepAfterRouteChange: false
-          })
-        });
-      }
-
+    console.log('Submit an issue', this.issue);
+    if ((!this.issue.location.coordinates[0]) || (!this.issue.location.coordinates[1])) {
+      this.alertService.error('The location is missing in your issue', {
+        autoClose: false,
+        keepAfterRouteChange: false
+      });
     }
     else {
-      console.warn(`Submit failed :`);
+      if (form.valid) {
+        // Clear previous alert
+        this.alertService.clear();
+        // Perform the ADD issue request to the API.
+        if (this.isNewIssue) {
+          console.log('Add a new issue', this.issue);
+          this.issueService.addIssue(this.issue as Issue).subscribe({
+            error: (error) => this.alertService.error('An error occurs during the add of the issue. ', error),
+            complete: () => {
+              this.alertService.success('Your issue has been correctly added', {
+                autoClose: true,
+                keepAfterRouteChange: true
+              })
+              console.log('Add issue DONE', this.issue);
+              // Clear form for a new issue
+              this.clearFormAndLoadDefaultValue(form);
+              this.goToAllIssues();
+            }
+          });
+        }
+        else {
+          // Perform the UPDATE issue request to the API.
+          console.log('Update an issue', this.issue);
+          this.issueService.updateIssue(this.issue as Issue).subscribe({
+            error: (error) => this.alertService.error('An error occurs during the update of the issue. ', error),
+            complete: () => this.alertService.success('The issue has been correctly updated', {
+              autoClose: true,
+              keepAfterRouteChange: false
+            })
+          });
+        }
+
+      }
+      else {
+        console.warn(`Submit failed :`);
+      }
     }
   }
 }
