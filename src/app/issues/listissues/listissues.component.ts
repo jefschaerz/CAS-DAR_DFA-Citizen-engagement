@@ -93,15 +93,11 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.authService.getUser().subscribe(user => {
       // Add ? to check before if it is defined user (in case of not logged)
       this.loggedUser = user;
-      console.log(' @@@ Changes : Logged user is ', this.loggedUser);
     });
-    console.log('*** End ngOnInit - ListissuesCompo ', this.allIssues);
   }
 
   ngAfterViewInit(): void {
-    // console.log('*** Start ngAfterViewInit: ', this.allIssues);
     this.updatehMarkersListInService(this.displayedIssues);
-    // console.log('*** End ngAfterViewInit - ListissuesCompo ', this.allIssues);
   }
 
   // Update newMarker List in shared service for other components
