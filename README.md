@@ -1,11 +1,7 @@
 Markdown sheet :
 https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf
 
-##Information formulaires :
 
-Template Driver avec validation et contrôle des required
-- Newregistration.html
-- ManageIssue.html
 
 # Utilisation de l'application
 Quelques explications sur les choix et comment utiliser l'application
@@ -13,6 +9,11 @@ Quelques explications sur les choix et comment utiliser l'application
 ## Feature to help to test the application
 * When creating a new issue or issue comment, fields are already filled in with default or random values.
 
+## Information formulaires :
+
+Template Driver avec validation et contrôle des required
+- Newregistration.html
+- ManageIssue.html
 
 ## Login ou nouvelle inscription
 En arrivant sur l'application on ne peut que se connecter ou alors créer un nouveau compte.
