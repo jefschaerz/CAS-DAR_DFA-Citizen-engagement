@@ -38,6 +38,7 @@ export class ManageissueComponent implements OnInit {
   isEditableIssue: boolean;
   // Indicate if component used to create new issue or to modifiy current issue
   addNewMarkerAllowed = true;
+  addAllMarkersOnMap = false;
   markerSubscription: Subscription;
 
   constructor(private issueTypeService: IssueTypeService,
@@ -80,7 +81,7 @@ export class ManageissueComponent implements OnInit {
       // *** Add Issue action
       this.isNewIssue = true;
       this.isEditableIssue = true;
-
+      this.addAllMarkersOnMap = true;
     }
     if (this.router.url.indexOf('/editissue') > -1) {
       this.loadIssueToEditValues();
@@ -88,6 +89,7 @@ export class ManageissueComponent implements OnInit {
       this.isNewIssue = false;
       // Improvment possible: allow only if logged user issue
       this.isEditableIssue = true;
+      this.addAllMarkersOnMap = true;
 
     }
     if (this.router.url.indexOf('/viewissue') > -1) {
@@ -97,6 +99,7 @@ export class ManageissueComponent implements OnInit {
       this.isEditableIssue = false;
       this.isNewIssue = false;
       this.addNewMarkerAllowed = this.isEditableIssue;
+      this.addAllMarkersOnMap = false;
     }
 
     // Update current issue position in the service from loaded values

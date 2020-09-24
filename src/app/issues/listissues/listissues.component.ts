@@ -27,6 +27,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   selectedIssue: Issue;
   searchText: string = '';
   addNewMarkerAllowed = false;
+  addAllMarkersOnMap = true;
   loggedUser: User;
   // To retreive list of states
   stateIDs = stateIDs;
@@ -91,7 +92,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
 
     // Get logged user name info
     this.authService.getUser().subscribe(user => {
-      // Add ? to check before if it is defined user (in case of not logged)
       this.loggedUser = user;
     });
   }

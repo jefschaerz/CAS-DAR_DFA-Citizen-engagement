@@ -10,6 +10,7 @@ import { MapCoordinates } from 'src/app/models/map-coordinates.model';
 import { environment } from "src/environments/environment";
 import { Router } from "@angular/router";
 import { GeolocationService } from '../shared/services/geolocation.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -17,6 +18,7 @@ import { GeolocationService } from '../shared/services/geolocation.service';
 })
 export class MapComponent implements OnInit {
   @Input() addNewMarkerOnMapAllowed: boolean;
+  @Input() addAllMarkersOnMap: boolean;
 
   map: Map;
   mapPoint: MapCoordinates;
@@ -30,6 +32,8 @@ export class MapComponent implements OnInit {
   newMarkerPosition: number[];
   userCurrentLocationLat: number = environment.defaultCityCenterPointLat;
   userCurrentLocationLong: number = environment.defaultCityCenterPointLng;
+  markersListSubscription: Subscription;
+  markerPositionSubscription: Subscription;
 
   constructor(
     private issueService: IssueService,
@@ -64,33 +68,39 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.initializeDefaultMapPoint();
     this.initializeMapOptions();
-
-    // Debug
-
-    // Subscribe to the markerPosition service to be informed on current issue marker position change
-    // TODO : NOT WORKING : Why not updated received !!
-    // this.markerPosition.currentPosition.subscribe(position => {
-    //   console.log("Change Marker position detected !", position);
-    //   this.newMarkerPosition = position;
-    //   // Warning not defined !!
-    //   this.updateThisIssueMapPoint(position[0], position[1]);
-    //   this.updateThisIssueMarker();
-    //});
-    console.log('** End of ngONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
   }
 
   ngAfterViewInit() {
     // Subscribe to the markerlist service to be informed on markers to display
     // Not in ngOnInit --> generate a ExpressionChangedAfterItHasBeenCheckedError ! 
-    this.markersList.currentStdMarkers.subscribe(marker => {
-      this.stdMarkers = marker;
-      this.refreshMarkers(this.map, this.stdMarkers);
-      console.log('Markers updated in ngAfterViewInit ', this.stdMarkers, this.map);
-    });
 
-    console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addNewMarkerOnMapAllowed);
+    // TODO : Define if all markers always display or not.
+    if (this.addAllMarkersOnMap) {
+      this.markersListSubscription = this.markersList.currentStdMarkers.subscribe(marker => {
+        this.stdMarkers = marker;
+        this.refreshMarkers(this.map, this.stdMarkers);
+        console.log('Markers updated', this.stdMarkers, this.map);
+      });
+    }
+    // Subscribe to the markerPosition service to be informed on current issue marker position change
+    // TODO : NOT WORKING : Why not updated received !!
+    // this.markerPositionSubscription = this.markerPosition.currentPosition.subscribe(position => {
+    //   console.log("Change Marker position detected !", position);
+    //   this.newMarkerPosition = position;
+    //   // Warning not defined !!
+    //   this.updateThisIssueMapPoint(position[0], position[1]);
+    //   this.updateThisIssueMarker();
+    // });
+
+    console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addAllMarkersOnMap);
   }
 
+  ngOnDestroy() {
+    if (this.markersListSubscription) {
+      this.markersListSubscription.unsubscribe();
+      //this.markerPositionSubscription.unsubscribe();
+    };
+  }
   useCurrentUserlocation() {
     this.markerPosition.setNewPosition([this.userCurrentLocationLat, this.userCurrentLocationLong])
     this.updateThisIssueMapPoint(this.userCurrentLocationLat, this.userCurrentLocationLong);
@@ -123,8 +133,6 @@ export class MapComponent implements OnInit {
   };
 
   initializeMap(map: Map) {
-    // Called automatically when map is ready 
-    console.log('------ initalizeMap called ------');
     this.map = map;
   };
 
@@ -133,7 +141,7 @@ export class MapComponent implements OnInit {
     for (var i = 0; i < selectedIssueList.length; i++) {
       this.mapMarkers.push(this.addMarkerFromIssue(selectedIssueList[i], map));
     }
-    console.log('Number of Markers to display:', this.mapMarkers);
+    //console.log('Number of Markers to display:', this.mapMarkers);
   }
 
   addMarkerFromIssue(oneIssue: Issue, map: L.Map): L.Marker {
@@ -146,7 +154,6 @@ export class MapComponent implements OnInit {
   // Update new marker position in shared service for other components
   updateServiceWithCurrentIssueNewPosition(NewLat: number, NewLong: number) {
     this.markerPosition.setNewPosition([NewLat, NewLong]);
-
   }
 
   onMapClick(e: LeafletMouseEvent) {
@@ -161,7 +168,6 @@ export class MapComponent implements OnInit {
     this.updateThisIssueMarker();
     this.updateServiceWithCurrentIssueNewPosition(lat, lng);
   }
-
 
   private updateThisIssueMapPoint(latitude: number, longitude: number, name?: string) {
     this.mapPoint = {

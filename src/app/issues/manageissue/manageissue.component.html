@@ -17,7 +17,8 @@
         <!-- Main row -->
         <div class="container-fluid col-md-5 my-container">
             <!-- Container for the Map-->
-            <app-map [addNewMarkerOnMapAllowed]=addNewMarkerAllowed>Map</app-map>
+            <app-map [addNewMarkerOnMapAllowed]=addNewMarkerAllowed
+                     [addAllMarkersOnMap]=addAllMarkersOnMap>Map</app-map>
         </div>
         <div class="container-fluid col-md-7 my-container">
             <!-- Container for the data collect or display -->
@@ -105,11 +106,11 @@
                         <p *ngIf="isNewIssue || isEditableIssue"
                            class="ml-3"> (click on map to set)</p>
                     </div>
-                    <div class="col-lg-9 my-col form-group form-inline my-form-group">
+                    <div class="col my-col form-group form-inline my-form-group">
                         <div Class="row my-row">
-                            <div class="col-lg-7 my-col form-group form-inline">
+                            <div class="col-5 col-sm-5 my-col form-group form-inline">
                                 <label for="latitude"
-                                       class="justify-content-start mr-3">Latitude</label>
+                                       class="justify-content-start">Latitude</label>
                                 <input class="form-control"
                                        type="text"
                                        name="location_lat"
@@ -120,7 +121,7 @@
                                        ng-pattern
                                        [disabled]="true" />
                             </div>
-                            <div class="col-lg-6 my-col">
+                            <div class="col-5 col-sm-5 my-col">
                                 <div class="form-group form-inline">
                                     <label for="longitude"
                                            class="justify-content-start">Longitude</label>
