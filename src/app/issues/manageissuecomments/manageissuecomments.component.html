@@ -15,7 +15,8 @@
         <div class="container-fluid col-md-5 my-container">
             <!-- Container for the Map-->
             <app-map [addNewMarkerOnMapAllowed]=addNewMarkerAllowed
-                     [addAllMarkersOnMap]=addAllMarkersOnMap>Map</app-map>
+                     [addAllMarkersOnMap]=displayAllMarkersOnMap
+                     [applyCenterOnIssue]=true>Map</app-map>
         </div>
         <div class="container-fluid col-md-7 my-container">
             <button class="btn btn-info"

@@ -19,15 +19,14 @@ export class MarkerPositionService {
   private positionSource = new BehaviorSubject(this.oneMarker);
   currentPosition = this.positionSource.asObservable();
 
-  //Debug
-  private positionSourceV2 = new BehaviorSubject(<string>('47.12'));
-  currentPositionV2 = this.positionSourceV2.asObservable();
+  // //Debug
+  // private positionSourceV2 = new BehaviorSubject(<string>('47.12'));
+  // currentPositionV2 = this.positionSourceV2.asObservable();
 
-  setNewPositionV2(Lat) {
-    this.positionSourceV2.next(Lat)
-    console.log("Marker position changed in service V2 !")
-  }
-
+  // setNewPositionV2(Lat) {
+  //   this.positionSourceV2.next(Lat)
+  //   console.log("Marker position changed in service V2 !")
+  // }
 
   //Change the current value of the marker position
   setNewPosition(LatLong) {

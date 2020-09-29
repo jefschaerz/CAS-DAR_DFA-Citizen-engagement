@@ -38,7 +38,7 @@ export class ManageissueComponent implements OnInit {
   isEditableIssue: boolean;
   // Indicate if component used to create new issue or to modifiy current issue
   addNewMarkerAllowed = true;
-  addAllMarkersOnMap = false;
+  displayAllMarkersOnMap = false;
   markerSubscription: Subscription;
 
   constructor(private issueTypeService: IssueTypeService,
@@ -47,7 +47,6 @@ export class ManageissueComponent implements OnInit {
     public alertService: AlertService,
     private geolocation: GeolocationService,
     private markerPosition: MarkerPositionService,
-    //private markersList: MarkersListService,
     private route: ActivatedRoute) {
 
     // Defined to retrieve id in route patch for edit issue purpose
@@ -75,36 +74,30 @@ export class ManageissueComponent implements OnInit {
     // Load defaut values  
     this.loadNewIssueDefaultValues();
 
-    //console.log("Router link is : ", this.route.url);
-    // Check if Add or Edit Issue operation (based on the current route)
+    // Check if Add or Edit or View Issue operation (based on the current route)
     if (this.router.url.indexOf('/addissue') > -1) {
       // *** Add Issue action
       this.isNewIssue = true;
       this.isEditableIssue = true;
-      this.addAllMarkersOnMap = true;
+      this.displayAllMarkersOnMap = true;
     }
     if (this.router.url.indexOf('/editissue') > -1) {
-      this.loadIssueToEditValues();
       // *** Edit Issue action
+      this.loadIssueToEditValues();
       this.isNewIssue = false;
-      // Improvment possible: allow only if logged user issue
       this.isEditableIssue = true;
-      this.addAllMarkersOnMap = true;
-
+      this.displayAllMarkersOnMap = true;
     }
     if (this.router.url.indexOf('/viewissue') > -1) {
       // *** View Issue action
       this.loadIssueToEditValues();
       // Allowed to change marker position only if issue is editable
-      this.isEditableIssue = false;
       this.isNewIssue = false;
+      this.isEditableIssue = false;
+      // Necessary No avoid changing position
       this.addNewMarkerAllowed = this.isEditableIssue;
-      this.addAllMarkersOnMap = false;
+      this.displayAllMarkersOnMap = true;
     }
-
-    // Update current issue position in the service from loaded values
-    this.markerPosition.setNewPosition([this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
-    console.log("Position at ngOnInit : ", [this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
   }
 
   ngAfterViewInit() {
@@ -112,7 +105,7 @@ export class ManageissueComponent implements OnInit {
     // Subscribe to marker position change 
     this.markerSubscription = this.markerPosition.currentPosition.subscribe(position => {
       this.currentIssueMarkerPosition = (position)
-      console.log('NewPosition in ManageIssue /  NewMarker : ', position)
+      console.log('ManageIssue : NewPosition received from SERVICE : ', position)
       // Update location values
       this.issue.location.coordinates[0] = position[0];
       this.issue.location.coordinates[1] = position[1];
@@ -189,13 +182,15 @@ export class ManageissueComponent implements OnInit {
       .subscribe({
         next: (result) => {
           this.issue = result;
-          //console.log("Issue loaded by the service : ", this.issue)
         },
         error: (error) => {
           console.warn(["Error during load of issue with ID", this.issueId], error);
           this.goToAllIssues();
         },
-        complete: () => console.log('Load completed!')
+        complete: () => {
+          // Update current issue position in the service from loaded values
+          this.markerPosition.setNewPosition([this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
+        }
       });
   }
 
@@ -282,7 +277,6 @@ export class ManageissueComponent implements OnInit {
 
   useCurrentUserlocation() {
     this.markerPosition.setNewPosition([this.userCurrentLocationLat, this.userCurrentLocationLong])
-    //Debug this.markerPosition.editUser('jeF');
   }
 
   onSubmit(form: NgForm) {

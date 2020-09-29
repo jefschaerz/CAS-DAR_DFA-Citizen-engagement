@@ -5,6 +5,9 @@
                 (click)="useCurrentUserlocation()"><i class="fa fa-street-view"></i> Use your current location</button>
         <button type="button"
                 (click)="listAllLayers()"><i class="fa fa-street-view"></i> List all layers</button>
+        <button type="button"
+                (click)="centerMapOnIssue()"><i class="fa fa-street-view"></i> center on issue</button>
+
         <div class="map"
              leaflet
              [leafletOptions]="mapOptions"
@@ -13,4 +16,5 @@
              (leafletClick)="onMapClick($event)">
                 [leafletFitBounds]="mapFitToBounds"
         </div>
+        <div>Point {{this.mapPoint | json}}</div>
 </div>

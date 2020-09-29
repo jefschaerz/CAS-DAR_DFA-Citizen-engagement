@@ -26,7 +26,7 @@ export class ManageissuecommentsComponent implements OnInit {
   issueCommentsPerPage = 8;
   // Indicate if component used to create new issue or to modifiy current issue
   addNewMarkerAllowed = false;
-  addAllMarkersOnMap = true;
+  displayAllMarkersOnMap = true;
 
   constructor(public alertService: AlertService,
     public issueCommentService: IssueCommentService,
@@ -80,11 +80,11 @@ export class ManageissuecommentsComponent implements OnInit {
       .subscribe({
         next: (result) => {
           this.issueComments = result;
-          console.log("In manageIssueComments : Comments loaded are:", this.issueComments)
+          //console.log("In manageIssueComments : Comments loaded are:", this.issueComments)
         },
         error: (error) => console.warn("Error", error),
         complete: () => {
-          console.log('getIssueComment completed!')
+          //console.log('getIssueComment completed!')
           this.setCurrentPage(1);
         }
       });
@@ -100,7 +100,7 @@ export class ManageissuecommentsComponent implements OnInit {
     this.alertService.clear;
     // Set text value of the object
     this.issueComment.text = this.newComment;
-    console.log('Add new comment (', this.newComment, ') to issue id : ', this.issueId);
+    //console.log('Add new comment (', this.newComment, ') to issue id : ', this.issueId);
     this.issueCommentService.addCommentToIssue(this.issueId, this.issueComment,)
       .subscribe({
         next: (result) => {

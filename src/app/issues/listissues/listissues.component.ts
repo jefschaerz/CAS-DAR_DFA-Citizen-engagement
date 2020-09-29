@@ -28,6 +28,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   searchText: string = '';
   addNewMarkerAllowed = false;
   addAllMarkersOnMap = true;
+  applyCenterOnIssue = false;
   loggedUser: User;
   // To retreive list of states
   stateIDs = stateIDs;

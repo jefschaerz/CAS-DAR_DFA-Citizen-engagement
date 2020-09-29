@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs';
 export class MapComponent implements OnInit {
   @Input() addNewMarkerOnMapAllowed: boolean;
   @Input() addAllMarkersOnMap: boolean;
+  @Input() applyCenterOnIssue: boolean;
 
   map: Map;
   mapPoint: MapCoordinates;
@@ -29,7 +30,7 @@ export class MapComponent implements OnInit {
   // Array for ALL issues to display std (updated by the service)
   stdMarkers: Issue[];
   newMarker: Marker;
-  newMarkerPosition: number[];
+
   userCurrentLocationLat: number = environment.defaultCityCenterPointLat;
   userCurrentLocationLong: number = environment.defaultCityCenterPointLng;
   markersListSubscription: Subscription;
@@ -51,7 +52,6 @@ export class MapComponent implements OnInit {
     this.geolocation
       .getCurrentPosition()
       .then((position) => {
-        //console.log('User located!', position);
         this.userCurrentLocationLat = position.coords.latitude;
         this.userCurrentLocationLong = position.coords.longitude;
       })
@@ -59,7 +59,7 @@ export class MapComponent implements OnInit {
         console.warn('Failed to locate user because', error);
       });
 
-    // Create  markers layers
+    // Create markers layers
     this.issuesMarkersGroup = featureGroup();
   }
 
@@ -77,39 +77,40 @@ export class MapComponent implements OnInit {
   ngAfterViewInit() {
     // Subscribe to the markerlist service to be informed on markers to display
     // Not in ngOnInit --> generate a ExpressionChangedAfterItHasBeenCheckedError ! 
-    this.issuesMarkersGroup.addTo(this.map);
-    // TODO : Define if all markers always display or not.
     if (this.addAllMarkersOnMap) {
       this.markersListSubscription = this.markersList.currentStdMarkers.subscribe(marker => {
         this.stdMarkers = marker;
         this.refreshMarkers(this.map, this.stdMarkers);
-        console.log('Markers updated', this.stdMarkers, this.map);
       });
     }
+    this.issuesMarkersGroup.addTo(this.map);
     // Subscribe to the markerPosition service to be informed on current issue marker position change
-    // TODO : NOT WORKING : Why not updated received !!
-    // this.markerPositionSubscription = this.markerPosition.currentPosition.subscribe(position => {
-    //   console.log("Change Marker position detected !", position);
-    //   this.newMarkerPosition = position;
-    //   // Warning not defined !!
-    //   this.updateThisIssueMapPoint(position[0], position[1]);
-    //   this.updateThisIssueMarker();
-    // });
+    // Only if in EDIT issue mode
+    this.markerPositionSubscription = this.markerPosition.currentPosition.subscribe(position => {
+      this.updateThisIssueMapPoint(position[0], position[1]);
+      this.updateThisIssueMarker();
+    });
 
-
-    console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addAllMarkersOnMap);
+    if (this.applyCenterOnIssue) {
+      this.centerMapOnIssue();
+    }
+    console.log("Center on issue : ", this.applyCenterOnIssue);
+    console.log("Current Point : ", this.mapPoint);
+    //console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addAllMarkersOnMap);
   }
 
   ngOnDestroy() {
     if (this.markersListSubscription) {
       this.markersListSubscription.unsubscribe();
-      //this.markerPositionSubscription.unsubscribe();
+    };
+    if (this.markerPositionSubscription) {
+      this.markerPositionSubscription.unsubscribe();
     };
   }
   useCurrentUserlocation() {
-    this.markerPosition.setNewPosition([this.userCurrentLocationLat, this.userCurrentLocationLong])
     this.updateThisIssueMapPoint(this.userCurrentLocationLat, this.userCurrentLocationLong);
     this.updateThisIssueMarker();
+    this.updateServiceWithCurrentIssueNewPosition(this.userCurrentLocationLat, this.userCurrentLocationLong);
   }
 
   private initializeDefaultMapPoint() {
@@ -133,10 +134,6 @@ export class MapComponent implements OnInit {
     };
   }
 
-  onMarkedDragEnd(event: DragEvent) {
-    console.log('drag end', event);
-  };
-
   initializeMap(map: Map) {
     this.map = map;
   };
@@ -146,7 +143,7 @@ export class MapComponent implements OnInit {
     for (var i = 0; i < this.mapMarkers.length; i++) {
       this.issuesMarkersGroup.removeLayer(this.mapMarkers[i]);
     }
-
+    // Create and add all markers in the featureGroup
     this.mapMarkers = [];
     for (var i = 0; i < selectedIssueList.length; i++) {
       this.mapMarkers.push(this.addMarkerFromIssue(selectedIssueList[i], map));
@@ -155,7 +152,7 @@ export class MapComponent implements OnInit {
 
   addMarkerFromIssue(oneIssue: Issue, map: L.Map): L.Marker {
     let oneMarker = marker(<L.LatLngExpression>(oneIssue.location.coordinates), { icon: defaultIcon, alt: oneIssue.description }).bindTooltip(oneIssue.description);
-    // Add as a new layer on the map !
+    // Add in the featuregroup layer
     oneMarker.addTo(this.issuesMarkersGroup);
     oneMarker.on('click', e => this.onMarkerClicked(oneIssue.id));
     return oneMarker;
@@ -174,9 +171,9 @@ export class MapComponent implements OnInit {
   }
 
   updatethisIssueMarkerOnMap(lat: number, lng: number) {
+    this.updateServiceWithCurrentIssueNewPosition(lat, lng);
     this.updateThisIssueMapPoint(lat, lng);
     this.updateThisIssueMarker();
-    this.updateServiceWithCurrentIssueNewPosition(lat, lng);
   }
 
   private updateThisIssueMapPoint(latitude: number, longitude: number, name?: string) {
@@ -189,7 +186,7 @@ export class MapComponent implements OnInit {
 
   onMarkerClicked(IssueId: string) {
     console.log('Marker clicked', IssueId);
-    // Only allwow to view issue info (not edit)
+    // Only allow to view issue info (not edit)
     this.navigate(['/viewissue', IssueId]);
   }
 
@@ -199,13 +196,17 @@ export class MapComponent implements OnInit {
     // Update marker with mapPoint position
     const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
     this.newMarker = marker([coordinates.lat, coordinates.lng], { icon: greenIcon, draggable: false }).addTo(this.map);
-    this.newMarker.bindTooltip("Your new issue");
-
-    // Center map on the new marker and zoom on it 
-    this.map.setView(coordinates, 16);
-    console.log('updateThisIssueMarker at position : Lat : ', coordinates.lat, '/ Lng: ', coordinates.lng);
+    this.newMarker.bindTooltip("Current issue");
+    this.centerMapOnIssue();
   }
 
+  centerMapOnIssue() {
+    const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
+    this.map.setView(coordinates, 16);
+    console.log("Centered on issue called !", this.mapPoint.latitude, this.mapPoint.longitude)
+  }
+
+  // DEBUG
   listAllLayers() {
     let counter = 0;
     this.map.eachLayer(function (layer) {
@@ -214,4 +215,6 @@ export class MapComponent implements OnInit {
     });
     console.log("Nb of Layer", counter);
   }
+
+
 }
