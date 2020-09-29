@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { defaultIcon, greenIcon } from './default-marker';
-import { latLng, MapOptions, marker, Marker, Map, tileLayer, LeafletMouseEvent, LatLngBounds } from 'leaflet';
+import { latLng, MapOptions, marker, Marker, Map, tileLayer, LeafletMouseEvent, LatLngBounds, featureGroup, FeatureGroup } from 'leaflet';
 import { IssueService } from '../api/services/issue.service';
 import { Issue } from 'src/app/models/issue';
 import { MarkerPositionService } from 'src/app/shared/services/markerposition.service';
@@ -34,6 +34,7 @@ export class MapComponent implements OnInit {
   userCurrentLocationLong: number = environment.defaultCityCenterPointLng;
   markersListSubscription: Subscription;
   markerPositionSubscription: Subscription;
+  issuesMarkersGroup: FeatureGroup;
 
   constructor(
     private issueService: IssueService,
@@ -57,6 +58,9 @@ export class MapComponent implements OnInit {
       .catch((error) => {
         console.warn('Failed to locate user because', error);
       });
+
+    // Create  markers layers
+    this.issuesMarkersGroup = featureGroup();
   }
 
   // Workaround to navigate in the zone and avoid warning
@@ -73,7 +77,7 @@ export class MapComponent implements OnInit {
   ngAfterViewInit() {
     // Subscribe to the markerlist service to be informed on markers to display
     // Not in ngOnInit --> generate a ExpressionChangedAfterItHasBeenCheckedError ! 
-
+    this.issuesMarkersGroup.addTo(this.map);
     // TODO : Define if all markers always display or not.
     if (this.addAllMarkersOnMap) {
       this.markersListSubscription = this.markersList.currentStdMarkers.subscribe(marker => {
@@ -91,6 +95,7 @@ export class MapComponent implements OnInit {
     //   this.updateThisIssueMapPoint(position[0], position[1]);
     //   this.updateThisIssueMarker();
     // });
+
 
     console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addAllMarkersOnMap);
   }
@@ -137,16 +142,21 @@ export class MapComponent implements OnInit {
   };
 
   refreshMarkers(map: L.Map, selectedIssueList: Issue[]) {
+    // Clear previous markers layers
+    for (var i = 0; i < this.mapMarkers.length; i++) {
+      this.issuesMarkersGroup.removeLayer(this.mapMarkers[i]);
+    }
+
     this.mapMarkers = [];
     for (var i = 0; i < selectedIssueList.length; i++) {
       this.mapMarkers.push(this.addMarkerFromIssue(selectedIssueList[i], map));
     }
-    //console.log('Number of Markers to display:', this.mapMarkers);
   }
 
   addMarkerFromIssue(oneIssue: Issue, map: L.Map): L.Marker {
     let oneMarker = marker(<L.LatLngExpression>(oneIssue.location.coordinates), { icon: defaultIcon, alt: oneIssue.description }).bindTooltip(oneIssue.description);
-    oneMarker.addTo(map);
+    // Add as a new layer on the map !
+    oneMarker.addTo(this.issuesMarkersGroup);
     oneMarker.on('click', e => this.onMarkerClicked(oneIssue.id));
     return oneMarker;
   }
@@ -194,5 +204,14 @@ export class MapComponent implements OnInit {
     // Center map on the new marker and zoom on it 
     this.map.setView(coordinates, 16);
     console.log('updateThisIssueMarker at position : Lat : ', coordinates.lat, '/ Lng: ', coordinates.lng);
+  }
+
+  listAllLayers() {
+    let counter = 0;
+    this.map.eachLayer(function (layer) {
+      console.log("Layer", layer);
+      counter = counter + 1;
+    });
+    console.log("Nb of Layer", counter);
   }
 }

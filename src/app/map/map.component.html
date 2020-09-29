@@ -1,14 +1,16 @@
 <!-- <button (click)="addIssuesMarkers()">Display markers</button> -->
 <div class="container-fluid">
-     <button *ngIf="addNewMarkerOnMapAllowed"
-             type="button"
-             (click)="useCurrentUserlocation()"><i class="fa fa-street-view"></i> Use your current location</button>
-     <div class="map"
-          leaflet
-          [leafletOptions]="mapOptions"
-          [leafletLayers]="mapMarkers"
-          (leafletMapReady)="initializeMap($event)"
-          (leafletClick)="onMapClick($event)">
-          [leafletFitBounds]="mapFitToBounds"
-     </div>
+        <button *ngIf="addNewMarkerOnMapAllowed"
+                type="button"
+                (click)="useCurrentUserlocation()"><i class="fa fa-street-view"></i> Use your current location</button>
+        <button type="button"
+                (click)="listAllLayers()"><i class="fa fa-street-view"></i> List all layers</button>
+        <div class="map"
+             leaflet
+             [leafletOptions]="mapOptions"
+             [leafletLayers]="mapMarkers"
+             (leafletMapReady)="initializeMap($event)"
+             (leafletClick)="onMapClick($event)">
+                [leafletFitBounds]="mapFitToBounds"
+        </div>
 </div>
