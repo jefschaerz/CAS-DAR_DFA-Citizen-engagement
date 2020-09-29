@@ -1,12 +1,12 @@
 <!-- <button (click)="addIssuesMarkers()">Display markers</button> -->
 <div class="container-fluid">
-        <button *ngIf="addNewMarkerOnMapAllowed"
+        <button *ngIf="changeIssueMarkerAllowed"
                 type="button"
                 (click)="useCurrentUserlocation()"><i class="fa fa-street-view"></i> Use your current location</button>
-        <button type="button"
+        <!-- <button type="button"
                 (click)="listAllLayers()"><i class="fa fa-street-view"></i> List all layers</button>
         <button type="button"
-                (click)="centerMapOnIssue()"><i class="fa fa-street-view"></i> center on issue</button>
+                (click)="centerMapOnIssue()"><i class="fa fa-street-view"></i> center on issue</button> -->
 
         <div class="map"
              leaflet

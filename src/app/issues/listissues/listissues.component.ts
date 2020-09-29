@@ -26,8 +26,8 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   issueTypes: IssueType[];
   selectedIssue: Issue;
   searchText: string = '';
-  addNewMarkerAllowed = false;
-  addAllMarkersOnMap = true;
+  displayIssueMarkerOnMap = false;
+  displayAllMarkersOnMap = true;
   applyCenterOnIssue = false;
   loggedUser: User;
   // To retreive list of states

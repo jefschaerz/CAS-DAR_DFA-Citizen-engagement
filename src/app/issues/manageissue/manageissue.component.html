@@ -17,8 +17,9 @@
         <!-- Main row -->
         <div class="container-fluid col-md-5 my-container">
             <!-- Container for the Map-->
-            <app-map [addNewMarkerOnMapAllowed]=addNewMarkerAllowed
-                     [addAllMarkersOnMap]=displayAllMarkersOnMap
+            <app-map [displayIssueMarker]=displayIssueMarkerOnMap
+                     [displayAllMarkers]=displayAllMarkersOnMap
+                     [changeIssueMarkerAllowed]=changeIssueMarkerAllowedOnMap
                      [applyCenterOnIssue]=true>Map</app-map>
         </div>
         <div class="container-fluid col-md-7 my-container">

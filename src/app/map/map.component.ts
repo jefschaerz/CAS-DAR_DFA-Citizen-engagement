@@ -17,8 +17,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-  @Input() addNewMarkerOnMapAllowed: boolean;
-  @Input() addAllMarkersOnMap: boolean;
+  @Input() displayIssueMarker: boolean;
+  @Input() displayAllMarkers: boolean;
+  @Input() changeIssueMarkerAllowed: boolean = false;
   @Input() applyCenterOnIssue: boolean;
 
   map: Map;
@@ -46,7 +47,7 @@ export class MapComponent implements OnInit {
     private ngZone: NgZone) {
     this.stdMarkers = [];
     this.mapMarkers = [];
-    this.addNewMarkerOnMapAllowed = false;
+    this.displayIssueMarker = false;
     console.log('End of MapComponent constructor....');
 
     this.geolocation
@@ -73,13 +74,12 @@ export class MapComponent implements OnInit {
     this.initializeDefaultMapPoint();
     console.log("AfterngONInit Point : ", this.mapPoint);
     this.initializeMapOptions();
-    this.listAllLayers();
   }
 
   ngAfterViewInit() {
     // Subscribe to the markerlist service to be informed on markers to display
     // Not in ngOnInit --> generate a ExpressionChangedAfterItHasBeenCheckedError ! 
-    if (this.addAllMarkersOnMap) {
+    if (this.displayAllMarkers) {
       this.markersListSubscription = this.markersList.currentStdMarkers.subscribe(marker => {
         this.stdMarkers = marker;
         this.refreshMarkers(this.map, this.stdMarkers);
@@ -89,7 +89,7 @@ export class MapComponent implements OnInit {
 
     // Subscribe to the markerPosition service to be informed on current issue marker position change
     // Only if in EDIT issue mode
-    if (this.addNewMarkerOnMapAllowed) {
+    if (this.displayIssueMarker) {
       this.markerPositionSubscription = this.markerPosition.currentPosition.subscribe(position => {
         this.updateThisIssueMapPoint(position[0], position[1]);
         this.updateThisIssueMarker();
@@ -101,7 +101,7 @@ export class MapComponent implements OnInit {
     }
     console.log("Center on issue : ", this.applyCenterOnIssue);
     console.log("Current Point : ", this.mapPoint);
-    //console.log('** End of ngAfterONInit : AddNewMarkerAllowed : ', this.addAllMarkersOnMap);
+    //console.log('** End of ngAfterONInit : displayAllMarkers : ', this.displayAllMarkers);
   }
 
   ngOnDestroy() {
@@ -171,7 +171,7 @@ export class MapComponent implements OnInit {
 
   onMapClick(e: LeafletMouseEvent) {
     // Update this issue marker only in Add Issue mode
-    if (this.addNewMarkerOnMapAllowed) {
+    if (this.changeIssueMarkerAllowed) {
       this.updatethisIssueMarkerOnMap(e.latlng.lat, e.latlng.lng)
     }
   }
@@ -194,9 +194,12 @@ export class MapComponent implements OnInit {
   }
 
   onMarkerClicked(IssueId: string) {
-    console.log('Marker clicked', IssueId);
-    // Only allow to view issue info (not edit)
-    this.navigate(['/viewissue', IssueId]);
+    // Allowed only in see issues
+    if (!this.changeIssueMarkerAllowed) {
+      console.log('Marker clicked', IssueId);
+      // Only allow to view issue info (not edit)
+      this.navigate(['/viewissue', IssueId]);
+    }
   }
 
   private updateThisIssueMarker() {

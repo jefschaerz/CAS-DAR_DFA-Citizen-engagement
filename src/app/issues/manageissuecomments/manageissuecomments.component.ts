@@ -26,7 +26,7 @@ export class ManageissuecommentsComponent implements OnInit {
   issueCommentsCurrentPage: number = 1;
   issueCommentsPerPage = 8;
   // Indicate if component used to create new issue or to modifiy current issue
-  addNewMarkerAllowed = false;
+  displayIssueMarkerOnMap = true;
   displayAllMarkersOnMap = true;
 
   constructor(public alertService: AlertService,
