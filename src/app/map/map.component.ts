@@ -71,7 +71,9 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeDefaultMapPoint();
+    console.log("AfterngONInit Point : ", this.mapPoint);
     this.initializeMapOptions();
+    this.listAllLayers();
   }
 
   ngAfterViewInit() {
@@ -84,12 +86,15 @@ export class MapComponent implements OnInit {
       });
     }
     this.issuesMarkersGroup.addTo(this.map);
+
     // Subscribe to the markerPosition service to be informed on current issue marker position change
     // Only if in EDIT issue mode
-    this.markerPositionSubscription = this.markerPosition.currentPosition.subscribe(position => {
-      this.updateThisIssueMapPoint(position[0], position[1]);
-      this.updateThisIssueMarker();
-    });
+    if (this.addNewMarkerOnMapAllowed) {
+      this.markerPositionSubscription = this.markerPosition.currentPosition.subscribe(position => {
+        this.updateThisIssueMapPoint(position[0], position[1]);
+        this.updateThisIssueMarker();
+      });
+    }
 
     if (this.applyCenterOnIssue) {
       this.centerMapOnIssue();
@@ -146,6 +151,7 @@ export class MapComponent implements OnInit {
     // Create and add all markers in the featureGroup
     this.mapMarkers = [];
     for (var i = 0; i < selectedIssueList.length; i++) {
+      //TODO : improvment: do not add current issue
       this.mapMarkers.push(this.addMarkerFromIssue(selectedIssueList[i], map));
     }
   }
@@ -177,6 +183,9 @@ export class MapComponent implements OnInit {
   }
 
   private updateThisIssueMapPoint(latitude: number, longitude: number, name?: string) {
+    if (latitude != undefined) {
+      this.initializeDefaultMapPoint()
+    }
     this.mapPoint = {
       latitude: latitude,
       longitude: longitude,
@@ -194,16 +203,20 @@ export class MapComponent implements OnInit {
     // Remove current marker
     if (this.map.hasLayer(this.newMarker)) this.map.removeLayer(this.newMarker);
     // Update marker with mapPoint position
-    const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
-    this.newMarker = marker([coordinates.lat, coordinates.lng], { icon: greenIcon, draggable: false }).addTo(this.map);
-    this.newMarker.bindTooltip("Current issue");
-    this.centerMapOnIssue();
+    if (this.mapPoint.latitude != undefined) {
+      const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
+      this.newMarker = marker([coordinates.lat, coordinates.lng], { icon: greenIcon, draggable: false }).addTo(this.map);
+      this.newMarker.bindTooltip("Current issue");
+      this.centerMapOnIssue();
+    }
   }
 
   centerMapOnIssue() {
-    const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
-    this.map.setView(coordinates, 16);
-    console.log("Centered on issue called !", this.mapPoint.latitude, this.mapPoint.longitude)
+    if (this.mapPoint.latitude != undefined) {
+      const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
+      this.map.setView(coordinates, 16);
+      console.log("Centered on issue called !", this.mapPoint.latitude, this.mapPoint.longitude)
+    }
   }
 
   // DEBUG

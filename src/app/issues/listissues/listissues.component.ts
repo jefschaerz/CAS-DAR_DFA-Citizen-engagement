@@ -106,30 +106,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     this.markersList.changeStdMarkersList(NewMarkersList);
   }
 
-  changeSelection() {
-    this.fetchSelectedItems()
-    console.log('Selected items :', this.selectedItemsList);
-  }
-
-  changeItemsSelection(value) {
-    console.log('Selected radio :', value);
-  }
-
-  fetchSelectedItems() {
-    this.selectedItemsList = this.checkboxesDataList.filter((value, index) => {
-      return value.isChecked
-    });
-  }
-
-  fetchCheckedIDs() {
-    this.checkedIDs = [];
-    this.checkboxesDataList.forEach((value, index) => {
-      if (value.isChecked) {
-        this.checkedIDs.push(value.id);
-      }
-    });
-  }
-
   clearSearchField() {
     this.searchText = '';
     this.refreshFilterAndSearch();
@@ -145,7 +121,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
         },
         error: (error) => console.warn("Error", error),
         complete: () => {
-          console.log('GetIssuesList completed!')
+          //console.log('GetIssuesList completed!')
           this.displayedIssues = this.allIssues;
           // Refresh filter and serach filter only after loading completed
           this.refreshFilterAndSearch();
@@ -154,7 +130,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   }
 
   getIssuesByPage() {
-    console.log("Load page : ", this.issueCurrentPage);
+    //console.log("Load page : ", this.issueCurrentPage);
     this.issueService.loadIssuesByPage(this.issueCurrentPage, this.issuePerPage).subscribe({
       next: (result) => console.log("Issues by Page", result),
       error: (error) => console.warn("Error", error),
@@ -168,41 +144,40 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
       .subscribe({
         next: (result) => {
           this.issueTypes = result;
-          console.log("IssueTypes loaded are ", this.issueTypes)
+          //console.log("IssueTypes loaded are ", this.issueTypes)
         },
-        error: (error) => console.warn("Error", error),
-        complete: () => console.log('getIssueTypeList completed!')
+        error: (error) => console.warn("Error", error)
       });
   }
 
   onSelect(myIssue: Issue): void {
     this.selectedIssue = myIssue;
-    console.log('Issue selected : ', this.selectedIssue.description);
-    console.log('Issue description : ', this.issueTypeService.getIssueDescriptionFromTypeHref(this.issueTypes, this.selectedIssue.issueTypeHref));
+    //console.log('Issue selected : ', this.selectedIssue.description);
+    //console.log('Issue description : ', this.issueTypeService.getIssueDescriptionFromTypeHref(this.issueTypes, this.selectedIssue.issueTypeHref));
   }
 
   onEditIssue(id: string) {
-    console.log('Issue to edit : ', id);
+    //console.log('Issue to edit : ', id);
     this.router.navigate(['/editissue', id]);
   }
 
   onViewIssue(id: string) {
-    console.log('Issue to view : ', id);
+    //console.log('Issue to view : ', id);
     this.router.navigate(['/viewissue', id]);
   }
 
   onEditComments(id: string) {
-    console.log('Issue Comments to edit : ', id);
+    //console.log('Issue Comments to edit : ', id);
     this.router.navigate(['/editissue', id, 'comments']);
   }
 
   refreshFilterAndSearch() {
-    console.log('Refresh filters with selectOwnIssue', this.selectOnlyOwnIssue);
+    //console.log('Refresh filters with selectOwnIssue', this.selectOnlyOwnIssue);
     this.displayedIssues = this.allIssues;
     this.applyFilterByState(this.selectedState.href);
     this.applySearchByDescription(this.searchText);
     this.applySearchByAuthorHref(this.selectOnlyOwnIssue);
-    console.log('Issue to display : OK', this.displayedIssues);
+    // console.log('Issue to display : OK', this.displayedIssues);
     // Markers will show displayIssues 
     this.updatehMarkersListInService(this.displayedIssues);
     this.setCurrentPage(1);
@@ -215,44 +190,41 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
     else {
       this.filteredIssues = this.displayedIssues.filter((oneIssue) => oneIssue.state.includes(stateToFilter))
     }
-    //console.log('@applyFilterByText (filtered) :', stateToFilter)
     // Update info in Markerlist service
     this.displayedIssues = this.filteredIssues;
-
   }
 
   applySearchByDescription(valueToSearch) {
-    console.log('Value to search:', valueToSearch);
+    // console.log('Value to search:', valueToSearch);
     if (valueToSearch === '') {
       this.searchedIssues = this.displayedIssues;
     }
     else {
       this.searchedIssues = this.displayedIssues.filter((oneIssue) => oneIssue.description.includes(valueToSearch))
     }
-    console.log('@applySearchByDescription (filtered) :', valueToSearch)
+    // console.log('@applySearchByDescription (filtered) :', valueToSearch)
     // Update info in Marekerlist service
     this.displayedIssues = this.searchedIssues;
-
   }
 
   applySearchByAuthorHref(FilterOwnIssue) {
-    console.log('Search only own issue status:', FilterOwnIssue);
+    //console.log('Search only own issue status:', FilterOwnIssue);
     if (FilterOwnIssue === "No") {
       this.searchedIssues = this.displayedIssues;
-      console.log('Show all', this.displayedIssues);
+      //console.log('Show all', this.displayedIssues);
     }
     else {
-      console.log('Show only own issue');
+      //console.log('Show only own issue');
       this.searchedIssues = this.displayedIssues.filter((oneIssue) => oneIssue.creatorHref === this.loggedUser.href);
     }
-    console.log('@applySearchByAuthorHref (filtered) :', FilterOwnIssue)
+    //console.log('@applySearchByAuthorHref (filtered) :', FilterOwnIssue)
     // Update info in Marekerlist service
     this.displayedIssues = this.searchedIssues;
   }
 
   // Change current page selected
   setCurrentPage(newPageNb: number): void {
-    console.log("Set current page", newPageNb);
+    //console.log("Set current page", newPageNb);
     this.issueCurrentPage = newPageNb;
     // Emit evetn to set back page 1 - No besser solution yet found 
     this.pageChanged({
@@ -263,7 +235,7 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
 
   // Action on page change done by user
   pageChanged(event: PageChangedEvent): void {
-    console.log("Page changed", event)
+    //console.log("Page changed", event)
     const startItem = (event.page - 1) * event.itemsPerPage;
     const endItem = event.page * event.itemsPerPage;
     // Extract issues to display

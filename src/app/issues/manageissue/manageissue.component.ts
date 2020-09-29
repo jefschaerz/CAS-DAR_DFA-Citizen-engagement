@@ -169,8 +169,8 @@ export class ManageissueComponent implements OnInit {
     // Ask service for the list of current type of issues defined
     this.issueTypeService.loadAllIssueTypes().subscribe({
       next: (receivedIssueTypes) => {
-        this.issueTypes = receivedIssueTypes,
-          console.log("ReceviedIssueTypes issueTypes", this.issueTypes)
+        this.issueTypes = receivedIssueTypes
+        // console.log("ReceivedIssueTypes issueTypes", this.issueTypes)
       },
       error: (error) => console.error('Erreur ', error)
     });

@@ -7,6 +7,7 @@ import { IssueComment } from 'src/app/models/issue-comment';
 import { Issue } from 'src/app/models/issue';
 import { UserService } from 'src/app/api/services/user.service';
 import { PageChangedEvent, PaginationConfig } from 'ngx-bootstrap/pagination';
+import { MarkerPositionService } from '../../shared/services/markerposition.service';
 
 @Component({
   selector: 'app-manageissuecomments',
@@ -33,7 +34,8 @@ export class ManageissuecommentsComponent implements OnInit {
     private issueService: IssueService,
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService) {
+    private userService: UserService,
+    private markerPosition: MarkerPositionService,) {
 
     this.issue = new Issue;
     this.issue.imageUrl = '';
@@ -45,7 +47,6 @@ export class ManageissuecommentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('IssueId :', this.issueId);
     this.getIssueInfo();
     this.getIssueComments();
 
@@ -67,7 +68,11 @@ export class ManageissuecommentsComponent implements OnInit {
           console.warn(["Error during load of issue with ID", this.issueId], error);
           this.router.navigate(['/seeissues']);
         },
-        complete: () => console.log('Load issue in getIssueInfo completed!')
+        complete: () => {
+          console.log('Load issue in getIssueInfo completed!')
+          // Update current issue position in the service
+          this.markerPosition.setNewPosition([this.issue.location.coordinates[0], this.issue.location.coordinates[1]])
+        }
       });
   }
 
@@ -80,11 +85,9 @@ export class ManageissuecommentsComponent implements OnInit {
       .subscribe({
         next: (result) => {
           this.issueComments = result;
-          //console.log("In manageIssueComments : Comments loaded are:", this.issueComments)
         },
         error: (error) => console.warn("Error", error),
         complete: () => {
-          //console.log('getIssueComment completed!')
           this.setCurrentPage(1);
         }
       });
