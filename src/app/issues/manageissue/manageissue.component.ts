@@ -189,7 +189,7 @@ export class ManageissueComponent implements OnInit {
       .subscribe({
         next: (result) => {
           this.issue = result;
-          console.log("Issue loaded by the service : ", this.issue)
+          //console.log("Issue loaded by the service : ", this.issue)
         },
         error: (error) => {
           console.warn(["Error during load of issue with ID", this.issueId], error);
@@ -310,7 +310,8 @@ export class ManageissueComponent implements OnInit {
               console.log('Add issue DONE', this.issue);
               // Clear form for a new issue
               this.clearFormAndLoadDefaultValue(form);
-              this.goToAllIssues();
+              // Stay on page to infor of the success 
+              // this.goToAllIssues();
             }
           });
         }

@@ -50,12 +50,12 @@ export class ApiTokenInterceptorService implements HttpInterceptor {
         // Process this updated request
         return next.handle(req)
           .pipe(tap(
-            event => console.log('Analyse Http Interceptor event', event),
-            error => console.log('Analyse Http Interceptor error', error)
+            //event => console.log('Analyse Http Interceptor event', event),
+            //error => console.log('Analyse Http Interceptor error', error)
           ),
             finalize(() => {
               this.count--;
-              console.log('Check if spinner to hide..', this.count)
+              //console.log('Check if spinner to hide..', this.count)
               if (this.count == 0) this.spinner.hide()
             }) // end finalize
           );

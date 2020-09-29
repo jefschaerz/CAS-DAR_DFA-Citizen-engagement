@@ -37,6 +37,5 @@ export class AppComponent {
       this.isLoggedUserStaff = (this.loggedUser?.roles?.indexOf('staff') > -1);
       console.log('Logged user is staff ? ', this.isLoggedUserStaff);
     });
-
   }
 }

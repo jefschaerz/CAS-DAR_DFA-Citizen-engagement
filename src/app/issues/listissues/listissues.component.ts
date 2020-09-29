@@ -272,4 +272,5 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   isThisIssueOwnIssue(issueHref: string) {
     return (issueHref === this.loggedUser.href);
   }
+
 }
