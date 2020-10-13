@@ -10,12 +10,14 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ManageissuecommentsComponent } from './manageissuecomments/manageissuecomments.component';
 import { AlertsModule } from '../alerts/alerts.module'
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { IssuetypesComponent } from './issuetypes/issuetypes.component';
 
 @NgModule({
   declarations: [ManageissueComponent,
     ListissuesComponent,
     MapComponent,
-    ManageissuecommentsComponent],
+    ManageissuecommentsComponent,
+    IssuetypesComponent],
   imports: [
     CommonModule,
     LeafletModule,

@@ -41,6 +41,7 @@ export class ManageissueComponent implements OnInit {
   displayAllMarkersOnMap = false;
   changeIssueMarkerAllowedOnMap = false;
   markerSubscription: Subscription;
+  REGEXP_imageUrlPattern = environment.imageUrlPattern;
 
   constructor(private issueTypeService: IssueTypeService,
     private router: Router,
@@ -55,6 +56,7 @@ export class ManageissueComponent implements OnInit {
       this.issueId = params.get('id');
     });
 
+    // Try to get location of the user
     this.geolocation
       .getCurrentPosition()
       .then((position) => {
@@ -128,8 +130,6 @@ export class ManageissueComponent implements OnInit {
     this.issue.additionalImageUrls = [];
     this.newLocation = new Location();
     this.issue.location = this.newLocation;
-    // this.issue.location.coordinates[0] = this.userCurrentLocationLat;
-    // this.issue.location.coordinates[1] = this.userCurrentLocationLong;
     this.issue.tags = [];
     this.issue.issueTypeHref = null;
     this.newLocation.coordinates = [];

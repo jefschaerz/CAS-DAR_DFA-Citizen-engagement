@@ -1,0 +1,120 @@
+<div class="container-fluid my-container">
+    <div class="row">
+        <div class="col-lg-5">
+            <h4>Manage issue types</h4>
+        </div>
+        <div class="col-lg-7">
+            <app-alert>Alert :</app-alert>
+        </div>
+    </div>
+    <hr>
+    <div class="row my-row">
+        <!-- Main row -->
+        <div class="col-lg-8">
+            <!-- Container for the data collect or display -->
+            <h5>Add a new issue type</h5>
+            <label for="name">Name</label>
+            <form #AddIssueTypeForm="ngForm">
+                <!-- DONE : Limit size and char allowed in API-->
+                <div class="form-group">
+                    <input class="form-control col-6"
+                           type="text"
+                           name="name"
+                           id="name"
+                           #nameField="ngModel"
+                           [(ngModel)]="newIssueType.name"
+                           maxlength="25"
+                           required
+                           pattern={{REGEXP_AlphaNumericHypen}}
+                           ng-pattern />
+                    <p *ngIf="nameField.hasError('required') && nameField.touched">
+                        Name is required
+                    </p>
+                    <p *ngIf="nameField.hasError('pattern') &&nameField.touched">
+                        Name must be in [a-zA-Z0-9] separated with a "-"
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input class="form-control"
+                           type="text"
+                           name="description"
+                           id="description"
+                           #descriptionField="ngModel"
+                           [(ngModel)]="newIssueType.description"
+                           maxlength="1000" />
+                </div>
+                <div class="form-group">
+                    <label for="icon">Icon</label>
+                    <input class="form-control"
+                           type="text"
+                           name="icon"
+                           id="icon"
+                           #iconField="ngModel"
+                           [(ngModel)]="newIssueType.icon"
+                           maxlength="50" />
+                </div>
+                <div class="form-group">
+                    <label for="imageUrl">Image URL</label>
+                    <input class="form-control"
+                           type="text"
+                           name="imageUrl"
+                           id="imageUrl"
+                           #imageUrlField="ngModel"
+                           [(ngModel)]="newIssueType.imageUrl"
+                           pattern={{REGEXP_imageUrlPattern}}
+                           maxlength="500" />
+                </div>
+                <div *ngIf="imageUrlField.hasError('pattern') && imageUrlField.touched">
+                    ImageUrl is not an valide URL
+                </div>
+                <button type="submit"
+                        class="form-control col-md-2 btn btn-primary"
+                        [disabled]="!AddIssueTypeForm.form.valid"
+                        (click)="addNewIssueType(AddIssueTypeForm.form)">Add</button>
+            </form>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div class="row my-row">
+        <!-- Main row -->
+        <div class="col-10">
+            <!-- Container for the data collect or display -->
+            <h5 class="">List of issueTypes ({{issueTypes.length}})</h5>
+            <div *ngIf="(issueTypes.length >0); else noResults">
+                <pagination classid="paginationIssue"
+                            [totalItems]="issueTypes.length"
+                            [(ngModel)]="issueTypesCurrentPage"
+                            [itemsPerPage]="issueTypesPerPage"
+                            (pageChanged)="pageChanged($event)"></pagination>
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Icon</th>
+                            <th scope="col">ImageUrl</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let issueType of currentIssueTypesPage; "
+                            scope="row">
+                            <td>{{issueType.name}}</td>
+                            <td>{{issueType.description}} </td>
+                            <td>{{issueType.icon}} </td>
+                            <td>{{issueType.imageUrl }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ng-template #noResults>
+                <p>No comments available for this issue.</p>
+            </ng-template>
+
+        </div>
+        <br>
+        <!-- DEBUG : -->
+        <!-- <p> Current issue Types: {{issueTypes | json}}</p> -->
+    </div>
+</div>

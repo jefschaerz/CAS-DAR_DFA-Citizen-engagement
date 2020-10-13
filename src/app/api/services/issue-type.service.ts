@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams, } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { IssueType } from "src/app/models/issue-type";
 // Import the environment file to get prod or dev apiUrl
 import { environment } from "../../../environments/environment";
@@ -10,11 +10,24 @@ import { environment } from "../../../environments/environment";
   providedIn: "root",
 })
 export class IssueTypeService {
-  constructor(private http: HttpClient) { }
+  httpOptions = {
+    headers: new HttpHeaders({
+    }),
+    params: new HttpParams,
+  };
+  constructor(private http: HttpClient) {
+
+  }
 
   loadAllIssueTypes(): Observable<IssueType[]> {
     // Fixed error API_URL
     return this.http.get<IssueType[]>(`${environment.apiUrl}/issueTypes`);
+  }
+
+  loadIssueTypesByPage(page: number = 1, pageSize: number = 10): Observable<IssueType[]> {
+    this.httpOptions.params = this.httpOptions.params.set('page', page.toString());
+    this.httpOptions.params = this.httpOptions.params.set('pageSize', pageSize.toString());
+    return this.http.get<IssueType[]>(`${environment.apiUrl}/issueTypes`, this.httpOptions);
   }
 
   loadOneIssueTypes(id: string): Observable<IssueType> {
@@ -30,8 +43,15 @@ export class IssueTypeService {
 
   // Search for description of select issuetype href 
   getIssueDescriptionFromTypeHref(myIssuesTypes: IssueType[], searchHref: string): string {
-    //TODO called to often : find why
-    //console.log('Href used : ', searchHref);
     return (myIssuesTypes.find(issueType => issueType.href === searchHref))?.description;
   }
+
+  // Add a new comment object to the issue.
+  addIssueType(myIssueType: IssueType): Observable<IssueType> {
+    return this.http.post<any>(`${environment.apiUrl}/issueTypes`, myIssueType).pipe(
+      tap((issueType: IssueType) => console.log(`Success : Issue Type added:`, issueType)),
+    )
+  }
+
+
 }

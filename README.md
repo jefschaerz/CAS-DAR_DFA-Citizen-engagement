@@ -30,6 +30,9 @@ Username : userz / Password : userz
 # Choix lors du développement
 Quelques explications sur les choix et comment utiliser l'application
 
+## Utilisation de pattern dans environnement
+Pour le contrôle de la saisie des champs des formulaire.
+
 ## Choix faits :
 * Après l'ajout d'une issue, on se déplace sur la liste des toutes les issues
 * Lors de la mise à jour d'une issue, on renvoi toutes les infos et non pas seulement celle qui ont changées
@@ -57,6 +60,7 @@ bootstrap
 
 
 ## Améliorations possibles (beaucoup)
+* Lors de la récupération des comments ou des issue types par page, il faudrait pouvoir extraire de la réponse le nombre total dispo (actuellement fixe)
 * L'affichage des alerts (en haut à droite) ne devrait pas faire descendre le reste des infos. Pénible visuellement
 * Contrôle dans le New registration qu'un rôle a bien été sélectionné
 * Affichage de l'adresse en combinaison des coordonnées Lat/Long
