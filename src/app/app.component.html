@@ -14,7 +14,7 @@
       <div class="collapse navbar-collapse"
            [collapse]=isMenuCollapsed
            id="navbarCollapse">
-         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+         <ul class="navbar-nav mr-auto ml-5">
             <li *ngIf="isUserLogged"
                 class="nav-item mt-1">
                <a class="nav-link"
@@ -35,13 +35,6 @@
                   routerLink="/editissue/5f286ad44916cb0016592c9b"
                   routerLinkActive="active"
                   (click)="isMenuCollapsed = true">Staff ONLY</a>
-            </li>
-            <li *ngIf="isUserLogged"
-                class="nav-item mt-1">
-               <a class="nav-link"
-                  routerLink="/debugging"
-                  routerLinkActive="active"
-                  (click)="isMenuCollapsed = true">Debugging</a>
             </li>
             <li class="nav-item mt-1">
                <a class="nav-link"
@@ -83,5 +76,4 @@
 </ngx-spinner>
 <div class="container-fluid mt-5">
    <router-outlet></router-outlet>
-   <app-footer></app-footer>
 </div>

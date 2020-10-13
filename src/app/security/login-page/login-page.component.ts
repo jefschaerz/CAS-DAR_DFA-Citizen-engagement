@@ -33,7 +33,6 @@ export class LoginPageComponent {
   }
 
   goToNewRegistration() {
-    // console.log('Move to new registration called')
     this.router.navigate(['/newregistration']);
   }
 
@@ -41,7 +40,6 @@ export class LoginPageComponent {
    * Called when the login form is submitted.
    */
   onSubmit(form: NgForm) {
-    // Only do something if the form is valid
     if (form.valid) {
       // Hide any previous login error.
       this.loginError = false;

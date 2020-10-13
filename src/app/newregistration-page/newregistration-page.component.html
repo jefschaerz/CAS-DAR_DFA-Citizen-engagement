@@ -29,10 +29,12 @@
                  maxlength="25"
                  pattern={{REGEXP_AlphaNumeric}}
                  ng-pattern />
-          <p *ngIf="usernameField.hasError('required') && usernameField.touched">
+          <p class="inputInvalid"
+             *ngIf="usernameField.hasError('required') && usernameField.touched">
             Username is required
           </p>
-          <p *ngIf="usernameField.hasError('pattern') && usernameField.touched">
+          <p class="inputInvalid"
+             *ngIf="usernameField.hasError('pattern') && usernameField.touched">
             Username must be in [a-zA-Z0-9]
           </p>
         </div>

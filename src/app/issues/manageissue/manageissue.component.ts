@@ -58,7 +58,6 @@ export class ManageissueComponent implements OnInit {
     this.geolocation
       .getCurrentPosition()
       .then((position) => {
-        //console.log('User located!', position);
         this.userCurrentLocationLat = position.coords.latitude;
         this.userCurrentLocationLong = position.coords.longitude;
       })
@@ -124,26 +123,28 @@ export class ManageissueComponent implements OnInit {
   // For a new issue
   loadNewIssueDefaultValues() {
     this.issue = new Issue();
-    this.issue.description = 'Default - Issue from App by JFS';
+    this.issue.description = '';
     this.issue.imageUrl = '';
     this.issue.additionalImageUrls = [];
     this.newLocation = new Location();
     this.issue.location = this.newLocation;
+    // this.issue.location.coordinates[0] = this.userCurrentLocationLat;
+    // this.issue.location.coordinates[1] = this.userCurrentLocationLong;
     this.issue.tags = [];
     this.issue.issueTypeHref = null;
     this.newLocation.coordinates = [];
-    this.newTag = 'Default - New tag';
+    this.newTag = '';
     // Default values : TODO : to adapt
     this.newFirstPictureURL = 'https://picsum.photos/id/200/200.jpg';
     this.newAdditionalPictureURL = 'https://picsum.photos/id/201/200.jpg';
-    console.log("loadNewIssueDefaultValues", this.issue);
+
+    // console.log("loadNewIssueDefaultValues", this.issue);
   }
 
   // For an issue to edit
   loadIssueToEditValues() {
     // Load issue info by the service. Need time..
     this.getSearchIssue();
-    // Set according issueType inissues Types 
   }
 
   goToAllIssues() {
@@ -163,11 +164,6 @@ export class ManageissueComponent implements OnInit {
         this.goToAllIssues();
       }
     });
-  }
-
-  // TODO : No more necessary with Two way binding.
-  onIssueTypeSelected(value: string) {
-    console.log("The selected value is : " + value);
   }
 
   getTypesOfIssue() {

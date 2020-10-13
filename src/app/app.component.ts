@@ -30,7 +30,6 @@ export class AppComponent {
 
     // Get logged user name info
     this.authService.getUser().subscribe(user => {
-      // Add ? to check before if it is defined user (in case of not logged)
       this.loggedUser = user;
       console.log('Logged role ', this.loggedUser?.roles);
       // Check if user is staff or citizen

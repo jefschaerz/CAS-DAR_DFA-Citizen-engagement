@@ -19,15 +19,12 @@ import { SecurityModule } from './security/security.module';
 /* App Root */
 import { AppComponent } from './app.component';
 
-import { DebuggingPageComponent } from './debugging-page/debugging-page.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ApiTokenInterceptorService } from "./api/api-token-interceptor.service";
 import { NewregistrationPageComponent } from './newregistration-page/newregistration-page.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { MapComponent } from './map/map.component';
 import { FilterPipe } from './shared/tools/filter.pipe';
-import { FooterComponent } from './footer/footer.component';
-import { HeaderComponent } from './header/header.component';
 import { MarkerPositionService } from './shared/services/markerposition.service';
 
 // Import in our module
@@ -35,12 +32,9 @@ import { MarkerPositionService } from './shared/services/markerposition.service'
   // Declare COMPONENTS of modules
   declarations: [
     AppComponent,
-    DebuggingPageComponent,
     NewregistrationPageComponent,
     UserMenuComponent,
     FilterPipe,
-    FooterComponent,
-    HeaderComponent
   ],
   // Import other Angular MODULES
   imports: [
@@ -57,7 +51,7 @@ import { MarkerPositionService } from './shared/services/markerposition.service'
     NgxSpinnerModule,
     BsDropdownModule.forRoot(), PaginationModule.forRoot(), CollapseModule.forRoot(), AlertModule.forRoot()
   ],
-  //For ngx-spinner
+  // For ngx-spinner
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{
     provide: HTTP_INTERCEPTORS,

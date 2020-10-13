@@ -60,7 +60,6 @@
                                    for="issueTypes">Type of issues</label>
                             <select class="custom-select"
                                     #mySelect
-                                    (change)='onIssueTypeSelected(mySelect.value)'
                                     [(ngModel)]="issue.issueTypeHref"
                                     required
                                     name="selectIssueType"
@@ -88,16 +87,15 @@
                                    name="description"
                                    id="description"
                                    #descriptionField="ngModel"
-                                   required
                                    [(ngModel)]="issue.description"
                                    maxlength="1000"
                                    ng-pattern
-                                   placeholder="Provide a description"
                                    [disabled]="!isEditableIssue" />
-                            <p *ngIf="descriptionField.hasError('required') && descriptionField.touched">
-                                Description is required
-                            </p>
                         </div>
+                        <p class="offset-3"
+                           *ngIf="descriptionField.hasError('required') && descriptionField.touched">
+                            Description is required!
+                        </p>
                     </div>
                 </div>
 
@@ -169,9 +167,6 @@
                         <div class="row my-row">
                             <div *ngFor="let tag of issue.tags; let i = index;">
                                 <h5><span class="badge badge-light ml-1">{{tag}}</span>
-                                    <!-- <button class="btn btn-xs btn-danger"
-                                (click)="removeTag(i)"><i class="fa fa-trash"></i>
-                        </button> -->
                                     <span *ngIf="isEditableIssue"
                                           class="badge badge-danger"
                                           (click)="removeTag(i)"><i class="fa fa-trash"></i>

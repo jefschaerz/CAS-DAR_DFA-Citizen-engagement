@@ -1,17 +1,16 @@
 Markdown sheet :
 https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf
+# Description de l'application
+L'applicaton permet de signaler des problèmes détectés dans la localité de RENAN (BE).
+
 
 # Utilisation de l'application
-Quelques explications sur les choix et comment utiliser l'application
-
-## Feature to help to test the application
-* When creating a new issue or issue comment, fields are already filled in with default or random values.
+Quelques explications sur la méthode d'utilisaton de l'application
 
 ## Login ou nouvelle inscription
 En arrivant sur l'application on ne peut que se connecter ou alors créer un nouveau compte.
 
 ## Information formulaires :
-
 Template Driver avec validation et contrôle des required
 - Newregistration.html
 - ManageIssue.html
@@ -28,7 +27,8 @@ Username : jdoe / Password : changeme
 Username : usera / Password : usera 
 Username : userz / Password : userz
 
-# Choix los du développement
+# Choix lors du développement
+Quelques explications sur les choix et comment utiliser l'application
 
 ## Choix faits :
 * Après l'ajout d'une issue, on se déplace sur la liste des toutes les issues
@@ -45,6 +45,9 @@ Des condition ngIf, [hidden] et [disabled] sont utilisés sur les composants pou
 * si on ajoute (isNewIssue) 
 * ou encore si c'est une propre issue de l'utilisateur connecté (isUserIssue)
 
+## Ajout d'une issue
+Lors de l'ajout d'une issue, l'application tente de récupérer la position de l'utilisateur.
+Si elle n'est pas autorisé, on utilise le point centrale du village, mais l'utilisateur peut clique sur la carte pour indiquer l'emplacement.
 
 ## Structure du projet :
 
@@ -54,6 +57,7 @@ bootstrap
 
 
 ## Améliorations possibles (beaucoup)
+* L'affichage des alerts (en haut à droite) ne devrait pas faire descendre le reste des infos. Pénible visuellement
 * Contrôle dans le New registration qu'un rôle a bien été sélectionné
 * Affichage de l'adresse en combinaison des coordonnées Lat/Long
 * Dans la liste des issues, un click sur une issue indique le marker (couleur)

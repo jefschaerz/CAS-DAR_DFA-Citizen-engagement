@@ -83,7 +83,7 @@
                     <div class="col-lg-6"
                          *ngFor="let issue of currentPageIssues ; let index = index;"
                          scope="row">
-                        <div class="card border-secondary mb-3">
+                        <div class="card border-secondary mb-2 mt-2">
                             <!-- Card Header -->
                             <div class="card-header border-1">
                                 <div class="row my-row">
@@ -147,59 +147,4 @@
             </div>
         </div>
     </div>
-</div>
-
-<!-- TODO To Remove -->
-<button (click)="getIssuesList()">Refresh list</button>
-
-<div>
-    <h2>All Issues (not filtered)</h2>
-    <table class="table table-hover table-bordered"
-           *ngIf="(allIssues.length >0)">
-        <thead>
-            <tr>
-                <th scope="col">Actions</th>
-                <th scope="col">Comments</th>
-                <th scope="col">#</th>
-                <!-- <th scope="col">AssignedHref</th> -->
-                <th scope="col">CreatedAt</th>
-                <th scope="col">CreatorHref</th>
-                <th scope="col">Description</th>
-                <!-- <th scope="col">Href</th> -->
-                <th scope="col">Id</th>
-                <th scope="col">ImageURL</th>
-                <th scope="col">additionnalImageURLs</th>
-                <!-- <th scope="col">IssuetypeHref</th> -->
-                <th scope="col">Location</th>
-                <!-- <th scope="col">State</th> -->
-                <th scope="col">Tags</th>
-                <!-- <th scope="col">UpdatedAt</th> -->
-
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let issue of allIssues ; let index = index; "
-                scope="row">
-                <td>
-                    <button (click)="onEditIssue(issue.id)">Edit</button>
-                    <button (click)="onEditComments(issue.id)">Edit comments</button>
-                </td>
-                <td (click)="onSelect(issue)">{{index+1}}</td>
-                <!-- <td (click)="onSelect(issue)">{{issue.assigneeHref}}</td> -->
-                <td (click)="onSelect(issue)">{{issue.createdAt}}</td>
-                <td (click)="onSelect(issue)">{{issue.creatorHref}}</td>
-                <td (click)="onSelect(issue)">{{issue.description}}</td>
-                <!-- <td (click)="onSelect(issue)">{{issue.href}}</td> -->
-                <td (click)="onSelect(issue)">{{issue.id}}</td>
-                <td (click)="onSelect(issue)">{{issue.imageUrl}}</td>
-                <td (click)="onSelect(issue)">{{issue.additionalImageUrls}}</td>
-                <!-- <td (click)="onSelect(issue)">{{issue.issueTypeHref}}</td> -->
-                <td (click)="onSelect(issue)">{{issue.location.coordinates[0]}}
-                    {{issue.location.coordinates[1]}}</td>
-                <!-- <td (click)="onSelect(issue)">{{issue.state}}</td> -->
-                <td (click)="onSelect(issue)">{{issue.tags}}</td>
-                <!-- <td (click)="onSelect(issue)">{{issue.updatedAt}}</td> -->
-            </tr>
-        </tbody>
-    </table>
 </div>
