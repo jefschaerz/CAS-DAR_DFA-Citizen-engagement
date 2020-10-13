@@ -7,14 +7,28 @@ Quelques explications sur les choix et comment utiliser l'application
 ## Feature to help to test the application
 * When creating a new issue or issue comment, fields are already filled in with default or random values.
 
+## Login ou nouvelle inscription
+En arrivant sur l'application on ne peut que se connecter ou alors créer un nouveau compte.
+
 ## Information formulaires :
 
 Template Driver avec validation et contrôle des required
 - Newregistration.html
 - ManageIssue.html
 
-## Login ou nouvelle inscription
-En arrivant sur l'application on ne peut que se connecter ou alors créer un nouveau compte.
+## Liste des utilisateurs
+Quelques utilisateurs sont déjà crées et peuvent être utilisés.
+
+### Utilisateur avec droits "Staff"
+
+Username : admin / Password : admin
+### Utilisateur avec droits "Citizen"
+Username : jeanfrancois / Password : 1234 
+Username : jdoe / Password : changeme
+Username : usera / Password : usera 
+Username : userz / Password : userz
+
+# Choix los du développement
 
 ## Choix faits :
 * Après l'ajout d'une issue, on se déplace sur la liste des toutes les issues
@@ -39,15 +53,16 @@ ngx-bootstrap
 bootstrap
 
 
-## Améliorations possibles
+## Améliorations possibles (beaucoup)
 * Contrôle dans le New registration qu'un rôle a bien été sélectionné
 * Affichage de l'adresse en combinaison des coordonnées Lat/Long
-* Dans la liste des issues, un click sur lune issue indique le marker (couleur)
+* Dans la liste des issues, un click sur une issue indique le marker (couleur)
 * Lors de l'édition d'une issue, afficher le marqueur en couleur.
 * Formattage des dates au format local (fr)
 * Lors de l'affichage d'alerte, cela ne devrait pas décaler vers le bas le reste de l'affichage
 * Définir une limite pour l'ajout des marker (limite de la commune)
-
+* Amélioration de l'interface utilisateur
+* Mémorisation de la naviguation pour faciliter les retours en arrière et revenir à l'état d'avant (surtout lors du retour à "See issues")
 
 
 ## Icon used
@@ -69,9 +84,6 @@ Pagination ngx-bootstrap : https://valor-software.com/ngx-bootstrap/#/pagination
 
 Pagination help : https://dimitr.im/pagination-component-angular-2
 
-# Améliorations possibles
-
-* Mémorisation de la naviguation pour faciliter les retours en arrière et revenir à l'état d'avant (surtout lors du retour à "See issues")
 
 # CitizenEngagement - Default infos
 

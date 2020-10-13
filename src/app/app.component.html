@@ -1,9 +1,7 @@
 <div class="container-fluid">
-   <!-- <h1 class="title">Citizen Engagement - Region Renan</h1> -->
-   <!-- Handle Menu collapsed -->
    <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
       <a class="navbar-brand"
-         href="#">Citizen Engagement by JFS</a>
+         href="#">Citizen Engagement by JFS / Renan (BE)</a>
       <button class="navbar-toggler navbar-toggler-right"
               type="button"
               (click)="isMenuCollapsed = !isMenuCollapsed"
@@ -75,7 +73,7 @@
    </nav>
 </div>
 <p>Space</p>
-<!-- Configurtion of the spinner to display while loading by API -->
+<!-- Configurtion of the spinner to be displayed while loading by API -->
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)"
              size="medium"
              color="#fff"
@@ -84,7 +82,6 @@
    <p style="color: white"> Loading... </p>
 </ngx-spinner>
 <div class="container-fluid mt-5">
-   <!-- <app-header>Header</app-header> -->
    <router-outlet></router-outlet>
    <app-footer></app-footer>
 </div>
