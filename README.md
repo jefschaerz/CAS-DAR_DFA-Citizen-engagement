@@ -1,7 +1,7 @@
 # Description de l'application
 L'applicaton permet de signaler et comment des problèmes détectés dans la localité de RENAN (BE).
 
-![Menu principal - List des issues](doc/list-issues.png)
+![List issues](doc/List-issues.png)
 
 Elle utilise l'API suivante pour le stockage des toutes les informations liées aux issues :
 https://mediacomem.github.io/comem-citizen-engagement-api/
