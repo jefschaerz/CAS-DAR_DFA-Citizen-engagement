@@ -29,10 +29,10 @@ Ou alors créer un nouveau compte (New user registration)
 ## Liste des utilisateurs
  Deux types différents d'utilisateur sont possibles :
 
-* Citizen :  Peut ajouter des issues ou modfier ces proopres issues. Il peut également commenter les issues des autres.
+* Citizen :  Peut ajouter des issues ou modfier ces propres issues. Il peut également commenter les issues des autres.
 * Staff :	Peut ajouter des types d'issue ou changer le status d'une issue (pas implémenté). Peut également faire tout ce que le Citizen peut faire.
 
-Quelques utilisateurs sont déjà crées et peuvent être utilisés pour les tests et comprendre le fonctionnement. Différrents issues ont été créées par différents utilisateurs.
+Dans l'API mise à dispo pour mon projet, quelques utilisateurs sont déjà crées et peuvent être utilisés pour les tests et comprendre le fonctionnement. Différrents issues ont été créées par différents utilisateurs.
 
 ### Utilisateur avec droits "Citizen"
 * Username : jeanfrancois / Password : 1234 
@@ -50,10 +50,16 @@ On peut ici effectuer un filtrage ou recherche des issues. La carte affiche touj
 
 On peut également depuis cette page éditer une issue que l'on a créé, voir les détails d'une issue ou encore voir et ajouter des commentaires.
 
+Si on clique sur un marqueur sur la carte, cela édite ou affiche directement les données de l'issue.
+
 ![List issues](doc/Filter-issues.png)
 
 ## Visualisation ou ajout de commentaires sur une issue
 Cette page permet la visualisation ou l'ajout d'une issue avec toutes les informations à fournir. Les issues existantes sont affichées sur la carte pour ne pas ajouter une issue déjà existante.
+
+Des tags ou images peuvent être ajoutés à l'issue. 
+
+Pour les images, on utilise celles mises à dispo du site https://picsum.photos/. Je n'ai pas mis de priorité dans l'utilisation d'une autre API pour la gestion des images.
 
 ![Issue comments](doc/Issue-comments.png)
 
@@ -118,14 +124,14 @@ Si elle n'est pas autorisée, on utilise le point centrale du village, mais l'ut
 Après l'ajout d'une issue, on reste sur la fenêtre d'ajout.
 
 ## Information formulaires
-Template Driver avec validation et contrôle des "required"
+Utilisation de la méthode "Template Driver" avec validation et contrôle des "required"
 - Newregistration.html
 - ManageIssue.html
 - ManageIssueComment
 - NewRegistration
 - ..
 
-## Dives autres choix faits
+## Divers autres choix faits
 * A chaque appel de l'API, un "spinner" s'affiche sur l'écran pour indiquer à l'utilisateur une action en cours.
 * Lors de la mise à jour d'une issue, on renvoit toutes les infos de l'issue et non pas seulement celle qui ont changées
 	--> amélioration possible.
@@ -175,7 +181,7 @@ Beaucoup de choses nécessaires ont été touchées durant les cours, mais la mi
 
 L'aspect visuel (UI avec bootstrap) et aussi quelque chose qui prend du temps à comprendre (grid) et à mettre en place pour que cela affiche ce que l'on veut et comme on l'aimerait. 
 
-Pour information, le temps de développement passé sur ce projet est d'environ : 250h
+Pour information, le temps de développement passé sur ce projet est d'environ : 220h
 
 # CitizenEngagement - Info de base générées à la création du projet
 
