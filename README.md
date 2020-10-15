@@ -1,23 +1,23 @@
 # Description de l'application
-L'applicaton permet de signaler et commenter des problèmes détectés dans la localité de RENAN (BE).
+L'application "Citizen engagement" permet aux citoyens de signaler et commenter des problèmes détectés dans leur localité. Pour ma part les issues ont été centralisé sur la localité de RENAN (BE).
 
 ![List issues](doc/List-issues.png)
 
 Elle utilise l'API suivante pour le stockage des toutes les informations liées aux issues :
 https://mediacomem.github.io/comem-citizen-engagement-api/
 
-L'adresse dédiée de l'API pour ma part est :  
+L'adresse dédiée de l'API pour mon utilisation est :  
 https://masrad-2020-ce-jean-francois.herokuapp.com/api
 
 # Utilisation de l'application
-L'utilisation de l'application est relative simple et le menu permet de voir rapidement les fonctions à disposition. Voici quelques informations complémentaires :
+L'utilisation de l'application est relativement simple et le menu permet de voir rapidement les fonctions à disposition. Voici quelques informations complémentaires :
 
 ## Login ou nouvelle inscription
-En arrivant sur l'adresse de l'application on ne peut que se connecter avec un login existant:
+En arrivant sur l'adresse de l'application `http://localhost:4200/` on peut soit se connecter avec un login existant:
 
 ![Login](doc/Login.png) 
 
-Ou alors créer un nouveau compte
+Ou alors créer un nouveau compte (New user registration)
 
 ![New registration](doc/New-registration.png)
 
@@ -39,22 +39,26 @@ Quelques utilisateurs sont déjà crées et peuvent être utilisés pour les tes
 * Username : admin / Password : admin
 
 ## Visualisation des issues (See issues)
-Cette page permet la visualisation, filtrage ou recherche des issues. On peut également depuis cette page éditer une propre issue, voir les détails d'une issue ou encore voir et ajouter des commentaires.
+Uen fois connecté, on se trouve sur cette page qui liste les issues.
+
+On peut ici effectuer un filtrage ou recherche des issues. On peut également depuis cette page éditer une issue que l'on a créé, voir les détails d'une issue ou encore voir et ajouter des commentaires.
 
 ![List issues](doc/List-issues.png)
 
 ## Visualisation ou ajout de commentaires sur une issue
-Cette page permet la visualisation ou l'ajout de commenati'ajout d'une issue avec toutes les informations à fournir. Les issues existantes sont affichées sur la carte pour ne pas ajouter une issue déjà existante.
+Cette page permet la visualisation ou l'ajout d'une issue avec toutes les informations à fournir. Les issues existantes sont affichées sur la carte pour ne pas ajouter une issue déjà existante.
 
 ![Issue comments](doc/Issue-comments.png)
 
 ## Ajout d'une issues (Add issue)
 Cette page permet l'ajout d'une issue avec toutes les informations à fournir. Les issues existantes sont affichées sur la carte pour ne pas ajouter une issue déjà existante.
 
+L'emplacement de la nouvelle issue peut être indiqué en cliquant sur la carte ou en utilisant le bouton qui indique l'emplacement actuel de l'utilisateur.
+
 ![Add issue](doc/Add-issue.png)
 
 ## Gestion des types d'issue (Issue types)
-`Seulement visible pour les users Staff !`
+`Seulement visible pour les utilisateurs Staff !`
 
 Cette page permet la visualisation et l'ajout d'une issue types avec toutes les informations à fournir. La suppression et la modification d'un type d'issue ne sont pas implémentées.
 
@@ -86,19 +90,11 @@ Quelques explications sur certains choix pris durant le développement.
 Lors de la visualistion des issues, TOUTES les issues sont demandées à l'API. Ensuite des possibilités de filtre ou de pagination peuvent être faite.
 Il serait plus judicieux de récupérer les issues par page, comme fait pour les commenataires des issues.
 
+## Chargement des commentaires par issue:
+Réalisé par un service qui charge par page et non pas tous.
+
 ## Utilisation de pattern de validation de champs
 Pour le contrôle de la saisie des champs des formulaire, on utilise des patterns (regex) qui sont définis dans l'environnement et donc utilisables à plusieurs endroits.
-
-## Information formulaires
-Template Driver avec validation et contrôle des "required"
-- Newregistration.html
-- ManageIssue.html
-- ManageIssueComment
-- NewRegistration
-- ..
-
-## Chargement des commentaires par issue:
-Réalisé par un service qui chargement par page et non pas tous.
 
 ## Formulaire "Edit Issue" pour l'édition et la visualisation
 Ce formulaire (manageIssueComponent) est utilisé pour l'ajout, l'édition et la visualisation des données d'une issue.
@@ -112,7 +108,15 @@ Lors de l'ajout d'une issue, l'application tente de récupérer la position de l
 
 Si elle n'est pas autorisée, on utilise le point centrale du village, mais l'utilisateur peut cliquer sur la carte pour indiquer l'emplacement.
 
-Après l'ajout d'une issue, on reste sur la fenêtre d'ajout
+Après l'ajout d'une issue, on reste sur la fenêtre d'ajout.
+
+## Information formulaires
+Template Driver avec validation et contrôle des "required"
+- Newregistration.html
+- ManageIssue.html
+- ManageIssueComment
+- NewRegistration
+- ..
 
 ## Dives autres choix faits
 * Lors de la mise à jour d'une issue, on renvoit toutes les infos de l'issue et non pas seulement celle qui ont changées
@@ -154,7 +158,18 @@ Pagination help : https://dimitr.im/pagination-component-angular-2
 * Mémorisation de la naviguation pour faciliter les retours en arrière et revenir à l'état d'avant (surtout lors du retour à "See issues")
 * ...
 
-# CitizenEngagement - Info de base généré par Angular.
+# Remarques sur le projet
+Le dévelopement de cette application était très intéressant et le sujet m'a motivé.  
+
+Par contre le dévelopement d'une telle application avec les fonctionnalités requises a été difficile. Les connaissances et la faible expérience pratique acquise durant les cours a été difficile et pris beaucoup de temps.
+
+Beaucoup de choses nécessaires ont été touchées durant les cours, mais la mise en pratique sans expérience est très difficile et on perd vite du temps. à comprendre comment faire intéragir les composants ou les services. Après plusieurs dizaines d'heures et plusieurs compsant ajoutée, on comprend mieux ce que l'on fait.
+
+L'aspect visuel (UI avec bootstrap) et aussi quelque chose qui prend du temps à comprendre (grid) et à mettre en place pour quecela affiche ce que ln veut et comme on l'aimerait. 
+
+Pour information, le temps de développement passé sur ce projet est d'environ : 250h
+
+# CitizenEngagement - Info de base générées à la création du projet
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
 
