@@ -1,9 +1,11 @@
 # Description de l'application
-L'application "Citizen engagement" permet aux citoyens de signaler et commenter des problèmes détectés dans leur localité. Pour ma part les issues ont été centralisé sur la localité de RENAN (BE).
+L'application "Citizen engagement" permet aux citoyens de signaler et commenter des problèmes détectés dans leur localité. 
+
+Pour ma part les issues ont été centralisées sur la localité de RENAN (BE).
 
 ![List issues](doc/List-issues.png)
 
-Elle utilise l'API suivante pour le stockage des toutes les informations liées aux issues :
+L'application utilise l'API suivante pour le stockage des toutes les informations liées aux issues :
 https://mediacomem.github.io/comem-citizen-engagement-api/
 
 L'adresse dédiée de l'API pour mon utilisation est :  
@@ -39,11 +41,13 @@ Quelques utilisateurs sont déjà crées et peuvent être utilisés pour les tes
 * Username : admin / Password : admin
 
 ## Visualisation des issues (See issues)
-Uen fois connecté, on se trouve sur cette page qui liste les issues.
+Une fois connecté, on se trouve sur cette page qui liste les issues.
 
-On peut ici effectuer un filtrage ou recherche des issues. On peut également depuis cette page éditer une issue que l'on a créé, voir les détails d'une issue ou encore voir et ajouter des commentaires.
+On peut ici effectuer un filtrage ou recherche des issues. La carte affiche toujours les marqueurs des issues filtrées.
 
-![List issues](doc/List-issues.png)
+On peut également depuis cette page éditer une issue que l'on a créé, voir les détails d'une issue ou encore voir et ajouter des commentaires.
+
+![List issues](doc/Filter-issues.png)
 
 ## Visualisation ou ajout de commentaires sur une issue
 Cette page permet la visualisation ou l'ajout d'une issue avec toutes les informations à fournir. Les issues existantes sont affichées sur la carte pour ne pas ajouter une issue déjà existante.
@@ -87,8 +91,8 @@ Quelques explications sur certains choix pris durant le développement.
 * Quelques capture d'écrans de l'application
 
 ## List des issues
-Lors de la visualistion des issues, TOUTES les issues sont demandées à l'API. Ensuite des possibilités de filtre ou de pagination peuvent être faite.
-Il serait plus judicieux de récupérer les issues par page, comme fait pour les commenataires des issues.
+Lors de la visualistion des issues, TOUTES les issues sont demandées à l'API. Ensuite des possibilités de filtre ou de pagination peuvent être faite. Cette méthode a permis d'utiliser et comprendre les méthodes de filtrage ou de recherche dans les tableaux. 
+Par contre il serait plus judicieux de récupérer les issues par page, comme fait pour les commentaires des issues.
 
 ## Chargement des commentaires par issue:
 Réalisé par un service qui charge par page et non pas tous.
@@ -161,11 +165,11 @@ Pagination help : https://dimitr.im/pagination-component-angular-2
 # Remarques sur le projet
 Le dévelopement de cette application était très intéressant et le sujet m'a motivé.  
 
-Par contre le dévelopement d'une telle application avec les fonctionnalités requises a été difficile. Les connaissances et la faible expérience pratique acquise durant les cours a été difficile et pris beaucoup de temps.
+Par contre le dévelopement d'une telle application avec les fonctionnalités requises a été difficile. Les connaissances et la faible expérience pratique acquise durant les cours a rendu le développement difficile et pris beaucoup de temps.
 
-Beaucoup de choses nécessaires ont été touchées durant les cours, mais la mise en pratique sans expérience est très difficile et on perd vite du temps. à comprendre comment faire intéragir les composants ou les services. Après plusieurs dizaines d'heures et plusieurs compsant ajoutée, on comprend mieux ce que l'on fait.
+Beaucoup de choses nécessaires ont été touchées durant les cours, mais la mise en pratique sans expérience est très difficile et on perd vite du temps à comprendre comment faire intéragir les composants ou les services. Après plusieurs dizaines d'heures et plusieurs compsants ajoutés, on comprend mieux ce que l'on fait...
 
-L'aspect visuel (UI avec bootstrap) et aussi quelque chose qui prend du temps à comprendre (grid) et à mettre en place pour quecela affiche ce que ln veut et comme on l'aimerait. 
+L'aspect visuel (UI avec bootstrap) et aussi quelque chose qui prend du temps à comprendre (grid) et à mettre en place pour que cela affiche ce que l'on veut et comme on l'aimerait. 
 
 Pour information, le temps de développement passé sur ce projet est d'environ : 250h
 
