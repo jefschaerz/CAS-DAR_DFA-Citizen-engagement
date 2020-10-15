@@ -15,7 +15,7 @@ L'utilisation de l'application est relative simple et le menu permet de voir rap
 ## Login ou nouvelle inscription
 En arrivant sur l'adresse de l'application on ne peut que se connecter avec un login existant:
 
-![Login](doc/Login.png)
+![Login](doc/Login.png) 
 
 Ou alors créer un nouveau compte
 
@@ -27,7 +27,7 @@ Ou alors créer un nouveau compte
 * Citizen :  Peut ajouter des issues ou modfier ces proopres issues. Il peut également commenter les issues des autres.
 * Staff :	Peut ajouter des types d'issue ou changer le status d'une issue (pas implémenté). Peut également faire tout ce que le Citizen peut faire.
 
-Quelques utilisateurs sont déjà crées et peuvent être utilisés pour les tests et comprendre le fonctionnement. Différrents issues ont été créées par différent utilisateurs.
+Quelques utilisateurs sont déjà crées et peuvent être utilisés pour les tests et comprendre le fonctionnement. Différrents issues ont été créées par différents utilisateurs.
 
 ### Utilisateur avec droits "Citizen"
 * Username : jeanfrancois / Password : 1234 
@@ -39,12 +39,29 @@ Quelques utilisateurs sont déjà crées et peuvent être utilisés pour les tes
 * Username : admin / Password : admin
 
 ## Visualisation des issues (See issues)
-Cette page permet la visualisation, filtrage ou recherches des issues. On peut également depuis cette page éditer une issue, ou voir et ajouter des commentaires.
+Cette page permet la visualisation, filtrage ou recherche des issues. On peut également depuis cette page éditer une propre issue, voir les détails d'une issue ou encore voir et ajouter des commentaires.
 
 ![List issues](doc/List-issues.png)
 
+## Visualisation ou ajout de commentaires sur une issue
+Cette page permet la visualisation ou l'ajout de commenati'ajout d'une issue avec toutes les informations à fournir. Les issues existantes sont affichées sur la carte pour ne pas ajouter une issue déjà existante.
+
+![Issue comments](doc/Issue-comments.png)
+
+## Ajout d'une issues (Add issue)
+Cette page permet l'ajout d'une issue avec toutes les informations à fournir. Les issues existantes sont affichées sur la carte pour ne pas ajouter une issue déjà existante.
+
+![Add issue](doc/Add-issue.png)
+
+## Gestion des types d'issue (Issue types)
+`Seulement visible pour les users Staff !`
+
+Cette page permet la visualisation et l'ajout d'une issue types avec toutes les informations à fournir. La suppression et la modification d'un type d'issue ne sont pas implémentées.
+
+![Issue types](doc/Issue-types.png)
+
 # Choix lors du développement
-Quelques explications sur les choix et comment utiliser l'application
+Quelques explications sur certains choix pris durant le développement.
 
 ## Structure des sources
 
@@ -67,43 +84,61 @@ Quelques explications sur les choix et comment utiliser l'application
 
 ## List des issues
 Lors de la visualistion des issues, TOUTES les issues sont demandées à l'API. Ensuite des possibilités de filtre ou de pagination peuvent être faite.
-Il serait plus judicieux de récupérer les issues par page, comme fait pour les commenatires des issues.
+Il serait plus judicieux de récupérer les issues par page, comme fait pour les commenataires des issues.
 
-## Utilisation de pattern dans environnement
+## Utilisation de pattern de validation de champs
 Pour le contrôle de la saisie des champs des formulaire, on utilise des patterns (regex) qui sont définis dans l'environnement et donc utilisables à plusieurs endroits.
 
 ## Information formulaires
-Template Driver avec validation et contrôle des required
+Template Driver avec validation et contrôle des "required"
 - Newregistration.html
 - ManageIssue.html
 - ManageIssueComment
 - NewRegistration
 - ..
 
-## Chargement des commentaires par Issue:
-Réalisé par un service qui chargement par page
+## Chargement des commentaires par issue:
+Réalisé par un service qui chargement par page et non pas tous.
 
 ## Formulaire "Edit Issue" pour l'édition et la visualisation
 Ce formulaire (manageIssueComponent) est utilisé pour l'ajout, l'édition et la visualisation des données d'une issue.
-Des condition ngIf, [hidden] et [disabled] sont utilisés sur les composants pour changer l'état en fonction de si :
+Des conditions ngIf, [hidden] et [disabled] sont utilisés sur les composants pour changer l'état en fonction de si :
 * on édite (isEditable), 
 * si on ajoute (isNewIssue) 
 * ou encore si c'est une propre issue de l'utilisateur connecté (isUserIssue)
 
 ## Ajout d'une issue
 Lors de l'ajout d'une issue, l'application tente de récupérer la position de l'utilisateur.
-Si elle n'est pas autorisé, on utilise le point centrale du village, mais l'utilisateur peut cliquer sur la carte pour indiquer l'emplacement.
+
+Si elle n'est pas autorisée, on utilise le point centrale du village, mais l'utilisateur peut cliquer sur la carte pour indiquer l'emplacement.
+
+Après l'ajout d'une issue, on reste sur la fenêtre d'ajout
 
 ## Dives autres choix faits
-* Après l'ajout d'une issue, on se déplace sur la liste des toutes les issues
-* Lors de la mise à jour d'une issue, on renvoit toutes les infos et non pas seulement celle qui ont changées
+* Lors de la mise à jour d'une issue, on renvoit toutes les infos de l'issue et non pas seulement celle qui ont changées
 	--> amélioration possible.
 
 # Ressources externes utilisées
 ## Libraires
 ngx-bootstrap
+
 bootstrap
 
+## Icon used
+Bootstrap n'inclut ps d'icone par défaut.
+
+Utilisation de ceux de Font Awesome (https://fontawesome.com/)
+
+Installation selon https://softaox.info/best-way-to-use-bootstrap-and-fontawesome-using-npm-in-angular-app/
+
+``` markdown
+code : npm install font-awesome --save
+```
+
+## Autres Ressources et aides utilisées
+Pagination ngx-bootstrap : https://valor-software.com/ngx-bootstrap/#/pagination
+
+Pagination help : https://dimitr.im/pagination-component-angular-2
 
 # Améliorations possibles (beaucoup)
 * Lors de la récupération des comments ou des issue types par page, il faudrait pouvoir extraire de la réponse le nombre total dispo (actuellement fixe)
@@ -117,19 +152,7 @@ bootstrap
 * Définir une limite pour l'ajout des marker (limite de la commune)
 * Amélioration de l'interface utilisateur
 * Mémorisation de la naviguation pour faciliter les retours en arrière et revenir à l'état d'avant (surtout lors du retour à "See issues")
-
-## Icon used
-Bootstrap n'inclut ps d'icone par défaut.
-Utilisation de ceux de Font Awesome (https://fontawesome.com/)
-Installation selon https://softaox.info/best-way-to-use-bootstrap-and-fontawesome-using-npm-in-angular-app/
-
-``` markdown
-code : npm install font-awesome --save
-```
-
-## autres Ressources et aides utilisées
-Pagination ngx-bootstrap : https://valor-software.com/ngx-bootstrap/#/pagination
-Pagination help : https://dimitr.im/pagination-component-angular-2
+* ...
 
 # CitizenEngagement - Info de base généré par Angular.
 
