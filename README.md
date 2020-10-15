@@ -1,7 +1,10 @@
-Markdown sheet :
-https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf
 # Description de l'application
-L'applicaton permet de signaler des problèmes détectés dans la localité de RENAN (BE).
+L'applicaton permet de signaler et comment des problèmes détectés dans la localité de RENAN (BE).
+
+![Menu principal - List des issues](doc/list-issues.png)
+
+Elle utilise l'API suivante pour le stockage des toutes les informations liées aux issues :
+https://mediacomem.github.io/comem-citizen-engagement-api/
 
 ## Structure des sources :
 
@@ -16,6 +19,10 @@ L'applicaton permet de signaler des problèmes détectés dans la localité de R
 * \securtiy : Gestion du login, logout ou des guards 
 * \shared	: Gestion des services partagés dans l'application
 * \user-menu :	Gestion du menu pour l'utilisateur (profile pas implémenté)
+
+\Doc
+* Mockup de l'interface visuelle (utilisé surtout au début du projet). Plus vraiment à jour.
+* Quelques capture d'écrans de l'application
 
 # Utilisation de l'application
 Quelques explications sur la méthode d'utilisaton de l'application
@@ -118,3 +125,6 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+
+Markdown sheet :
+https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf
