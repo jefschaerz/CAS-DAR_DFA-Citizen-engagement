@@ -51,7 +51,7 @@ export class ManageissueComponent implements OnInit {
     private markerPosition: MarkerPositionService,
     private route: ActivatedRoute) {
 
-    // Defined to retrieve id in route patch for edit issue purpose
+    // Defined to retrieve id in route path for edit issue purpose
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.issueId = params.get('id');
     });
@@ -107,7 +107,6 @@ export class ManageissueComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
     // Subscribe to marker position change 
     this.markerSubscription = this.markerPosition.currentPosition.subscribe(position => {
       this.currentIssueMarkerPosition = (position)
@@ -134,9 +133,8 @@ export class ManageissueComponent implements OnInit {
     this.issue.issueTypeHref = null;
     this.newLocation.coordinates = [];
     this.newTag = '';
-    // Default values : TODO : to adapt
-    this.newFirstPictureURL = 'https://picsum.photos/id/200/200.jpg';
-    this.newAdditionalPictureURL = 'https://picsum.photos/id/201/200.jpg';
+    this.newFirstPictureURL = '';
+    this.newAdditionalPictureURL = '';
 
     // console.log("loadNewIssueDefaultValues", this.issue);
   }
@@ -171,7 +169,6 @@ export class ManageissueComponent implements OnInit {
     this.issueTypeService.loadAllIssueTypes().subscribe({
       next: (receivedIssueTypes) => {
         this.issueTypes = receivedIssueTypes
-        // console.log("ReceivedIssueTypes issueTypes", this.issueTypes)
       },
       error: (error) => console.error('Erreur ', error)
     });
@@ -281,16 +278,15 @@ export class ManageissueComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log('Submit an issue', this.issue);
+    console.log('Submit an issue', this.issue, form);
     if ((!this.issue.location.coordinates[0]) || (!this.issue.location.coordinates[1])) {
-      this.alertService.error('The location is missing in your issue', {
+      this.alertService.error('The location is missing in your issue. Please click on the map to locate it', {
         autoClose: false,
         keepAfterRouteChange: false
       });
     }
     else {
       if (form.valid) {
-        // Clear previous alert
         this.alertService.clear();
         // Perform the ADD issue request to the API.
         if (this.isNewIssue) {
@@ -305,7 +301,7 @@ export class ManageissueComponent implements OnInit {
               console.log('Add issue DONE', this.issue);
               // Clear form for a new issue
               this.clearFormAndLoadDefaultValue(form);
-              // Stay on page to infor of the success 
+              // Decision : Stay on page to inform of the success 
               // this.goToAllIssues();
             }
           });

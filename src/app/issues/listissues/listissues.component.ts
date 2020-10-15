@@ -117,11 +117,9 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
       .subscribe({
         next: (result) => {
           this.allIssues = result;
-          //console.log("Issues loaded in ISSUES are ", this.allIssues)
         },
         error: (error) => console.warn("Error", error),
         complete: () => {
-          //console.log('GetIssuesList completed!')
           this.displayedIssues = this.allIssues;
           // Refresh filter and serach filter only after loading completed
           this.refreshFilterAndSearch();
@@ -130,7 +128,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   }
 
   getIssuesByPage() {
-    //console.log("Load page : ", this.issueCurrentPage);
     this.issueService.loadIssuesByPage(this.issueCurrentPage, this.issuePerPage).subscribe({
       next: (result) => console.log("Issues by Page", result),
       error: (error) => console.warn("Error", error),
@@ -144,7 +141,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
       .subscribe({
         next: (result) => {
           this.issueTypes = result;
-          //console.log("IssueTypes loaded are ", this.issueTypes)
         },
         error: (error) => console.warn("Error", error)
       });
@@ -157,22 +153,18 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   }
 
   onEditIssue(id: string) {
-    //console.log('Issue to edit : ', id);
     this.router.navigate(['/editissue', id]);
   }
 
   onViewIssue(id: string) {
-    //console.log('Issue to view : ', id);
     this.router.navigate(['/viewissue', id]);
   }
 
   onEditComments(id: string) {
-    //console.log('Issue Comments to edit : ', id);
     this.router.navigate(['/editissue', id, 'comments']);
   }
 
   refreshFilterAndSearch() {
-    //console.log('Refresh filters with selectOwnIssue', this.selectOnlyOwnIssue);
     this.displayedIssues = this.allIssues;
     this.applyFilterByState(this.selectedState.href);
     this.applySearchByDescription(this.searchText);
@@ -195,38 +187,31 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   }
 
   applySearchByDescription(valueToSearch) {
-    // console.log('Value to search:', valueToSearch);
     if (valueToSearch === '') {
       this.searchedIssues = this.displayedIssues;
     }
     else {
       this.searchedIssues = this.displayedIssues.filter((oneIssue) => oneIssue.description.includes(valueToSearch))
     }
-    // console.log('@applySearchByDescription (filtered) :', valueToSearch)
     // Update info in Marekerlist service
     this.displayedIssues = this.searchedIssues;
   }
 
   applySearchByAuthorHref(FilterOwnIssue) {
-    //console.log('Search only own issue status:', FilterOwnIssue);
     if (FilterOwnIssue === "No") {
       this.searchedIssues = this.displayedIssues;
-      //console.log('Show all', this.displayedIssues);
     }
     else {
-      //console.log('Show only own issue');
       this.searchedIssues = this.displayedIssues.filter((oneIssue) => oneIssue.creatorHref === this.loggedUser.href);
     }
-    //console.log('@applySearchByAuthorHref (filtered) :', FilterOwnIssue)
     // Update info in Marekerlist service
     this.displayedIssues = this.searchedIssues;
   }
 
   // Change current page selected
   setCurrentPage(newPageNb: number): void {
-    //console.log("Set current page", newPageNb);
     this.issueCurrentPage = newPageNb;
-    // Emit evetn to set back page 1 - No besser solution yet found 
+    // Emit event to set back page 1 - No besser solution yet found 
     this.pageChanged({
       itemsPerPage: 4,
       page: newPageNb
@@ -235,7 +220,6 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
 
   // Action on page change done by user
   pageChanged(event: PageChangedEvent): void {
-    //console.log("Page changed", event)
     const startItem = (event.page - 1) * event.itemsPerPage;
     const endItem = event.page * event.itemsPerPage;
     // Extract issues to display
@@ -245,5 +229,4 @@ export class ListissuesComponent implements OnInit, AfterViewInit {
   isThisIssueOwnIssue(issueHref: string) {
     return (issueHref === this.loggedUser.href);
   }
-
 }

@@ -33,7 +33,6 @@ export class AlertsComponent implements OnInit, OnDestroy {
           return;
         }
 
-        // add alert to array
         this.alerts.push(alert);
 
         // auto close alert if required

@@ -57,7 +57,6 @@ export class NewregistrationPageComponent implements OnInit {
     if (form.valid) {
       // Hide any previous login error.
       this.newRegError = false;
-      //TODO Improvement : Check in Valid form (and disable Create button)
       if (!this.atLeastOneRole) {
         this.alertService.error('Please check at least one role. ', {
           autoClose: true,
@@ -75,7 +74,7 @@ export class NewregistrationPageComponent implements OnInit {
         }
         console.warn(`User will be added with the API`);
         console.log(this.newUser);
-        //Perform the add user request to the API.
+        // Perform the add user request to the API.
         this.userService.addUser(this.newUser as User).subscribe({
           error: (error) => this.alertService.error('An error occurs during your registration. ', error),
           complete: () => {

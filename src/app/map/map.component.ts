@@ -24,7 +24,7 @@ export class MapComponent implements OnInit {
 
   map: Map;
   mapPoint: MapCoordinates;
-  // Array for issues to dispay on map
+  // Array for issues to display on map
   mapMarkers: Marker[];
   mapOptions: MapOptions;
   lastLayer: any;
@@ -101,7 +101,6 @@ export class MapComponent implements OnInit {
     }
     console.log("Center on issue : ", this.applyCenterOnIssue);
     console.log("Current Point : ", this.mapPoint);
-    //console.log('** End of ngAfterONInit : displayAllMarkers : ', this.displayAllMarkers);
   }
 
   ngOnDestroy() {
@@ -151,7 +150,7 @@ export class MapComponent implements OnInit {
     // Create and add all markers in the featureGroup
     this.mapMarkers = [];
     for (var i = 0; i < selectedIssueList.length; i++) {
-      //TODO : improvment: do not add current issue
+      // TODO : improvment: do not add current issue
       this.mapMarkers.push(this.addMarkerFromIssue(selectedIssueList[i], map));
     }
   }
@@ -221,16 +220,4 @@ export class MapComponent implements OnInit {
       console.log("Centered on issue called !", this.mapPoint.latitude, this.mapPoint.longitude)
     }
   }
-
-  // DEBUG
-  listAllLayers() {
-    let counter = 0;
-    this.map.eachLayer(function (layer) {
-      console.log("Layer", layer);
-      counter = counter + 1;
-    });
-    console.log("Nb of Layer", counter);
-  }
-
-
 }

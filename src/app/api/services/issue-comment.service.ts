@@ -20,7 +20,7 @@ export class IssueCommentService {
   constructor(private http: HttpClient) {
   }
   // Load issue comments WITH author info (to display author name)
-  //Improve with header info as https://mediacomem.github.io/comem-masrad-dfa/latest/subjects/angular/#63
+  // Improve with header info as https://mediacomem.github.io/comem-masrad-dfa/latest/subjects/angular/#63
   loadIssueComments(id: string, page: number = 1, pageSize: number = 5): Observable<IssueComment[]> {
     this.httpOptions.params = this.httpOptions.params.set('include', 'author');
     this.httpOptions.params = this.httpOptions.params.set('page', page.toString());

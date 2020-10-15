@@ -57,7 +57,7 @@ export class ApiTokenInterceptorService implements HttpInterceptor {
               this.count--;
               //console.log('Check if spinner to hide..', this.count)
               if (this.count == 0) this.spinner.hide()
-            }) // end finalize
+            })
           );
       })
     );

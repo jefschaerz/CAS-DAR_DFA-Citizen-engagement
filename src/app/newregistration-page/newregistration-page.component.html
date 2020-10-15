@@ -133,7 +133,7 @@
                      (change)="CheckboxCitizenChange()"> Staff
             </label>
           </div>
-          <!-- Hidden field to validate one check bbox checked at leat -->
+          <!-- Hidden field to validate one check box checked at least -->
           <p *ngIf="!atLeastOneRole">
             At least one role must be selected !
           </p>
@@ -158,9 +158,6 @@
                   (click)="goToLogin()">Cancel</button>
         </div>
       </form>
-      <!-- TODO : To remove <p>
-        Valid from state : {{newRegForm.valid}}
-      </p> -->
     </div>
   </div>
 </div>

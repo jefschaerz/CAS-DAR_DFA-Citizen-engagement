@@ -48,7 +48,7 @@ export class ManageissuecommentsComponent implements OnInit {
     this.getIssueInfo();
     this.getIssueComments();
 
-    // For debug (random string)
+    // For debug (generate random string as a comment)
     let randomNb: number;
     randomNb = Math.floor((Math.random() * 1000) + 1);
     this.newComment = 'This is a new random comment [' + randomNb + ']';
@@ -101,7 +101,6 @@ export class ManageissuecommentsComponent implements OnInit {
     this.alertService.clear;
     // Set text value of the object
     this.issueComment.text = this.newComment;
-    //console.log('Add new comment (', this.newComment, ') to issue id : ', this.issueId);
     this.issueCommentService.addCommentToIssue(this.issueId, this.issueComment,)
       .subscribe({
         next: (result) => {
@@ -143,5 +142,4 @@ export class ManageissuecommentsComponent implements OnInit {
     this.currentIssueCommentsPage = this.issueComments.slice(startItem, endItem);
     console.log("this.currentIssueCommentsPage", this.currentIssueCommentsPage);
   }
-
 }

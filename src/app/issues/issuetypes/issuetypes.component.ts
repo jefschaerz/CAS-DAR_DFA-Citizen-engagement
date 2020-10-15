@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from 'src/app/alerts/alerts.service';
 import { NgForm } from "@angular/forms";
-import { timeStamp } from 'console';
+//import { timeStamp } from 'console';
 import { IssueTypeService } from 'src/app/api/services/issue-type.service';
 import { IssueType } from "src/app/models/issue-type";
 import { PageChangedEvent, PaginationConfig } from 'ngx-bootstrap/pagination';
@@ -80,7 +80,6 @@ export class IssuetypesComponent implements OnInit {
     console.log("form:", form);
     this.issueType = new IssueType;
     this.alertService.clear;
-    // Set value of the object
     this.issueType.name = this.newIssueType.name;
     this.issueType.description = this.newIssueType.description;
     this.issueTypeService.addIssueType(this.issueType)
@@ -104,6 +103,5 @@ export class IssuetypesComponent implements OnInit {
           this.getIssueTypeList();
         }
       });
-
   }
 }

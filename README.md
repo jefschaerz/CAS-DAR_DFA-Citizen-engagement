@@ -3,6 +3,19 @@ https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf
 # Description de l'application
 L'applicaton permet de signaler des problèmes détectés dans la localité de RENAN (BE).
 
+## Structure des sources :
+
+\Src\App
+
+* \alerts :	Gestion des alerters et messages
+* \api : 	Gestion de l'API
+* \issues :	Gestion des issues (manage issue, list issues, manage issue comments,..) 
+* \map :	Gestion de la carte 
+* \models :	Modèles de données pourl l'API ou autre
+* \newregistration-page : Gestion de la page pour une nouvelle inscription 
+* \securtiy : Gestion du login, logout ou des guards 
+* \shared	: Gestion des services partagés dans l'application
+* \user-menu :	Gestion du menu pour l'utilisateur (profile pas implémenté)
 
 # Utilisation de l'application
 Quelques explications sur la méthode d'utilisaton de l'application
@@ -20,12 +33,12 @@ Quelques utilisateurs sont déjà crées et peuvent être utilisés.
 
 ### Utilisateur avec droits "Staff"
 
-Username : admin / Password : admin
+* Username : admin / Password : admin
 ### Utilisateur avec droits "Citizen"
-Username : jeanfrancois / Password : 1234 
-Username : jdoe / Password : changeme
-Username : usera / Password : usera 
-Username : userz / Password : userz
+* Username : jeanfrancois / Password : 1234 
+* Username : jdoe / Password : changeme
+* Username : usera / Password : usera 
+* Username : userz / Password : userz
 
 # Choix lors du développement
 Quelques explications sur les choix et comment utiliser l'application

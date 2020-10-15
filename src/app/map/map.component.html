@@ -1,4 +1,3 @@
-<!-- <button (click)="addIssuesMarkers()">Display markers</button> -->
 <div class="container-fluid">
         <button *ngIf="changeIssueMarkerAllowed"
                 type="button"
@@ -11,5 +10,5 @@
              (leafletClick)="onMapClick($event)">
                 [leafletFitBounds]="mapFitToBounds"
         </div>
-        <!-- <div>Point {{this.mapPoint | json}}</div> -->
+        <!-- DEBUG : <div>Point {{this.mapPoint | json}}</div> -->
 </div>

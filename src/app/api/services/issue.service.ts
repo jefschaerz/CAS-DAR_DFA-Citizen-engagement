@@ -14,8 +14,8 @@ export class IssueService {
 
   constructor(private http: HttpClient, public alertService: AlertService) { }
 
-  //Info : tap : return same Observable
-  //       map : do action swith every value of the observable and do stuff. Return value as Observable.
+  // Info : tap : return same Observable
+  //       map : do actions with every value of the observable and do stuff. Return value as Observable.
 
   loadAllActions() {
     throw new Error("Method not implemented.");
