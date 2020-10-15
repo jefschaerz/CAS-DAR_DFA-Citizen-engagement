@@ -1,12 +1,52 @@
 # Description de l'application
-L'applicaton permet de signaler et comment des problèmes détectés dans la localité de RENAN (BE).
+L'applicaton permet de signaler et commenter des problèmes détectés dans la localité de RENAN (BE).
 
 ![List issues](doc/List-issues.png)
 
 Elle utilise l'API suivante pour le stockage des toutes les informations liées aux issues :
 https://mediacomem.github.io/comem-citizen-engagement-api/
 
-## Structure des sources :
+L'adresse dédiée de l'API pour ma part est :  
+https://masrad-2020-ce-jean-francois.herokuapp.com/api
+
+# Utilisation de l'application
+L'utilisation de l'application est relative simple et le menu permet de voir rapidement les fonctions à disposition. Voici quelques informations complémentaires :
+
+## Login ou nouvelle inscription
+En arrivant sur l'adresse de l'application on ne peut que se connecter avec un login existant:
+
+![Login](doc/Login.png)
+
+Ou alors créer un nouveau compte
+
+![New registration](doc/New-registration.png)
+
+## Liste des utilisateurs
+ Deux types différents d'utilisateur sont possibles :
+
+* Citizen :  Peut ajouter des issues ou modfier ces proopres issues. Il peut également commenter les issues des autres.
+* Staff :	Peut ajouter des types d'issue ou changer le status d'une issue (pas implémenté). Peut également faire tout ce que le Citizen peut faire.
+
+Quelques utilisateurs sont déjà crées et peuvent être utilisés pour les tests et comprendre le fonctionnement. Différrents issues ont été créées par différent utilisateurs.
+
+### Utilisateur avec droits "Citizen"
+* Username : jeanfrancois / Password : 1234 
+* Username : jdoe / Password : changeme
+* Username : usera / Password : usera 
+* Username : userz / Password : userz
+
+### Utilisateur avec droits "Staff"
+* Username : admin / Password : admin
+
+## Visualisation des issues (See issues)
+Cette page permet la visualisation, filtrage ou recherches des issues. On peut également depuis cette page éditer une issue, ou voir et ajouter des commentaires.
+
+![List issues](doc/List-issues.png)
+
+# Choix lors du développement
+Quelques explications sur les choix et comment utiliser l'application
+
+## Structure des sources
 
 \Src\App
 
@@ -21,42 +61,24 @@ https://mediacomem.github.io/comem-citizen-engagement-api/
 * \user-menu :	Gestion du menu pour l'utilisateur (profile pas implémenté)
 
 \Doc
+
 * Mockup de l'interface visuelle (utilisé surtout au début du projet). Plus vraiment à jour.
 * Quelques capture d'écrans de l'application
 
-# Utilisation de l'application
-Quelques explications sur la méthode d'utilisaton de l'application
+## List des issues
+Lors de la visualistion des issues, TOUTES les issues sont demandées à l'API. Ensuite des possibilités de filtre ou de pagination peuvent être faite.
+Il serait plus judicieux de récupérer les issues par page, comme fait pour les commenatires des issues.
 
-## Login ou nouvelle inscription
-En arrivant sur l'application on ne peut que se connecter ou alors créer un nouveau compte.
+## Utilisation de pattern dans environnement
+Pour le contrôle de la saisie des champs des formulaire, on utilise des patterns (regex) qui sont définis dans l'environnement et donc utilisables à plusieurs endroits.
 
-## Information formulaires :
+## Information formulaires
 Template Driver avec validation et contrôle des required
 - Newregistration.html
 - ManageIssue.html
-
-## Liste des utilisateurs
-Quelques utilisateurs sont déjà crées et peuvent être utilisés.
-
-### Utilisateur avec droits "Staff"
-
-* Username : admin / Password : admin
-### Utilisateur avec droits "Citizen"
-* Username : jeanfrancois / Password : 1234 
-* Username : jdoe / Password : changeme
-* Username : usera / Password : usera 
-* Username : userz / Password : userz
-
-# Choix lors du développement
-Quelques explications sur les choix et comment utiliser l'application
-
-## Utilisation de pattern dans environnement
-Pour le contrôle de la saisie des champs des formulaire.
-
-## Choix faits :
-* Après l'ajout d'une issue, on se déplace sur la liste des toutes les issues
-* Lors de la mise à jour d'une issue, on renvoi toutes les infos et non pas seulement celle qui ont changées
-	--> amélioration possible.
+- ManageIssueComment
+- NewRegistration
+- ..
 
 ## Chargement des commentaires par Issue:
 Réalisé par un service qui chargement par page
@@ -70,16 +92,20 @@ Des condition ngIf, [hidden] et [disabled] sont utilisés sur les composants pou
 
 ## Ajout d'une issue
 Lors de l'ajout d'une issue, l'application tente de récupérer la position de l'utilisateur.
-Si elle n'est pas autorisé, on utilise le point centrale du village, mais l'utilisateur peut clique sur la carte pour indiquer l'emplacement.
+Si elle n'est pas autorisé, on utilise le point centrale du village, mais l'utilisateur peut cliquer sur la carte pour indiquer l'emplacement.
 
-## Structure du projet :
+## Dives autres choix faits
+* Après l'ajout d'une issue, on se déplace sur la liste des toutes les issues
+* Lors de la mise à jour d'une issue, on renvoit toutes les infos et non pas seulement celle qui ont changées
+	--> amélioration possible.
 
-## External library :
+# Ressources externes utilisées
+## Libraires
 ngx-bootstrap
 bootstrap
 
 
-## Améliorations possibles (beaucoup)
+# Améliorations possibles (beaucoup)
 * Lors de la récupération des comments ou des issue types par page, il faudrait pouvoir extraire de la réponse le nombre total dispo (actuellement fixe)
 * L'affichage des alerts (en haut à droite) ne devrait pas faire descendre le reste des infos. Pénible visuellement
 * Contrôle dans le New registration qu'un rôle a bien été sélectionné
@@ -92,28 +118,20 @@ bootstrap
 * Amélioration de l'interface utilisateur
 * Mémorisation de la naviguation pour faciliter les retours en arrière et revenir à l'état d'avant (surtout lors du retour à "See issues")
 
-
 ## Icon used
-Bootstrap do not include icon by default.
-We choose to use Font Awesome (https://fontawesome.com/)
-Installation according to https://softaox.info/best-way-to-use-bootstrap-and-fontawesome-using-npm-in-angular-app/
+Bootstrap n'inclut ps d'icone par défaut.
+Utilisation de ceux de Font Awesome (https://fontawesome.com/)
+Installation selon https://softaox.info/best-way-to-use-bootstrap-and-fontawesome-using-npm-in-angular-app/
 
+``` markdown
 code : npm install font-awesome --save
+```
 
-Add in angular.json in styles
-Restart Visual studio Code
-
-## Package uses (from : package.json)
-
-[Ce link](http://www.sontex.ch)
-
-## Ressources :
+## autres Ressources et aides utilisées
 Pagination ngx-bootstrap : https://valor-software.com/ngx-bootstrap/#/pagination
-
 Pagination help : https://dimitr.im/pagination-component-angular-2
 
-
-# CitizenEngagement - Default infos
+# CitizenEngagement - Info de base généré par Angular.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
 
