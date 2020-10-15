@@ -126,6 +126,7 @@ Template Driver avec validation et contrôle des "required"
 - ..
 
 ## Dives autres choix faits
+* A chaque appel de l'API, un "spinner" s'affiche sur l'écran pour indiquer à l'utilisateur une action en cours.
 * Lors de la mise à jour d'une issue, on renvoit toutes les infos de l'issue et non pas seulement celle qui ont changées
 	--> amélioration possible.
 
