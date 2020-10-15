@@ -1,5 +1,8 @@
+# Citizen Engagement
+Ce repository contient les sources du projet "Citizen Engagment" réalisé dans le cadre du CAS-DAR DFA / Angular 2020.
+
 # Description de l'application
-L'application "Citizen engagement" permet aux citoyens de signaler et commenter des problèmes détectés dans leur localité. 
+L'application "Citizen engagement" permet aux citoyens de signaler et commenter des problèmes détectés dans leur localité. Ces problèmes pourront ensuite être corrigés par les personnes compétentes et leur état mise à jour dans l'application (pas implémenté).
 
 Pour ma part les issues ont été centralisées sur la localité de RENAN (BE).
 
