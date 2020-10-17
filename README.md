@@ -185,9 +185,6 @@ Pagination ngx-bootstrap : https://valor-software.com/ngx-bootstrap/#/pagination
 Pagination help : https://dimitr.im/pagination-component-angular-2
 
 ngs-spinner : https://www.npmjs.com/package/ngx-spinner#installation
-``` markdown
-code : npm install ngx-spinner --save
-```
 
 Lodash : https://lodash.com/
 
@@ -203,6 +200,7 @@ Voici ici quelques améliorations possibles :
 * Affichage de l'adresse en combinaison des coordonnées Lat/Long
 * Dans la liste des issues, un click sur une issue indique le marker (couleur)
 * Lors de l'édition d'une issue, afficher le marqueur en couleur
+* Regroupement des marqueurs 
 * Formattage des dates au format local (fr)
 * Définir une limite pour l'ajout des issues (limite de la commune)
 * Amélioration de l'interface utilisateur
