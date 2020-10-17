@@ -192,11 +192,6 @@
                            ng-pattern
                            [disabled]="!isEditableIssue" />
 
-                    <img *ngIf="(issue.imageUrl !== null && issue.imageUrl.length > 0)"
-                         src="{{this.issue.imageUrl}}"
-                         alt="this.issue.imageUrl"
-                         width="30" />
-
                     <button class="form-control ml-2 mr-2 btn btn-primary pull-right"
                             type="button"
                             [hidden]="!isEditableIssue"
@@ -204,6 +199,22 @@
                     <div class="offset-3"
                          *ngIf="pictureField.hasError('pattern') && pictureField.touched">
                         ImageUrl is not an valide URL
+                    </div>
+                </div>
+                <div class="row my-row ml-10 mb-2">
+                    <div class="col-3 ml-2 my-col">
+                        <label class="ml-5"></label>
+                    </div>
+                    <div class="col my-col">
+                        <div class="row my-row">
+                            <div *ngIf="(issue.imageUrl !== null && issue.imageUrl.length > 0)"
+                                 class="card my-div"
+                                 style="width: 7rem;">
+                                <img class="card-img-top"
+                                     src="{{this.issue.imageUrl}}"
+                                     alt="Card image cap" />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -269,7 +280,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- Bottom with buttons -->
                 <div class="form-group">

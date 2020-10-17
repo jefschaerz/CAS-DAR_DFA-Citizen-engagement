@@ -86,7 +86,7 @@ Cette page permet la visualisation et l'ajout d'une issue types avec toutes les 
 ## Messge d'information à l'utilisteur
 
 Un service Alerts permet à l'application d'informer l'utilisateur en cas de succès ou de problèmes rencontrés lors de l'exécution de certaines tâches.
-Ces alerts disparaissent automatiquement après 5 secondes, mais peuvent également être effacé par l'utilisteur.
+Ces alerts disparaissent automatiquement après 5 secondes, mais peuvent également être effacés par l'utilisteur.
 
 ![Issue types](doc/Alerts-Success.png)
 
