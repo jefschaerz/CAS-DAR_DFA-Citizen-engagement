@@ -1,9 +1,14 @@
 # Citizen Engagement
+<a name="top"></a>
 Ce repository contient les sources du projet "Citizen Engagment" réalisé dans le cadre du CAS-DAR DFA / Angular 2020.
 
 - [Description de l'application](#description-application)
 - [Utilisation de l'application](#utilisation-application)
+- [Choix lors du développpement](#choix-developpement)
+- [Ressources externes](#ressources-externes)
+- [Améliorations possibles](#ameliorations)
 - [Remarques sur le projet](#remarques-projet)
+- [Info pour lancement de l'application](#lancement-application)
 
 <a name="description-application"></a>
 # Description de l'application
@@ -18,6 +23,8 @@ https://mediacomem.github.io/comem-citizen-engagement-api/
 
 L'adresse dédiée de l'API pour mon utilisation est :  
 https://masrad-2020-ce-jean-francois.herokuapp.com/api
+
+<a href="#top">Retour en haut de la page</a>
 
 <a name="utilisation-application"></a>
 # Utilisation de l'application
@@ -98,6 +105,9 @@ Ces alerts disparaissent automatiquement après 5 secondes, mais peuvent égalem
 
 ![Issue types](doc/Alerts-Success.png)
 
+<a href="#top">Retour en haut de la page</a>
+
+<a name="choix-developpement"></a>
 # Choix lors du développement
 Quelques explications sur certains choix pris durant le développement.
 
@@ -150,8 +160,10 @@ Utilisation de la méthode "Template Driven" avec validation et contrôle des "r
 ## Divers autres choix faits
 * A chaque appel de l'API, un "spinner" s'affiche sur l'écran pour indiquer à l'utilisateur qu'une action est en cours. Ceci est msi en place dans le httpinterceptor.
 * Lors de l'édition d'une issue, on renvoit toutes les infos de l'issue et non pas seulement celle qui ont changées. 
+<a href="#top">Retour en haut de la page</a>
 
-# Ressources externes utilisées
+<a name="ressources-externes"></a>
+# Ressources externes
 ## Libraires
 * ngx-bootstrap
 * bootstrap
@@ -172,6 +184,16 @@ Pagination ngx-bootstrap : https://valor-software.com/ngx-bootstrap/#/pagination
 
 Pagination help : https://dimitr.im/pagination-component-angular-2
 
+ngs-spinner : https://www.npmjs.com/package/ngx-spinner#installation
+``` markdown
+code : npm install ngx-spinner --save
+```
+
+Lodash : https://lodash.com/
+
+<a href="#top">Retour en haut de la page</a>
+
+<a name="ameliorations"></a>
 # Améliorations possibles (beaucoup)
 Beaucoup de choses peuvent certainement être améliorées pour rendre cette application utilisable et évolutive. Certaines infos de debugg sont encore visible dans la console et n'ont pas été supprimées.
 Voici ici quelques améliorations possibles :
@@ -186,6 +208,8 @@ Voici ici quelques améliorations possibles :
 * Amélioration de l'interface utilisateur
 * Mémorisation de la naviguation pour faciliter les retours en arrière et revenir à l'état d'avant (surtout pour les filtres lors du retour à "See issues")
 * ...
+<a href="#top">Retour en haut de la page</a>
+
 <a name="remarques-projet"></a>
 # Remarques sur le projet
 Le dévelopement de cette application était très intéressant et le sujet m'a vraiment motivé.  
@@ -200,7 +224,11 @@ Comme beaucoup de module dans le CAS, nous avons désormais appris les bases de 
 
 Pour information, le temps de développement passé sur ce projet est d'environ : 220h
 
-# CitizenEngagement - Info de base générées à la création du projet
+<a href="#top">Retour en haut de la page</a>
+
+<a name="lancement-application"></a>
+# Info pour lancement de l'application
+Info de base générées à la création du projet
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
 
@@ -211,3 +239,5 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+<a href="#top">Retour en haut de la page</a>
