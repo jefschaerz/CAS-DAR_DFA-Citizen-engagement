@@ -85,7 +85,7 @@ Cette page permet la visualisation et l'ajout d'une issue types avec toutes les 
 
 ![Issue types](doc/Issue-types.png)
 
-## Messge d'information à l'utilisteur
+## Message d'information à l'utilisteur
 
 Un service Alerts permet à l'application d'informer l'utilisateur en cas de succès ou de problèmes rencontrés lors de l'exécution de certaines tâches.
 Ces alerts disparaissent automatiquement après 5 secondes, mais peuvent également être effacés par l'utilisteur.
@@ -118,7 +118,7 @@ Quelques explications sur certains choix pris durant le développement.
 Lors de la visualistion des issues, TOUTES les issues sont demandées à l'API. Ensuite des possibilités de filtre ou de pagination peuvent être faite. Cette méthode a permis d'utiliser et comprendre les méthodes de filtrage ou de recherche dans les tableaux. 
 Par contre il serait plus judicieux de récupérer les issues par page, comme fait pour les commentaires des issues.
 
-## Chargement des commentaires par issue:
+## Chargement des commentaires par issue
 Réalisé par un service qui charge par page et non pas tous.
 
 ## Utilisation de pattern de validation de champs
@@ -139,12 +139,7 @@ Si elle n'est pas autorisée, on utilise le point central du village, mais l'uti
 Après l'ajout d'une issue, on reste sur la fenêtre d'ajout pour éventuellement ajouter une nouvelle issue.
 
 ## Informations sur les formulaires
-Utilisation de la méthode "Template Driver" avec validation et contrôle des "required"
-- Newregistration.html
-- ManageIssue.html
-- ManageIssueComment.html
-- NewRegistration.html
-- ..
+Utilisation de la méthode "Template Driven" avec validation et contrôle des "required"
 
 ## Divers autres choix faits
 * A chaque appel de l'API, un "spinner" s'affiche sur l'écran pour indiquer à l'utilisateur qu'une action est en cours. Ceci est msi en place dans le httpinterceptor.
@@ -172,17 +167,18 @@ Pagination ngx-bootstrap : https://valor-software.com/ngx-bootstrap/#/pagination
 Pagination help : https://dimitr.im/pagination-component-angular-2
 
 # Améliorations possibles (beaucoup)
+Beaucoup de choses peuvent certainement être améliorées pour rendre cette application utilisable et évolutive. Certaines infos de debugg sont encore visible dans la console et n'ont pas été supprimées.
+Voici ici quelques améliorations possibles :
+* Résoudre un problème d'ordre de chargement de données dans les vues html car cela provoque actuellement une erreur "ExpressionChangedAfterItHasBeenCheckedError" dans la console
 * Lors de la récupération des comments ou des issue types par page, il faudrait pouvoir extraire de la réponse le nombre total dispo (actuellement fixe)
 * L'affichage des alerts (en haut à droite) ne devrait pas faire descendre le reste des infos. Pénible visuellement
-* Contrôle dans le New registration qu'un rôle a bien été sélectionné
 * Affichage de l'adresse en combinaison des coordonnées Lat/Long
 * Dans la liste des issues, un click sur une issue indique le marker (couleur)
-* Lors de l'édition d'une issue, afficher le marqueur en couleur.
+* Lors de l'édition d'une issue, afficher le marqueur en couleur
 * Formattage des dates au format local (fr)
-* Lors de l'affichage d'alerte, cela ne devrait pas décaler vers le bas le reste de l'affichage
-* Définir une limite pour l'ajout des marker (limite de la commune)
+* Définir une limite pour l'ajout des issues (limite de la commune)
 * Amélioration de l'interface utilisateur
-* Mémorisation de la naviguation pour faciliter les retours en arrière et revenir à l'état d'avant (surtout lors du retour à "See issues")
+* Mémorisation de la naviguation pour faciliter les retours en arrière et revenir à l'état d'avant (surtout pour les filtres lors du retour à "See issues")
 * ...
 
 # Remarques sur le projet
@@ -190,7 +186,7 @@ Le dévelopement de cette application était très intéressant et le sujet m'a 
 
 Par contre le dévelopement d'une telle application avec les fonctionnalités requises a été difficile. Les connaissances et la faible expérience pratique acquise durant les cours a rendu le développement difficile et pris beaucoup de temps à comprendre. Le visionnage des vidéos du cours et le support du cours ont été très utiles.
 
-Beaucoup de choses nécessaires ont été touchées durant les cours, mais la mise en pratique sans vrai expérience est très difficile et on perd vite du temps à comprendre comment faire intéragir les modules, composants ou les services. Après plusieurs dizaines d'heures et plusieurs compasants ajoutés, on comprend mieux ce que l'on fait et on le fait probablement de manière plus correcte, mais cela reste à confirmer.
+Beaucoup de choses nécessaires ont été touchées durant les cours, mais la mise en pratique dans un projet n'est pas facile et on prend vite du temps à comprendre comment faire intéragir les modules, composants ou les services. Après plusieurs dizaines d'heures et plusieurs composants ajoutés, on comprend mieux ce que l'on fait et on le fait probablement de manière plus correcte, mais cela reste à confirmer.
 
 L'aspect visuel (UI avec bootstrap) et aussi quelque chose qui prend du temps à comprendre (grid) et à mettre en place pour que cela affiche ce que l'on veut et comme on l'aimerait. 
 
