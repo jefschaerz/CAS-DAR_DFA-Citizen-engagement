@@ -29,10 +29,10 @@ Ou alors créer un nouveau compte (New user registration)
 ## Liste des utilisateurs
  Deux types différents d'utilisateur sont possibles :
 
-* Citizen :  Peut ajouter des issues ou modfier ces propres issues. Il peut également commenter les issues des autres.
-* Staff :	Peut ajouter des types d'issue ou changer le status d'une issue (pas implémenté). Peut également faire tout ce que le Citizen peut faire.
+* __Citizen__ :  Peut ajouter des issues ou modfier ces propres issues. Il peut également commenter les issues des autres.
+* __Staff__ :	Peut ajouter des types d'issue ou changer le status d'une issue (pas implémenté). Peut également faire tout ce que le Citizen peut faire.
 
-Dans l'API mise à dispo pour mon projet, quelques utilisateurs sont déjà crées et peuvent être utilisés pour les tests et comprendre le fonctionnement. Différrents issues ont été créées par différents utilisateurs.
+Dans l'API mise à dispo pour mon projet, quelques utilisateurs sont déjà crées et peuvent être utilisés pour les tests et comprendre le fonctionnement. Différents issues ont été créées par différents utilisateurs.
 
 ### Utilisateur avec droits "Citizen"
 * Username : jeanfrancois / Password : 1234 
@@ -44,38 +44,51 @@ Dans l'API mise à dispo pour mon projet, quelques utilisateurs sont déjà cré
 * Username : admin / Password : admin
 
 ## Visualisation des issues (See issues)
-Une fois connecté, on se trouve sur cette page qui liste les issues.
+Une fois connecté, on se trouve sur cette page qui liste les issues actuellement déclarées.
 
-On peut ici effectuer un filtrage ou recherche des issues. La carte affiche toujours les marqueurs des issues filtrées.
+On peut ici effectuer un filtrage ou recherche des issues (par mots, par état ou pour voir uniquement ces propres issues). La carte affiche toujours les marqueurs des issues filtrées.
 
-On peut également depuis cette page éditer une issue que l'on a créé, voir les détails d'une issue ou encore voir et ajouter des commentaires.
+On peut également depuis cette page éditer une issue que l'on a créée, voir les détails d'une issue ou encore voir et ajouter des commentaires.
 
-Si on clique sur un marqueur sur la carte, cela édite ou affiche directement les données de l'issue.
+Si on clique sur un marqueur sur la carte, cela édite ou affiche directement les données de l'issue (en fonction de si c'est une propre issue ou non).
 
 ![List issues](doc/Filter-issues.png)
 
 ## Visualisation ou ajout de commentaires sur une issue
-Cette page permet la visualisation ou l'ajout d'une issue avec toutes les informations à fournir. Les issues existantes sont affichées sur la carte pour ne pas ajouter une issue déjà existante.
-
-Des tags ou images peuvent être ajoutés à l'issue. 
-
-Pour les images, on utilise celles mises à dispo du site https://picsum.photos/. Je n'ai pas mis de priorité dans l'utilisation d'une autre API pour la gestion des images.
+Des commentaires peuvent être ajouté sur des issues. Cette page permet de visualiser ou d'ajouter sur une issue ses commentaires. L'affichage des commentaires est faites par page et à chaque changement de page, on fait appel à l'API pour recevoir la suite des commentaires.
 
 ![Issue comments](doc/Issue-comments.png)
+
+## Visualisation ou édition d'une issue
+
+Depuis la liste des issues, il est également possible d'éditer une issue que l'on a créé ou voir les détails d'une issue créée par un autre utilisateur.
+
+La page affichée dans ces deux cas est la même que celle pour ajouer une issue, mais certains champs sont visibles ou modifiables en fonction de l'action.
 
 ## Ajout d'une issues (Add issue)
 Cette page permet l'ajout d'une issue avec toutes les informations à fournir. Les issues existantes sont affichées sur la carte pour ne pas ajouter une issue déjà existante.
 
 L'emplacement de la nouvelle issue peut être indiqué en cliquant sur la carte ou en utilisant le bouton qui indique l'emplacement actuel de l'utilisateur.
 
+Des tags ou images peuvent être ajoutés à l'issue. 
+
+Pour les images, on utilise celles mises à dispo du site https://picsum.photos/. Je n'ai pas mis de priorité dans l'utilisation d'une autre API pour la gestion des images.
+
 ![Add issue](doc/Add-issue.png)
 
 ## Gestion des types d'issue (Issue types)
-`Seulement visible pour les utilisateurs Staff !`
+__`Seulement visible pour les utilisateurs Staff !`__
 
 Cette page permet la visualisation et l'ajout d'une issue types avec toutes les informations à fournir. La suppression et la modification d'un type d'issue ne sont pas implémentées.
 
 ![Issue types](doc/Issue-types.png)
+
+## Messge d'information à l'utilisteur
+
+Un service Alerts permet à l'application d'informer l'utilisateur en cas de succès ou de problèmes rencontrés lors de l'exécution de certaines tâches.
+Ces alerts disparaissent automatiquement après 5 secondes, mais peuvent également être effacé par l'utilisteur.
+
+![Issue types](doc/Alerts-Success.png)
 
 # Choix lors du développement
 Quelques explications sur certains choix pris durant le développement.
@@ -119,28 +132,26 @@ Des conditions ngIf, [hidden] et [disabled] sont utilisés sur les composants po
 ## Ajout d'une issue
 Lors de l'ajout d'une issue, l'application tente de récupérer la position de l'utilisateur.
 
-Si elle n'est pas autorisée, on utilise le point centrale du village, mais l'utilisateur peut cliquer sur la carte pour indiquer l'emplacement.
+Si elle n'est pas autorisée, on utilise le point central du village, mais l'utilisateur peut cliquer sur la carte pour indiquer l'emplacement.
 
-Après l'ajout d'une issue, on reste sur la fenêtre d'ajout.
+Après l'ajout d'une issue, on reste sur la fenêtre d'ajout pour éventuellement ajouter une nouvelle issue.
 
-## Information formulaires
+## Informations sur les formulaires
 Utilisation de la méthode "Template Driver" avec validation et contrôle des "required"
 - Newregistration.html
 - ManageIssue.html
-- ManageIssueComment
-- NewRegistration
+- ManageIssueComment.html
+- NewRegistration.html
 - ..
 
 ## Divers autres choix faits
-* A chaque appel de l'API, un "spinner" s'affiche sur l'écran pour indiquer à l'utilisateur une action en cours.
-* Lors de la mise à jour d'une issue, on renvoit toutes les infos de l'issue et non pas seulement celle qui ont changées
-	--> amélioration possible.
+* A chaque appel de l'API, un "spinner" s'affiche sur l'écran pour indiquer à l'utilisateur qu'une action est en cours. Ceci est msi en place dans le httpinterceptor.
+* Lors de l'édition d'une issue, on renvoit toutes les infos de l'issue et non pas seulement celle qui ont changées. 
 
 # Ressources externes utilisées
 ## Libraires
-ngx-bootstrap
-
-bootstrap
+* ngx-bootstrap
+* bootstrap
 
 ## Icon used
 Bootstrap n'inclut ps d'icone par défaut.
@@ -173,13 +184,15 @@ Pagination help : https://dimitr.im/pagination-component-angular-2
 * ...
 
 # Remarques sur le projet
-Le dévelopement de cette application était très intéressant et le sujet m'a motivé.  
+Le dévelopement de cette application était très intéressant et le sujet m'a vraiment motivé.  
 
-Par contre le dévelopement d'une telle application avec les fonctionnalités requises a été difficile. Les connaissances et la faible expérience pratique acquise durant les cours a rendu le développement difficile et pris beaucoup de temps.
+Par contre le dévelopement d'une telle application avec les fonctionnalités requises a été difficile. Les connaissances et la faible expérience pratique acquise durant les cours a rendu le développement difficile et pris beaucoup de temps à comprendre. Le visionnage des vidéos du cours et le support du cours ont été très utiles.
 
-Beaucoup de choses nécessaires ont été touchées durant les cours, mais la mise en pratique sans expérience est très difficile et on perd vite du temps à comprendre comment faire intéragir les composants ou les services. Après plusieurs dizaines d'heures et plusieurs compsants ajoutés, on comprend mieux ce que l'on fait...
+Beaucoup de choses nécessaires ont été touchées durant les cours, mais la mise en pratique sans vrai expérience est très difficile et on perd vite du temps à comprendre comment faire intéragir les modules, composants ou les services. Après plusieurs dizaines d'heures et plusieurs compasants ajoutés, on comprend mieux ce que l'on fait et on le fait probablement de manière plus correcte, mais cela reste à confirmer.
 
 L'aspect visuel (UI avec bootstrap) et aussi quelque chose qui prend du temps à comprendre (grid) et à mettre en place pour que cela affiche ce que l'on veut et comme on l'aimerait. 
+
+Comme beaucoup de module dans le CAS, nous avons désormais appris les bases de Angular, mais la pratique est indispensable pour mieux maîtriser tout cela.
 
 Pour information, le temps de développement passé sur ce projet est d'environ : 220h
 
@@ -194,7 +207,3 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-
-Markdown sheet :
-https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf
