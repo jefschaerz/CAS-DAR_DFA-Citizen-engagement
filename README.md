@@ -65,6 +65,8 @@ Depuis la liste des issues, il est également possible d'éditer une issue que l
 
 La page affichée dans ces deux cas est la même que celle pour ajouer une issue, mais certains champs sont visibles ou modifiables en fonction de l'action.
 
+![Issue comments](doc/Issue-details.png)
+
 ## Ajout d'une issues (Add issue)
 Cette page permet l'ajout d'une issue avec toutes les informations à fournir. Les issues existantes sont affichées sur la carte pour ne pas ajouter une issue déjà existante.
 

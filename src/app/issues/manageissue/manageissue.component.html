@@ -151,7 +151,8 @@
                            [(ngModel)]="newTag"
                            maxlength="20"
                            ng-pattern
-                           [disabled]="!isEditableIssue" />
+                           [disabled]="!isEditableIssue"
+                           [hidden]="!isEditableIssue" />
                     <button class="form-control btn btn-primary ml-2"
                             type="button"
                             (click)="addTagToIssue()"
@@ -230,7 +231,8 @@
                            maxlength="500"
                            pattern={{REGEXP_imageUrlPattern}}
                            ng-pattern
-                           [disabled]="!isEditableIssue" />
+                           [disabled]="!isEditableIssue"
+                           [hidden]="!isEditableIssue" />
                     <img *ngIf="(newAdditionalPictureURL !== null && newAdditionalPictureURL.length > 0)"
                          src="{{newAdditionalPictureURL}}"
                          alt="this.issue.imageUrl"
