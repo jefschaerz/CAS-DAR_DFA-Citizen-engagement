@@ -1,6 +1,11 @@
 # Citizen Engagement
 Ce repository contient les sources du projet "Citizen Engagment" réalisé dans le cadre du CAS-DAR DFA / Angular 2020.
 
+- [Description de l'application](#description-application)
+- [Utilisation de l'application](#utilisation-application)
+- [Remarques sur le projet](#remarques-projet)
+
+<a name="description-application"></a>
 # Description de l'application
 L'application "Citizen engagement" permet aux citoyens de signaler et commenter des problèmes détectés dans leur localité. Ces problèmes pourront ensuite être corrigés par les personnes compétentes et leur état mise à jour dans l'application (pas implémenté).
 
@@ -14,6 +19,7 @@ https://mediacomem.github.io/comem-citizen-engagement-api/
 L'adresse dédiée de l'API pour mon utilisation est :  
 https://masrad-2020-ce-jean-francois.herokuapp.com/api
 
+<a name="utilisation-application"></a>
 # Utilisation de l'application
 L'utilisation de l'application est relativement simple et le menu permet de voir rapidement les fonctions à disposition. Voici quelques informations complémentaires :
 
@@ -180,7 +186,7 @@ Voici ici quelques améliorations possibles :
 * Amélioration de l'interface utilisateur
 * Mémorisation de la naviguation pour faciliter les retours en arrière et revenir à l'état d'avant (surtout pour les filtres lors du retour à "See issues")
 * ...
-
+<a name="remarques-projet"></a>
 # Remarques sur le projet
 Le dévelopement de cette application était très intéressant et le sujet m'a vraiment motivé.  
 
